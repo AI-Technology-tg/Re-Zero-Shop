@@ -243,10 +243,37 @@
         .hero p {
             font-size: 1.2rem;
             color: var(--text-gray);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats .stat-item {
+            text-align: center;
+        }
+
+        .hero-stats .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .hero-stats .stat-label {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .cta-buttons {
@@ -843,6 +870,15 @@
                 margin-bottom: 25px;
             }
 
+            .hero-stats {
+                gap: 30px;
+                margin-bottom: 30px;
+            }
+
+            .hero-stats .stat-number {
+                font-size: 2rem;
+            }
+
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
@@ -1015,13 +1051,27 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-image: url('https://i.ibb.co/d0TCL9vb/e12d194007eee7faede7c4b23e265143.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.7) 50%, rgba(15, 52, 96, 0.8) 100%);
+            z-index: -1;
         }
 
         .loading-screen.hidden {
@@ -1679,9 +1729,6 @@
                     <div class="menu-btn" onclick="toggleTelegramMenu()">
                         <i class="fas fa-bars"></i>
                     </div>
-                    <div class="menu-btn" id="authBtn" onclick="showAuthModal()">
-                        <i class="fas fa-user"></i>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1691,16 +1738,30 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content fade-in-up">
-                <h2>Добро пожаловать в Re:Zero Shop</h2>
-                <p>Откройте для себя уникальную коллекцию модных товаров, вдохновленных миром Re:Zero. Каждый предмет рассказывает свою историю и поможет вам создать неповторимый стиль.</p>
+                <h2>Re:Zero Shop</h2>
+                <p>Discover unique fashion items inspired by the world of Re:Zero. Each piece tells its own story and helps you create an unforgettable style.</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Products</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support</div>
+                    </div>
+                </div>
                 <div class="cta-buttons">
                     <a href="#products" class="btn btn-primary">
                         <i class="fas fa-shopping-bag"></i>
-                        Начать покупки
+                        Start Shopping
                     </a>
                     <a href="#categories" class="btn btn-secondary">
                         <i class="fas fa-th-large"></i>
-                        Категории
+                        Categories
                     </a>
                 </div>
             </div>
@@ -1922,18 +1983,22 @@
             </div>
         </div>
         <div class="telegram-menu-content">
-            <div class="menu-section">
+            <div class="menu-section" id="authSection">
                 <h5>Account</h5>
-                <div class="menu-item" onclick="showProfile(); toggleTelegramMenu();">
-                    <i class="fas fa-user"></i>
+                <div class="menu-item" id="authMenuItem" onclick="handleAuthAction(); toggleTelegramMenu();">
+                    <i class="fas fa-user" id="authIcon"></i>
+                    <span id="authText">Sign In</span>
+                </div>
+                <div class="menu-item" id="profileMenuItem" onclick="showProfile(); toggleTelegramMenu();" style="display: none;">
+                    <i class="fas fa-user-circle"></i>
                     <span>Profile</span>
                 </div>
-                <div class="menu-item" onclick="showOrderHistory(); toggleTelegramMenu();">
+                <div class="menu-item" id="orderMenuItem" onclick="showOrderHistory(); toggleTelegramMenu();" style="display: none;">
                     <i class="fas fa-history"></i>
                     <span>Order History</span>
                     <span class="menu-badge">3</span>
                 </div>
-                <div class="menu-item" onclick="showFavorites(); toggleTelegramMenu();">
+                <div class="menu-item" id="favoritesMenuItem" onclick="showFavorites(); toggleTelegramMenu();" style="display: none;">
                     <i class="fas fa-heart"></i>
                     <span>Favorites</span>
                     <span class="menu-badge">5</span>
@@ -2782,8 +2847,8 @@
 
         const translations = {
             en: {
-                welcome: "Welcome to Re:Zero Shop",
-                slogan: "Life in another world of fashion from scratch",
+                welcome: "Re:Zero Shop",
+                slogan: "Discover unique fashion items inspired by the world of Re:Zero. Each piece tells its own story and helps you create an unforgettable style.",
                 startShopping: "Start Shopping",
                 categories: "Categories",
                 popularProducts: "Popular Products",
@@ -2816,11 +2881,14 @@
                 dontHaveAccount: "Don't have an account?",
                 alreadyHaveAccount: "Already have an account?",
                 signUpLink: "Sign up",
-                signInLink: "Sign in"
+                signInLink: "Sign in",
+                products: "Products",
+                customers: "Happy Customers",
+                support: "Support"
             },
             ru: {
-                welcome: "Добро пожаловать в Re:Zero Shop",
-                slogan: "Жизнь в другом мире моды с нуля",
+                welcome: "Re:Zero Shop",
+                slogan: "Откройте для себя уникальные модные товары, вдохновленные миром Re:Zero. Каждый предмет рассказывает свою историю и поможет вам создать неповторимый стиль.",
                 startShopping: "Начать покупки",
                 categories: "Категории",
                 popularProducts: "Популярные товары",
@@ -2853,7 +2921,10 @@
                 dontHaveAccount: "Нет аккаунта?",
                 alreadyHaveAccount: "Уже есть аккаунт?",
                 signUpLink: "Зарегистрироваться",
-                signInLink: "Войти"
+                signInLink: "Войти",
+                products: "Товаров",
+                customers: "Довольных клиентов",
+                support: "Поддержка"
             }
         };
 
@@ -2890,18 +2961,24 @@
             
             // Update main content
             const heroTitle = document.querySelector('.hero h2');
-            const slogan = document.querySelector('.slogan');
+            const heroDescription = document.querySelector('.hero p');
             const startBtn = document.querySelector('.btn-primary');
             const categoriesBtn = document.querySelector('.btn-secondary');
             const categoriesTitle = document.querySelector('#categories .section-title');
             const productsTitle = document.querySelector('#products .section-title');
             
             if (heroTitle) heroTitle.textContent = t.welcome;
-            if (slogan) slogan.textContent = t.slogan;
+            if (heroDescription) heroDescription.textContent = t.slogan;
             if (startBtn) startBtn.innerHTML = `<i class="fas fa-shopping-bag"></i> ${t.startShopping}`;
             if (categoriesBtn) categoriesBtn.innerHTML = `<i class="fas fa-th-large"></i> ${t.categories}`;
             if (categoriesTitle) categoriesTitle.textContent = t.categories;
             if (productsTitle) productsTitle.textContent = t.popularProducts;
+            
+            // Update hero stats
+            const statLabels = document.querySelectorAll('.hero-stats .stat-label');
+            if (statLabels[0]) statLabels[0].textContent = t.products;
+            if (statLabels[1]) statLabels[1].textContent = t.customers;
+            if (statLabels[2]) statLabels[2].textContent = t.support;
             
             // Update category cards
             const categoryCards = document.querySelectorAll('.category-card');
@@ -3005,7 +3082,7 @@
         }
 
         // Auth Functions
-        function showAuthModal() {
+        function handleAuthAction() {
             if (isAuthenticated) {
                 // Show logout option
                 if (confirm('Do you want to sign out?')) {
@@ -3094,14 +3171,22 @@
                 const { data, error } = await supabase.auth.signInWithOAuth({
                     provider: 'google',
                     options: {
-                        redirectTo: window.location.origin
+                        redirectTo: window.location.href,
+                        queryParams: {
+                            access_type: 'offline',
+                            prompt: 'consent',
+                        }
                     }
                 });
                 
                 if (error) throw error;
                 
+                // For Telegram WebApp, we'll use a different approach
+                tg.showAlert('Google sign-in will open in your browser. Please complete the sign-in process there.');
+                
             } catch (error) {
-                tg.showAlert('Google sign-in failed: ' + error.message);
+                console.error('Google sign-in error:', error);
+                tg.showAlert('Google sign-in is not available in this environment. Please use email/password sign-in.');
             }
         }
 
@@ -3121,15 +3206,33 @@
         }
 
         function updateAuthButton() {
-            const authBtn = document.getElementById('authBtn');
-            if (authBtn) {
-                if (isAuthenticated) {
-                    authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
-                    authBtn.title = 'Sign Out';
-                } else {
-                    authBtn.innerHTML = '<i class="fas fa-user"></i>';
-                    authBtn.title = 'Sign In';
-                }
+            const authIcon = document.getElementById('authIcon');
+            const authText = document.getElementById('authText');
+            const authMenuItem = document.getElementById('authMenuItem');
+            const profileMenuItem = document.getElementById('profileMenuItem');
+            const orderMenuItem = document.getElementById('orderMenuItem');
+            const favoritesMenuItem = document.getElementById('favoritesMenuItem');
+            
+            if (isAuthenticated) {
+                // Show authenticated state
+                if (authIcon) authIcon.className = 'fas fa-sign-out-alt';
+                if (authText) authText.textContent = 'Sign Out';
+                if (authMenuItem) authMenuItem.title = 'Sign Out';
+                
+                // Show profile menu items
+                if (profileMenuItem) profileMenuItem.style.display = 'flex';
+                if (orderMenuItem) orderMenuItem.style.display = 'flex';
+                if (favoritesMenuItem) favoritesMenuItem.style.display = 'flex';
+            } else {
+                // Show unauthenticated state
+                if (authIcon) authIcon.className = 'fas fa-user';
+                if (authText) authText.textContent = 'Sign In';
+                if (authMenuItem) authMenuItem.title = 'Sign In';
+                
+                // Hide profile menu items
+                if (profileMenuItem) profileMenuItem.style.display = 'none';
+                if (orderMenuItem) orderMenuItem.style.display = 'none';
+                if (favoritesMenuItem) favoritesMenuItem.style.display = 'none';
             }
         }
 
