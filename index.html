@@ -666,6 +666,165 @@
         .pulse {
             animation: pulse 2s infinite;
         }
+
+        /* Profile Modal Styles */
+        .profile-content {
+            text-align: center;
+        }
+
+        .profile-avatar {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .profile-info h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .profile-info p {
+            color: var(--text-gray);
+            margin-bottom: 30px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Settings Modal Styles */
+        .settings-content {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .setting-group {
+            margin-bottom: 30px;
+        }
+
+        .setting-group h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .setting-select {
+            width: 100%;
+            padding: 12px;
+            background: var(--darker-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .setting-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Info Modal Styles */
+        .info-content {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+
+        .info-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .info-section p {
+            line-height: 1.6;
+            color: var(--text-gray);
+        }
     </style>
 </head>
 <body>
@@ -727,28 +886,28 @@
                         <i class="fas fa-tshirt"></i>
                     </div>
                     <h3>Одежда</h3>
-                    <p>Стильная одежда в тематике Re:Zero для создания неповторимого образа</p>
+                    <p>Стильная одежда для мужчин и женщин: платья, костюмы, джинсы, толстовки</p>
                 </div>
                 <div class="category-card" onclick="filterProducts('accessories')">
                     <div class="category-icon">
                         <i class="fas fa-gem"></i>
                     </div>
                     <h3>Аксессуары</h3>
-                    <p>Уникальные аксессуары и украшения для завершения вашего образа</p>
+                    <p>Украшения, часы, сумки, очки и другие аксессуары для завершения образа</p>
                 </div>
-                <div class="category-card" onclick="filterProducts('cosplay')">
+                <div class="category-card" onclick="showProfile()">
                     <div class="category-icon">
-                        <i class="fas fa-mask"></i>
+                        <i class="fas fa-user"></i>
                     </div>
-                    <h3>Косплей</h3>
-                    <p>Аутентичные костюмы и реквизит для косплея персонажей Re:Zero</p>
+                    <h3>Профиль</h3>
+                    <p>Личный кабинет, история заказов, избранные товары</p>
                 </div>
-                <div class="category-card" onclick="filterProducts('collectibles')">
+                <div class="category-card" onclick="showSettings()">
                     <div class="category-icon">
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-cog"></i>
                     </div>
-                    <h3>Коллекционные</h3>
-                    <p>Эксклюзивные фигурки, постеры и другие коллекционные предметы</p>
+                    <h3>Настройки</h3>
+                    <p>Настройки аккаунта, уведомления, язык, тема</p>
                 </div>
             </div>
         </div>
@@ -787,20 +946,149 @@
         </div>
     </div>
 
+    <!-- Profile Modal -->
+    <div class="cart-modal" id="profileModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Личный профиль</h3>
+                <button class="close-cart" onclick="closeModal('profileModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="profile-content">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                    <h4>Пользователь</h4>
+                    <p>ID: 123456789</p>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Заказов</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Избранное</span>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn btn-primary" onclick="showOrderHistory()">
+                        <i class="fas fa-history"></i>
+                        История заказов
+                    </button>
+                    <button class="btn btn-secondary" onclick="showFavorites()">
+                        <i class="fas fa-heart"></i>
+                        Избранное
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="cart-modal" id="settingsModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Настройки</h3>
+                <button class="close-cart" onclick="closeModal('settingsModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="settings-content">
+                <div class="setting-group">
+                    <h4>Уведомления</h4>
+                    <div class="setting-item">
+                        <span>Push-уведомления</span>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Уведомления о заказах</span>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h4>Язык</h4>
+                    <select class="setting-select">
+                        <option value="ru">Русский</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <h4>Тема</h4>
+                    <select class="setting-select">
+                        <option value="dark">Темная</option>
+                        <option value="light">Светлая</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <h4>Валюта</h4>
+                    <select class="setting-select">
+                        <option value="rub">₽ Рубль</option>
+                        <option value="usd">$ Доллар</option>
+                        <option value="eur">€ Евро</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div class="cart-modal" id="infoModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Информация</h3>
+                <button class="close-cart" onclick="closeModal('infoModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="info-content">
+                <div class="info-section">
+                    <h4>О магазине</h4>
+                    <p>Re:Zero Shop - современный онлайн магазин модной одежды и аксессуаров. Мы предлагаем качественные товары по доступным ценам с быстрой доставкой по всей России.</p>
+                </div>
+                <div class="info-section">
+                    <h4>Доставка и оплата</h4>
+                    <p>• Бесплатная доставка при заказе от 3000 ₽<br>
+                    • Доставка по Москве: 1-2 дня<br>
+                    • Доставка по России: 3-7 дней<br>
+                    • Оплата картой, наличными или переводом</p>
+                </div>
+                <div class="info-section">
+                    <h4>Возврат товара</h4>
+                    <p>Возврат товара возможен в течение 14 дней с момента покупки при сохранении товарного вида и упаковки.</p>
+                </div>
+                <div class="info-section">
+                    <h4>Контакты</h4>
+                    <p>📞 Телефон: +7 (999) 123-45-67<br>
+                    📧 Email: info@rezeroshop.ru<br>
+                    💬 Telegram: @rezeroshop</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>О магазине</h4>
-                    <p>Re:Zero Shop - ваш проводник в мир моды и стиля, вдохновленный вселенной Re:Zero. Мы предлагаем качественные товары для истинных поклонников аниме.</p>
+                    <p>Re:Zero Shop - современный онлайн магазин модной одежды и аксессуаров. Мы предлагаем качественные товары по доступным ценам с быстрой доставкой по всей России.</p>
                 </div>
                 <div class="footer-section">
                     <h4>Помощь</h4>
-                    <p><a href="#">Доставка и оплата</a></p>
-                    <p><a href="#">Размеры</a></p>
-                    <p><a href="#">Возврат товара</a></p>
-                    <p><a href="#">Контакты</a></p>
+                    <p><a href="#" onclick="showInfo()">Доставка и оплата</a></p>
+                    <p><a href="#" onclick="showInfo()">Размеры</a></p>
+                    <p><a href="#" onclick="showInfo()">Возврат товара</a></p>
+                    <p><a href="#" onclick="showInfo()">Контакты</a></p>
                 </div>
                 <div class="footer-section">
                     <h4>Следите за нами</h4>
@@ -834,68 +1122,83 @@
         const products = [
             {
                 id: 1,
-                name: "Платье Эмилии",
-                description: "Элегантное платье в стиле Эмилии с серебристыми акцентами",
+                name: "Классическое платье",
+                description: "Элегантное вечернее платье из качественной ткани",
                 price: 4500,
                 category: "clothing",
                 icon: "👗"
             },
             {
                 id: 2,
-                name: "Кольцо Сателлы",
-                name: "Кольцо Сателлы",
-                description: "Мистическое кольцо с темной магией",
+                name: "Золотое кольцо",
+                description: "Изящное золотое кольцо с драгоценным камнем",
                 price: 2500,
                 category: "accessories",
                 icon: "💍"
             },
             {
                 id: 3,
-                name: "Костюм Субару",
-                description: "Полный костюм для косплея Нацуки Субару",
+                name: "Деловой костюм",
+                description: "Стильный мужской костюм для офиса",
                 price: 6500,
-                category: "cosplay",
+                category: "clothing",
                 icon: "👔"
             },
             {
                 id: 4,
-                name: "Фигурка Рем",
-                description: "Эксклюзивная фигурка Рем в масштабе 1/7",
+                name: "Наручные часы",
+                description: "Элегантные наручные часы с кожаным ремешком",
                 price: 8500,
-                category: "collectibles",
-                icon: "🎎"
+                category: "accessories",
+                icon: "⌚"
             },
             {
                 id: 5,
-                name: "Худи с Рам",
-                description: "Удобная толстовка с принтом Рам",
+                name: "Спортивная толстовка",
+                description: "Удобная толстовка для спорта и повседневной носки",
                 price: 3200,
                 category: "clothing",
                 icon: "👕"
             },
             {
                 id: 6,
-                name: "Брошь Беатрис",
-                description: "Изящная брошь в стиле Беатрис",
+                name: "Серебряная брошь",
+                description: "Изящная серебряная брошь ручной работы",
                 price: 1800,
                 category: "accessories",
                 icon: "🦋"
             },
             {
                 id: 7,
-                name: "Костюм Рем",
-                description: "Аутентичный костюм горничной Рем",
-                price: 7200,
-                category: "cosplay",
+                name: "Летнее платье",
+                description: "Легкое летнее платье из натурального хлопка",
+                price: 2200,
+                category: "clothing",
                 icon: "👗"
             },
             {
                 id: 8,
-                name: "Постер Эмилии",
-                description: "Качественный постер Эмилии в рамке",
-                price: 1200,
-                category: "collectibles",
-                icon: "🖼️"
+                name: "Кожаная сумка",
+                description: "Стильная кожаная сумка через плечо",
+                price: 4200,
+                category: "accessories",
+                icon: "👜"
+            },
+            {
+                id: 9,
+                name: "Джинсы классические",
+                description: "Качественные джинсы из денима",
+                price: 2800,
+                category: "clothing",
+                icon: "👖"
+            },
+            {
+                id: 10,
+                name: "Солнечные очки",
+                description: "Стильные солнцезащитные очки с поляризацией",
+                price: 1500,
+                category: "accessories",
+                icon: "🕶️"
             }
         ];
 
@@ -1100,6 +1403,38 @@
 
         // Initialize main button
         updateMainButton();
+
+        // Modal functions
+        function showProfile() {
+            document.getElementById('profileModal').style.display = 'flex';
+        }
+
+        function showSettings() {
+            document.getElementById('settingsModal').style.display = 'flex';
+        }
+
+        function showInfo() {
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showOrderHistory() {
+            tg.showAlert('История заказов:\n\n1. Заказ #001 - 15,500 ₽ (Выполнен)\n2. Заказ #002 - 8,200 ₽ (В пути)\n3. Заказ #003 - 12,300 ₽ (Обработка)');
+        }
+
+        function showFavorites() {
+            tg.showAlert('Избранные товары:\n\n• Классическое платье - 4,500 ₽\n• Золотое кольцо - 2,500 ₽\n• Наручные часы - 8,500 ₽');
+        }
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('cart-modal')) {
+                e.target.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
