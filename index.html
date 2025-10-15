@@ -47,7 +47,6 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
         }
 
@@ -93,7 +92,6 @@
             font-weight: 700;
             background: linear-gradient(45deg, #f59e0b, #ef4444);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -109,103 +107,68 @@
             align-items: center;
         }
 
-        .social-buttons {
-            display: flex;
-            gap: 10px;
-            align-items: center;
+        .search-box {
+            position: relative;
+            display: none;
         }
 
-        .social-btn {
+        .search-box input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 10px 20px 10px 45px;
+            color: var(--text-light);
+            width: 300px;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-gray);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+        }
+
+        .cart-btn, .menu-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
+            justify-content: center;
+            color: var(--text-light);
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
         }
 
-        .telegram-btn {
-            background: #0088cc;
-            color: white;
-        }
-
-        .telegram-btn:hover {
-            background: #006699;
+        .cart-btn:hover, .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
 
-        .instagram-btn {
-            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
-            color: white;
-        }
-
-        .instagram-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(188, 24, 136, 0.4);
-        }
-
-        .tiktok-btn {
-            background: #000000;
-            color: white;
-        }
-
-        .tiktok-btn:hover {
-            background: #333333;
-            transform: translateY(-2px);
-        }
-
-        .email-btn {
-            background: #ea4335;
-            color: white;
-        }
-
-        .email-btn:hover {
-            background: #d33b2c;
-            transform: translateY(-2px);
-        }
-
-        .telegram-dropdown {
-            position: relative;
-        }
-
-        .dropdown-menu {
+        .cart-count {
             position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--dark-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 10px 0;
-            min-width: 200px;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .dropdown-menu.show {
-            display: block;
-        }
-
-        .dropdown-item {
+            top: -8px;
+            right: -8px;
+            background: var(--gradient-accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px 20px;
-            color: var(--text-light);
-            text-decoration: none;
-            transition: all 0.3s ease;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
         }
-
-        .dropdown-item:hover {
-            background: var(--border-color);
-            color: var(--primary-color);
-        }
-
 
         /* Hero Section */
         .hero {
@@ -255,7 +218,6 @@
             margin-bottom: 20px;
             background: linear-gradient(45deg, #f59e0b, #ef4444);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -297,7 +259,6 @@
             background: rgba(255, 255, 255, 0.1);
             color: var(--text-light);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
         }
 
@@ -319,7 +280,6 @@
             margin-bottom: 50px;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -368,7 +328,6 @@
             margin-bottom: 20px;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -470,26 +429,157 @@
             box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
         }
 
-        .quick-order-btn {
-            background: var(--gradient-accent);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
+        /* Cart Modal */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .cart-content {
+            background: var(--dark-bg);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-header h3 {
+            font-size: 1.5rem;
             font-weight: 600;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            color: white;
+            font-size: 1.5rem;
         }
 
-        .quick-order-btn:hover {
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: var(--border-color);
+            border: none;
+            color: var(--text-light);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity {
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .remove-item {
+            background: #ef4444;
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-total {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
         }
-
 
         /* Footer */
         .footer {
@@ -512,7 +602,6 @@
             margin-bottom: 15px;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -557,21 +646,13 @@
                 gap: 20px;
             }
 
-            .social-buttons {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
+            .search-box {
+                display: block;
+                width: 100%;
             }
 
-            .social-btn {
-                font-size: 0.8rem;
-                padding: 8px 12px;
-            }
-
-            .dropdown-menu {
-                right: auto;
-                left: 0;
-                min-width: 180px;
+            .search-box input {
+                width: 100%;
             }
 
             .hero h2 {
@@ -629,6 +710,178 @@
             font-style: normal;
             font-size: 1.2rem;
         }
+
+        /* Telegram Options Styles */
+        .telegram-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .telegram-option-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: left;
+        }
+
+        .telegram-option-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .telegram-option-btn i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .telegram-option-btn h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .telegram-option-btn p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Product Selection Styles */
+        .product-selection-content {
+            text-align: center;
+        }
+
+        .selected-product {
+            margin-bottom: 30px;
+        }
+
+        .selected-product-image {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            margin: 0 auto 20px;
+        }
+
+        .selected-product h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .selected-product .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .selection-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .selection-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .selection-btn.primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .selection-btn.secondary {
+            background: rgba(31, 41, 55, 0.5);
+            color: var(--text-light);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .selection-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Order Content Styles */
+        .order-content {
+            text-align: center;
+        }
+
+        .order-items {
+            margin-bottom: 30px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: rgba(31, 41, 55, 0.3);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .order-item-image {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .order-item-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .order-item-price {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .order-total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .order-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
     </style>
 </head>
 <body>
@@ -647,35 +900,9 @@
                     </div>
                 </div>
                 <div class="header-actions">
-                    <div class="social-buttons">
-                        <div class="telegram-dropdown">
-                            <button class="social-btn telegram-btn" onclick="toggleTelegramMenu()">
-                                <i class="fab fa-telegram"></i>
-                                Telegram
-                            </button>
-                            <div class="dropdown-menu" id="telegramMenu">
-                                <a href="https://t.me/re_zero_shop_bot" class="dropdown-item" target="_blank">
-                                    <i class="fab fa-telegram"></i>
-                                    Чат Telegram
-                                </a>
-                                <a href="https://t.me/ZERO_952" class="dropdown-item" target="_blank">
-                                    <i class="fas fa-headset"></i>
-                                    Поддержка
-                                </a>
-                            </div>
-                        </div>
-                        <a href="https://www.instagram.com/re_zero_shop?igsh=MWtsdDBtaWRia2V1cQ==" class="social-btn instagram-btn" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                            Instagram
-                        </a>
-                        <a href="https://www.tiktok.com/@re.zero.shop?_t=ZM-90V0S66SeBk&_r=1&fbclid=PAb21jcANb16NleHRuA2FlbQIxMQABp0QM0X8iTx6y3jziY4Nrrb5X6dtvweU9N3GnOY-Gxs4GG7Wip9vggRLvf0Tp_aem_WAbSaw0xlx0eVTSltw65bQ" class="social-btn tiktok-btn" target="_blank">
-                            <i class="fab fa-tiktok"></i>
-                            TikTok
-                        </a>
-                        <a href="mailto:re.zero.shop@gmail.com?subject=Вопрос по заказу&body=Здравствуйте! У меня вопрос по поводу заказа." class="social-btn email-btn" target="_blank">
-                            <i class="fas fa-envelope"></i>
-                            Email
-                        </a>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Поиск товаров...">
                     </div>
                 </div>
             </div>
@@ -773,6 +1000,63 @@
         </div>
     </section>
 
+    <!-- Product Selection Modal -->
+    <div class="cart-modal" id="productModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Выбор товара</h3>
+                <button class="close-cart" onclick="closeProductModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="product-selection-content" id="productSelectionContent">
+                <!-- Product selection content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Summary Modal -->
+    <div class="cart-modal" id="orderModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Ваш заказ</h3>
+                <button class="close-cart" onclick="closeOrderModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="order-content" id="orderContent">
+                <!-- Order content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Telegram Options Modal -->
+    <div class="cart-modal" id="telegramModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Telegram</h3>
+                <button class="close-cart" onclick="closeTelegramModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="telegram-options">
+                <button class="telegram-option-btn" onclick="openTelegramChat()">
+                    <i class="fab fa-telegram"></i>
+                    <div>
+                        <h4>Чат Telegram</h4>
+                        <p>Общение с ботом магазина</p>
+                    </div>
+                </button>
+                <button class="telegram-option-btn" onclick="openTelegramSupport()">
+                    <i class="fas fa-headset"></i>
+                    <div>
+                        <h4>Поддержка</h4>
+                        <p>Связаться с поддержкой</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -783,20 +1067,20 @@
                     <p>Re:Zero Shop - ваш проводник в мир моды и стиля. Мы предлагаем качественные товары для создания неповторимого образа.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Помощь</h4>
-                    <p><a href="#">Доставка и оплата</a></p>
-                    <p><a href="#">Размеры</a></p>
-                    <p><a href="#">Возврат товара</a></p>
-                    <p><a href="#">Контакты</a></p>
-                </div>
-                <div class="footer-section">
-                    <h4>Следите за нами</h4>
+                    <h4>Контакты</h4>
                     <div class="social-links">
-                        <a href="https://t.me/ZERO_952" class="social-link" title="Поддержка Telegram"><i class="fab fa-telegram"></i></a>
-                        <a href="https://t.me/re_zero_shop_bot" class="social-link" title="Чат Telegram"><i class="fab fa-telegram"></i></a>
-                        <a href="https://www.instagram.com/re_zero_shop?igsh=MWtsdDBtaWRia2V1cQ==" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.tiktok.com/@re.zero.shop?_t=ZM-90V0S66SeBk&_r=1&fbclid=PAb21jcANb16NleHRuA2FlbQIxMQABp0QM0X8iTx6y3jziY4Nrrb5X6dtvweU9N3GnOY-Gxs4GG7Wip9vggRLvf0Tp_aem_WAbSaw0xlx0eVTSltw65bQ" class="social-link" title="TikTok"><i class="fab fa-tiktok"></i></a>
-                        <a href="mailto:re.zero.shop@gmail.com" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
+                        <button class="social-link telegram-btn" onclick="showTelegramOptions()" title="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </button>
+                        <a href="https://www.instagram.com/re_zero_shop?igsh=MWtsdDBtaWRia2V1cQ==" class="social-link" title="Instagram" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@re.zero.shop?_t=ZM-90V0S66SeBk&_r=1&fbclid=PAb21jcANb16NleHRuA2FlbQIxMQABp0QM0X8iTx6y3jziY4Nrrb5X6dtvweU9N3GnOY-Gxs4GG7Wip9vggRLvf0Tp_aem_WAbSaw0xlx0eVTSltw65bQ" class="social-link" title="TikTok" target="_blank">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="mailto:re.zero.shop@gmail.com?subject=Вопрос по заказу&body=Здравствуйте! У меня есть вопрос по поводу заказа." class="social-link" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1077,32 +1361,166 @@
             }
         ];
 
+        // Order functionality
+        let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
 
-        function quickOrder(productId) {
+        function selectProduct(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
             
-            const total = product.price;
-            
-            // Показываем подтверждение
-            tg.showConfirm(
-                `Оформить заказ "${product.name}" на ${total} ₽?\n\nВы будете перенаправлены в Telegram бота для завершения заказа.`,
-                (confirmed) => {
-                    if (confirmed) {
-                        // Открываем бота с данными заказа
-                        const botUrl = `https://t.me/re_zero_shop_bot?start=quick_order_${productId}_${Date.now()}`;
-                        console.log('Opening bot URL:', botUrl);
-                        tg.openTelegramLink(botUrl);
-                        
-                        // Показываем уведомление
-                        setTimeout(() => {
-                            tg.showAlert('Заказ отправлен в бота! Проверьте Telegram.');
-                        }, 1000);
-                    }
-                }
-            );
+            // Show product selection modal
+            showProductModal(product);
         }
 
+        function showProductModal(product) {
+            const modal = document.getElementById('productModal');
+            const content = document.getElementById('productSelectionContent');
+            
+            content.innerHTML = `
+                <div class="selected-product">
+                    <div class="selected-product-image">${product.icon}</div>
+                    <h3>${product.name}</h3>
+                    <div class="price">${product.price} ₽</div>
+                    <p>${product.description}</p>
+                </div>
+                <div class="selection-options">
+                    <button class="selection-btn primary" onclick="addToOrder(${product.id})">
+                        <i class="fas fa-shopping-cart"></i>
+                        Добавить в заказ
+                    </button>
+                    <button class="selection-btn secondary" onclick="orderNow(${product.id})">
+                        <i class="fab fa-telegram"></i>
+                        Заказать сейчас в Telegram
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function addToOrder(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            // Check if product already in order
+            const existingItem = selectedProducts.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                selectedProducts.push({...product, quantity: 1});
+            }
+            
+            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+            closeProductModal();
+            
+            // Show order modal
+            showOrderModal();
+        }
+
+        function showOrderModal() {
+            const modal = document.getElementById('orderModal');
+            const content = document.getElementById('orderContent');
+            
+            if (selectedProducts.length === 0) {
+                content.innerHTML = '<p>Заказ пуст</p>';
+                modal.style.display = 'flex';
+                return;
+            }
+            
+            const total = selectedProducts.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            content.innerHTML = `
+                <div class="order-items">
+                    ${selectedProducts.map(item => `
+                        <div class="order-item">
+                            <div class="order-item-image">${item.icon}</div>
+                            <div class="order-item-info">
+                                <div class="order-item-name">${item.name}</div>
+                                <div class="order-item-price">${item.price} ₽ × ${item.quantity}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="order-total">Итого: ${total} ₽</div>
+                <div class="order-actions">
+                    <button class="selection-btn primary" onclick="sendOrderToTelegram()">
+                        <i class="fab fa-telegram"></i>
+                        Отправить заказ в Telegram
+                    </button>
+                    <button class="selection-btn secondary" onclick="clearOrder()">
+                        <i class="fas fa-trash"></i>
+                        Очистить заказ
+                    </button>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function clearOrder() {
+            selectedProducts = [];
+            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
+            closeOrderModal();
+        }
+
+        function orderNow(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            // Send single product to Telegram bot
+            const message = `🛍️ Хочу заказать товар:\n\n${product.name}\n💰 Цена: ${product.price} ₽\n📝 ${product.description}`;
+            const telegramUrl = `https://t.me/re_zero_shop_bot?start=order_${product.id}`;
+            
+            tg.openTelegramLink(telegramUrl);
+            closeProductModal();
+        }
+
+        function sendOrderToTelegram() {
+            if (selectedProducts.length === 0) {
+                tg.showAlert('Заказ пуст!');
+                return;
+            }
+            
+            const total = selectedProducts.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let message = `🛍️ Хочу оформить заказ:\n\n`;
+            
+            selectedProducts.forEach(item => {
+                message += `• ${item.name} × ${item.quantity} = ${item.price * item.quantity} ₽\n`;
+            });
+            
+            message += `\n💰 Итого: ${total} ₽`;
+            
+            const telegramUrl = `https://t.me/re_zero_shop_bot?start=order_multiple`;
+            tg.openTelegramLink(telegramUrl);
+            closeOrderModal();
+        }
+
+        // Telegram functions
+        function showTelegramOptions() {
+            document.getElementById('telegramModal').style.display = 'flex';
+        }
+
+        function closeTelegramModal() {
+            document.getElementById('telegramModal').style.display = 'none';
+        }
+
+        function openTelegramChat() {
+            tg.openTelegramLink('https://t.me/re_zero_shop_bot');
+            closeTelegramModal();
+        }
+
+        function openTelegramSupport() {
+            tg.openTelegramLink('https://t.me/ZERO_952');
+            closeTelegramModal();
+        }
 
         function filterProducts(category) {
             const filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
@@ -1120,12 +1538,10 @@
                         <h3 class="product-title">${product.name}</h3>
                         <p class="product-description">${product.description}</p>
                         <div class="product-price">${product.price} ₽</div>
-                        <div style="display: flex; gap: 10px; margin-top: 15px;">
-                            <button class="quick-order-btn" onclick="quickOrder(${product.id})" style="width: 100%; background: var(--gradient-accent);">
-                                <i class="fas fa-shopping-bag"></i>
-                                Заказать в Telegram
-                            </button>
-                        </div>
+                        <button class="add-to-cart" onclick="selectProduct(${product.id})">
+                            <i class="fas fa-shopping-cart"></i>
+                            Выбрать товар
+                        </button>
                     </div>
                 </div>
             `).join('');
@@ -1155,26 +1571,35 @@
             }
         }
 
-        // Toggle Telegram dropdown menu
-        function toggleTelegramMenu() {
-            const menu = document.getElementById('telegramMenu');
-            menu.classList.toggle('show');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.querySelector('.telegram-dropdown');
-            const menu = document.getElementById('telegramMenu');
-            
-            if (!dropdown.contains(event.target)) {
-                menu.classList.remove('show');
-            }
-        });
-
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
             renderProducts();
             updateTelegramAvatar();
+            
+            // Search input
+            const searchInput = document.querySelector('.search-box input');
+            searchInput.addEventListener('input', (e) => {
+                searchProducts(e.target.value);
+            });
+            
+            // Close modals when clicking outside
+            document.getElementById('productModal').addEventListener('click', (e) => {
+                if (e.target.id === 'productModal') {
+                    closeProductModal();
+                }
+            });
+            
+            document.getElementById('orderModal').addEventListener('click', (e) => {
+                if (e.target.id === 'orderModal') {
+                    closeOrderModal();
+                }
+            });
+            
+            document.getElementById('telegramModal').addEventListener('click', (e) => {
+                if (e.target.id === 'telegramModal') {
+                    closeTelegramModal();
+                }
+            });
             
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1191,6 +1616,38 @@
             });
         });
 
+        // Telegram WebApp events
+        tg.onEvent('mainButtonClicked', function() {
+            if (selectedProducts.length > 0) {
+                sendOrderToTelegram();
+            }
+        });
+
+        // Show main button when order has items
+        function updateMainButton() {
+            if (selectedProducts.length > 0) {
+                tg.MainButton.setText('Отправить заказ в Telegram');
+                tg.MainButton.show();
+            } else {
+                tg.MainButton.hide();
+            }
+        }
+
+        // Update main button when order changes
+        const originalAddToOrder = addToOrder;
+        addToOrder = function(productId) {
+            originalAddToOrder(productId);
+            updateMainButton();
+        };
+
+        const originalClearOrder = clearOrder;
+        clearOrder = function() {
+            originalClearOrder();
+            updateMainButton();
+        };
+
+        // Initialize main button
+        updateMainButton();
     </script>
 </body>
 </html>
