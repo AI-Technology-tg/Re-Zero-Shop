@@ -44,7 +44,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('https://i.ibb.co/fdPF6bcf/f772e7ca2f075fad6735ac2e1ce31451.webp');
+            background-image: url('https://i.ibb.co/d0TCL9vb/e12d194007eee7faede7c4b23e265143.webp');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -1002,6 +1002,258 @@
             to { transform: rotate(360deg); }
         }
 
+        /* Loading Screen Styles */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #f59e0b, #ef4444, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: logoGlow 2s ease-in-out infinite alternate;
+        }
+
+        .loading-slogan {
+            color: #e5e7eb;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(99, 102, 241, 0.3);
+            border-top: 4px solid #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 30px;
+        }
+
+        .loading-text {
+            color: #9ca3af;
+            font-size: 1rem;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 2px;
+            animation: progressLoad 3s ease-in-out;
+        }
+
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5)); }
+            100% { filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.8)); }
+        }
+
+        @keyframes progressLoad {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* Auth Modal Styles */
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .auth-content {
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-header h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: rgba(31, 41, 55, 0.5);
+            border-radius: 15px;
+            padding: 5px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-gray);
+            font-weight: 600;
+        }
+
+        .auth-tab.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-gray);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .google-btn {
+            background: #4285f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .google-btn:hover {
+            box-shadow: 0 10px 25px rgba(66, 133, 244, 0.4);
+        }
+
+        .auth-divider {
+            text-align: center;
+            margin: 20px 0;
+            color: var(--text-gray);
+            position: relative;
+        }
+
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .auth-divider span {
+            background: rgba(17, 24, 39, 0.95);
+            padding: 0 15px;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .auth-switch a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
         /* Profile Modal Styles */
         .profile-content {
             text-align: center;
@@ -1304,6 +1556,100 @@
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">Re:Zero Shop</div>
+        <div class="loading-slogan">Life in another world of fashion from scratch</div>
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Loading...</div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-content">
+            <div class="auth-header">
+                <h3>Welcome to Re:Zero Shop</h3>
+                <p>Sign in to continue shopping</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuthTab('login')">Login</div>
+                <div class="auth-tab" onclick="switchAuthTab('register')">Register</div>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-form active" id="loginForm">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email or Phone</label>
+                        <input type="text" id="loginEmail" placeholder="Enter your email or phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="auth-btn">Sign In</button>
+                </form>
+                
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                
+                <button class="auth-btn google-btn" onclick="signInWithGoogle()">
+                    <i class="fab fa-google"></i>
+                    Continue with Google
+                </button>
+                
+                <div class="auth-switch">
+                    Don't have an account? <a href="#" onclick="switchAuthTab('register')">Sign up</a>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form" id="registerForm">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone">Phone (Optional)</label>
+                        <input type="tel" id="registerPhone" placeholder="Enter your phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirm Password</label>
+                        <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    <button type="submit" class="auth-btn">Create Account</button>
+                </form>
+                
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+                
+                <button class="auth-btn google-btn" onclick="signInWithGoogle()">
+                    <i class="fab fa-google"></i>
+                    Continue with Google
+                </button>
+                
+                <div class="auth-switch">
+                    Already have an account? <a href="#" onclick="switchAuthTab('login')">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -1326,6 +1672,9 @@
                     </div>
                     <div class="menu-btn" onclick="toggleTelegramMenu()">
                         <i class="fas fa-bars"></i>
+                    </div>
+                    <div class="menu-btn" id="authBtn" onclick="showAuthModal()">
+                        <i class="fas fa-user"></i>
                     </div>
                 </div>
             </div>
@@ -1688,6 +2037,15 @@
         // Global variables
         let products = [];
         let currentUser = null;
+        let isAuthenticated = false;
+        let loadingSteps = [
+            'Initializing...',
+            'Loading products...',
+            'Connecting to database...',
+            'Setting up user profile...',
+            'Almost ready...'
+        ];
+        let currentStep = 0;
 
         // Database Functions
         async function initializeDatabase() {
@@ -2180,23 +2538,58 @@
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', async function() {
-            // Initialize database first
-            await initializeDatabase();
+            // Start loading sequence
+            const loadingInterval = setInterval(updateLoadingText, 600);
             
-            updateCartCount();
-            updateTelegramProfile();
-            updateLanguage();
-            
+            try {
+                // Step 1: Detect language
+                currentLanguage = detectLanguage();
+                updateLanguage();
+                
+                // Step 2: Check authentication
+                await checkAuthStatus();
+                
+                // Step 3: Initialize database
+                await initializeDatabase();
+                
+                // Step 4: Update UI
+                updateCartCount();
+                updateTelegramProfile();
+                updateAuthButton();
+                
+                // Step 5: Setup event listeners
+                setupEventListeners();
+                
+                // Complete loading
+                clearInterval(loadingInterval);
+                hideLoadingScreen();
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+                clearInterval(loadingInterval);
+                hideLoadingScreen();
+            }
+        });
+
+        function setupEventListeners() {
             // Search input
             const searchInput = document.querySelector('.search-box input');
-            searchInput.addEventListener('input', (e) => {
-                searchProducts(e.target.value);
-            });
+            if (searchInput) {
+                searchInput.addEventListener('input', (e) => {
+                    searchProducts(e.target.value);
+                });
+            }
             
-            // Close cart modal when clicking outside
+            // Close modals when clicking outside
             document.getElementById('cartModal').addEventListener('click', (e) => {
                 if (e.target.id === 'cartModal') {
                     toggleCart();
+                }
+            });
+            
+            document.getElementById('authModal').addEventListener('click', (e) => {
+                if (e.target.id === 'authModal') {
+                    hideAuthModal();
                 }
             });
             
@@ -2213,7 +2606,7 @@
                     }
                 });
             });
-        });
+        }
 
         // Telegram WebApp events
         tg.onEvent('mainButtonClicked', function() {
@@ -2356,8 +2749,30 @@
             }
         }
 
-        // Language Functions
+        // Language Detection and Functions
         let currentLanguage = 'en';
+        
+        function detectLanguage() {
+            // Priority: Telegram language > Browser language > Default English
+            const telegramUser = tg.initDataUnsafe?.user;
+            if (telegramUser?.language_code) {
+                const lang = telegramUser.language_code.toLowerCase();
+                if (lang.startsWith('ru')) return 'ru';
+                if (lang.startsWith('en')) return 'en';
+            }
+            
+            // Browser language detection
+            const browserLang = navigator.language || navigator.userLanguage;
+            if (browserLang.startsWith('ru')) return 'ru';
+            if (browserLang.startsWith('en')) return 'en';
+            
+            // Timezone-based detection
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            if (timezone.includes('Europe/Moscow') || timezone.includes('Europe/Kiev')) return 'ru';
+            
+            return 'en'; // Default fallback
+        }
+
         const translations = {
             en: {
                 welcome: "Welcome to Re:Zero Shop",
@@ -2375,7 +2790,26 @@
                 total: "Total",
                 orderPlaced: "Order placed! Thank you for your purchase!",
                 itemAdded: "Item added to cart!",
-                cartEmpty: "Cart is empty!"
+                cartEmpty: "Cart is empty!",
+                loading: "Loading...",
+                initializing: "Initializing...",
+                loadingProducts: "Loading products...",
+                connectingDB: "Connecting to database...",
+                settingProfile: "Setting up user profile...",
+                almostReady: "Almost ready...",
+                signIn: "Sign In",
+                signUp: "Sign Up",
+                signOut: "Sign Out",
+                email: "Email",
+                password: "Password",
+                fullName: "Full Name",
+                phone: "Phone",
+                confirmPassword: "Confirm Password",
+                continueWithGoogle: "Continue with Google",
+                dontHaveAccount: "Don't have an account?",
+                alreadyHaveAccount: "Already have an account?",
+                signUpLink: "Sign up",
+                signInLink: "Sign in"
             },
             ru: {
                 welcome: "Добро пожаловать в Re:Zero Shop",
@@ -2393,7 +2827,26 @@
                 total: "Итого",
                 orderPlaced: "Заказ оформлен! Спасибо за покупку!",
                 itemAdded: "Товар добавлен в корзину!",
-                cartEmpty: "Корзина пуста!"
+                cartEmpty: "Корзина пуста!",
+                loading: "Загрузка...",
+                initializing: "Инициализация...",
+                loadingProducts: "Загрузка товаров...",
+                connectingDB: "Подключение к базе данных...",
+                settingProfile: "Настройка профиля пользователя...",
+                almostReady: "Почти готово...",
+                signIn: "Войти",
+                signUp: "Регистрация",
+                signOut: "Выйти",
+                email: "Email",
+                password: "Пароль",
+                fullName: "Полное имя",
+                phone: "Телефон",
+                confirmPassword: "Подтвердите пароль",
+                continueWithGoogle: "Продолжить с Google",
+                dontHaveAccount: "Нет аккаунта?",
+                alreadyHaveAccount: "Уже есть аккаунт?",
+                signUpLink: "Зарегистрироваться",
+                signInLink: "Войти"
             }
         };
 
@@ -2413,20 +2866,84 @@
         function updateLanguage() {
             const t = translations[currentLanguage];
             
+            // Update loading screen
+            const loadingText = document.getElementById('loadingText');
+            if (loadingText) {
+                loadingText.textContent = t.loading;
+            }
+            
+            // Update loading steps
+            loadingSteps = [
+                t.initializing,
+                t.loadingProducts,
+                t.connectingDB,
+                t.settingProfile,
+                t.almostReady
+            ];
+            
             // Update main content
-            document.querySelector('.hero h2').textContent = t.welcome;
-            document.querySelector('.slogan').textContent = t.slogan;
-            document.querySelector('.btn-primary').innerHTML = `<i class="fas fa-shopping-bag"></i> ${t.startShopping}`;
-            document.querySelector('.btn-secondary').innerHTML = `<i class="fas fa-th-large"></i> ${t.categories}`;
-            document.querySelector('#categories .section-title').textContent = t.categories;
-            document.querySelector('#products .section-title').textContent = t.popularProducts;
+            const heroTitle = document.querySelector('.hero h2');
+            const slogan = document.querySelector('.slogan');
+            const startBtn = document.querySelector('.btn-primary');
+            const categoriesBtn = document.querySelector('.btn-secondary');
+            const categoriesTitle = document.querySelector('#categories .section-title');
+            const productsTitle = document.querySelector('#products .section-title');
+            
+            if (heroTitle) heroTitle.textContent = t.welcome;
+            if (slogan) slogan.textContent = t.slogan;
+            if (startBtn) startBtn.innerHTML = `<i class="fas fa-shopping-bag"></i> ${t.startShopping}`;
+            if (categoriesBtn) categoriesBtn.innerHTML = `<i class="fas fa-th-large"></i> ${t.categories}`;
+            if (categoriesTitle) categoriesTitle.textContent = t.categories;
+            if (productsTitle) productsTitle.textContent = t.popularProducts;
             
             // Update category cards
             const categoryCards = document.querySelectorAll('.category-card');
-            categoryCards[0].querySelector('h3').textContent = t.clothing;
-            categoryCards[1].querySelector('h3').textContent = t.accessories;
-            categoryCards[2].querySelector('h3').textContent = t.profile;
-            categoryCards[3].querySelector('h3').textContent = t.settings;
+            if (categoryCards[0]) categoryCards[0].querySelector('h3').textContent = t.clothing;
+            if (categoryCards[1]) categoryCards[1].querySelector('h3').textContent = t.accessories;
+            if (categoryCards[2]) categoryCards[2].querySelector('h3').textContent = t.profile;
+            if (categoryCards[3]) categoryCards[3].querySelector('h3').textContent = t.settings;
+            
+            // Update auth modal
+            updateAuthModalLanguage(t);
+        }
+
+        function updateAuthModalLanguage(t) {
+            // Update auth tabs
+            const loginTab = document.querySelector('[onclick="switchAuthTab(\'login\')"]');
+            const registerTab = document.querySelector('[onclick="switchAuthTab(\'register\')"]');
+            if (loginTab) loginTab.textContent = t.signIn;
+            if (registerTab) registerTab.textContent = t.signUp;
+            
+            // Update form labels and placeholders
+            const loginEmail = document.getElementById('loginEmail');
+            const loginPassword = document.getElementById('loginPassword');
+            const registerName = document.getElementById('registerName');
+            const registerEmail = document.getElementById('registerEmail');
+            const registerPhone = document.getElementById('registerPhone');
+            const registerPassword = document.getElementById('registerPassword');
+            const registerConfirmPassword = document.getElementById('registerConfirmPassword');
+            
+            if (loginEmail) {
+                loginEmail.placeholder = currentLanguage === 'ru' ? 'Введите email или телефон' : 'Enter your email or phone';
+            }
+            if (loginPassword) {
+                loginPassword.placeholder = currentLanguage === 'ru' ? 'Введите пароль' : 'Enter your password';
+            }
+            if (registerName) {
+                registerName.placeholder = currentLanguage === 'ru' ? 'Введите полное имя' : 'Enter your full name';
+            }
+            if (registerEmail) {
+                registerEmail.placeholder = currentLanguage === 'ru' ? 'Введите email' : 'Enter your email';
+            }
+            if (registerPhone) {
+                registerPhone.placeholder = currentLanguage === 'ru' ? 'Введите номер телефона' : 'Enter your phone number';
+            }
+            if (registerPassword) {
+                registerPassword.placeholder = currentLanguage === 'ru' ? 'Создайте пароль' : 'Create a password';
+            }
+            if (registerConfirmPassword) {
+                registerConfirmPassword.placeholder = currentLanguage === 'ru' ? 'Подтвердите пароль' : 'Confirm your password';
+            }
         }
 
         // Additional Functions
@@ -2458,6 +2975,170 @@
             originalUpdateCartCount();
             updateMenuCartCount();
         };
+
+        // Loading Screen Functions
+        function updateLoadingText() {
+            const loadingText = document.getElementById('loadingText');
+            if (loadingText && currentStep < loadingSteps.length) {
+                loadingText.textContent = loadingSteps[currentStep];
+                currentStep++;
+            }
+        }
+
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }, 1000);
+            }
+        }
+
+        // Auth Functions
+        function showAuthModal() {
+            if (isAuthenticated) {
+                // Show logout option
+                if (confirm('Do you want to sign out?')) {
+                    signOut();
+                }
+                return;
+            }
+            document.getElementById('authModal').style.display = 'flex';
+        }
+
+        function hideAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        function switchAuthTab(tab) {
+            // Update tabs
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[onclick="switchAuthTab('${tab}')"]`).classList.add('active');
+            
+            // Update forms
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.getElementById(tab + 'Form').classList.add('active');
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if (error) throw error;
+                
+                isAuthenticated = true;
+                currentUser = data.user;
+                updateAuthButton();
+                hideAuthModal();
+                tg.showAlert('Successfully signed in!');
+                
+            } catch (error) {
+                tg.showAlert('Login failed: ' + error.message);
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                tg.showAlert('Passwords do not match!');
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: name,
+                            phone: phone
+                        }
+                    }
+                });
+                
+                if (error) throw error;
+                
+                tg.showAlert('Registration successful! Please check your email to verify your account.');
+                switchAuthTab('login');
+                
+            } catch (error) {
+                tg.showAlert('Registration failed: ' + error.message);
+            }
+        }
+
+        async function signInWithGoogle() {
+            try {
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: window.location.origin
+                    }
+                });
+                
+                if (error) throw error;
+                
+            } catch (error) {
+                tg.showAlert('Google sign-in failed: ' + error.message);
+            }
+        }
+
+        async function signOut() {
+            try {
+                const { error } = await supabase.auth.signOut();
+                if (error) throw error;
+                
+                isAuthenticated = false;
+                currentUser = null;
+                updateAuthButton();
+                tg.showAlert('Successfully signed out!');
+                
+            } catch (error) {
+                tg.showAlert('Sign out failed: ' + error.message);
+            }
+        }
+
+        function updateAuthButton() {
+            const authBtn = document.getElementById('authBtn');
+            if (authBtn) {
+                if (isAuthenticated) {
+                    authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+                    authBtn.title = 'Sign Out';
+                } else {
+                    authBtn.innerHTML = '<i class="fas fa-user"></i>';
+                    authBtn.title = 'Sign In';
+                }
+            }
+        }
+
+        // Check authentication status
+        async function checkAuthStatus() {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    isAuthenticated = true;
+                    currentUser = user;
+                    updateAuthButton();
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+            }
+        }
     </script>
 </body>
 </html>
