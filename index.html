@@ -48,6 +48,7 @@
             top: 0;
             z-index: 100;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .header-content {
@@ -120,6 +121,7 @@
             color: var(--text-light);
             width: 300px;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .search-box input::placeholder {
@@ -132,6 +134,35 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-gray);
+        }
+
+        .currency-selector {
+            position: relative;
+        }
+
+        .currency-selector select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: var(--text-light);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .currency-selector select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .currency-selector select option {
+            background: var(--darker-bg);
+            color: var(--text-light);
         }
 
         .cart-btn, .menu-btn {
@@ -147,6 +178,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .cart-btn:hover, .menu-btn:hover {
@@ -260,6 +292,7 @@
             color: var(--text-light);
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .btn:hover {
@@ -285,15 +318,15 @@
 
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
         }
 
         .category-card {
             background: var(--darker-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -324,22 +357,23 @@
         }
 
         .category-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 2rem;
+            margin-bottom: 10px;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .category-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .category-card p {
             color: var(--text-gray);
-            line-height: 1.6;
+            line-height: 1.4;
+            font-size: 0.85rem;
         }
 
         /* Products */
@@ -442,6 +476,7 @@
             justify-content: center;
             z-index: 1000;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .cart-content {
@@ -900,6 +935,14 @@
                     </div>
                 </div>
                 <div class="header-actions">
+                    <div class="currency-selector">
+                        <select id="currencySelect" onchange="changeCurrency()" title="Выберите валюту">
+                            <option value="UAH">₴ Гривна</option>
+                            <option value="RUB">₽ Рубль</option>
+                            <option value="EUR">€ Евро</option>
+                            <option value="USD">$ Доллар</option>
+                        </select>
+                    </div>
                     <div class="search-box">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Поиск товаров...">
@@ -1072,10 +1115,10 @@
                         <button class="social-link telegram-btn" onclick="showTelegramOptions()" title="Telegram">
                             <i class="fab fa-telegram"></i>
                         </button>
-                        <a href="https://www.instagram.com/re_zero_shop?igsh=MWtsdDBtaWRia2V1cQ==" class="social-link" title="Instagram" target="_blank">
+                        <a href="https://www.instagram.com/re_zero_shop?igsh=MWtsdDBtaWRia2V1cQ==" class="social-link" title="Instagram" target="_blank" rel="noopener">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="https://www.tiktok.com/@re.zero.shop?_t=ZM-90V0S66SeBk&_r=1&fbclid=PAb21jcANb16NleHRuA2FlbQIxMQABp0QM0X8iTx6y3jziY4Nrrb5X6dtvweU9N3GnOY-Gxs4GG7Wip9vggRLvf0Tp_aem_WAbSaw0xlx0eVTSltw65bQ" class="social-link" title="TikTok" target="_blank">
+                        <a href="https://www.tiktok.com/@re.zero.shop?_t=ZM-90V0S66SeBk&_r=1&fbclid=PAb21jcANb16NleHRuA2FlbQIxMQABp0QM0X8iTx6y3jziY4Nrrb5X6dtvweU9N3GnOY-Gxs4GG7Wip9vggRLvf0Tp_aem_WAbSaw0xlx0eVTSltw65bQ" class="social-link" title="TikTok" target="_blank" rel="noopener">
                             <i class="fab fa-tiktok"></i>
                         </a>
                         <a href="mailto:re.zero.shop@gmail.com?subject=Вопрос по заказу&body=Здравствуйте! У меня есть вопрос по поводу заказа." class="social-link" title="Email">
@@ -1104,7 +1147,6 @@
 
         // Products data
         const products = [
-            // Женская одежда
             {
                 id: 1,
                 name: "Элегантное платье",
@@ -1115,66 +1157,6 @@
             },
             {
                 id: 2,
-                name: "Блузка классическая",
-                description: "Универсальная блузка для офиса и повседневной носки",
-                price: 2500,
-                category: "women",
-                icon: "👚"
-            },
-            {
-                id: 3,
-                name: "Юбка-карандаш",
-                description: "Деловая юбка-карандаш в классическом стиле",
-                price: 3200,
-                category: "women",
-                icon: "👗"
-            },
-            {
-                id: 4,
-                name: "Джинсы скинни",
-                description: "Удобные джинсы скинни из эластичного денима",
-                price: 3800,
-                category: "women",
-                icon: "👖"
-            },
-            
-            // Мужская одежда
-            {
-                id: 5,
-                name: "Рубашка офисная",
-                description: "Классическая мужская рубашка для делового стиля",
-                price: 2800,
-                category: "men",
-                icon: "👔"
-            },
-            {
-                id: 6,
-                name: "Футболка базовая",
-                description: "Удобная хлопковая футболка для повседневной носки",
-                price: 1200,
-                category: "men",
-                icon: "👕"
-            },
-            {
-                id: 7,
-                name: "Костюм деловой",
-                description: "Классический мужской костюм для важных встреч",
-                price: 8500,
-                category: "men",
-                icon: "👔"
-            },
-            {
-                id: 8,
-                name: "Джинсы классические",
-                description: "Качественные мужские джинсы прямого кроя",
-                price: 3500,
-                category: "men",
-                icon: "👖"
-            },
-            
-            // Обувь
-            {
-                id: 9,
                 name: "Кроссовки спортивные",
                 description: "Удобные кроссовки для спорта и повседневной носки",
                 price: 4200,
@@ -1182,184 +1164,59 @@
                 icon: "👟"
             },
             {
-                id: 10,
-                name: "Туфли классические",
-                description: "Элегантные туфли для делового стиля",
-                price: 5500,
-                category: "shoes",
-                icon: "👞"
-            },
-            {
-                id: 11,
-                name: "Сапоги зимние",
-                description: "Теплые зимние сапоги из натуральной кожи",
-                price: 6800,
-                category: "shoes",
-                icon: "👢"
-            },
-            {
-                id: 12,
-                name: "Ботинки кожаные",
-                description: "Стильные кожаные ботинки для любого сезона",
-                price: 4800,
-                category: "shoes",
-                icon: "👞"
-            },
-            
-            // Аксессуары
-            {
-                id: 13,
+                id: 3,
                 name: "Солнечные очки",
                 description: "Стильные солнцезащитные очки с поляризацией",
                 price: 1800,
                 category: "accessories",
                 icon: "🕶️"
-            },
-            {
-                id: 14,
-                name: "Шарф шерстяной",
-                description: "Теплый шерстяной шарф для холодной погоды",
-                price: 1500,
-                category: "accessories",
-                icon: "🧣"
-            },
-            {
-                id: 15,
-                name: "Перчатки кожаные",
-                description: "Элегантные кожаные перчатки для зимы",
-                price: 2200,
-                category: "accessories",
-                icon: "🧤"
-            },
-            {
-                id: 16,
-                name: "Ремень кожаный",
-                description: "Качественный кожаный ремень с металлической пряжкой",
-                price: 1900,
-                category: "accessories",
-                icon: "👔"
-            },
-            
-            // Сумки
-            {
-                id: 17,
-                name: "Рюкзак городской",
-                description: "Стильный городской рюкзак для ежедневного использования",
-                price: 3200,
-                category: "bags",
-                icon: "🎒"
-            },
-            {
-                id: 18,
-                name: "Клатч вечерний",
-                description: "Элегантный клатч для вечерних выходов",
-                price: 2500,
-                category: "bags",
-                icon: "👜"
-            },
-            {
-                id: 19,
-                name: "Сумка через плечо",
-                description: "Удобная сумка через плечо для повседневной носки",
-                price: 2800,
-                category: "bags",
-                icon: "👜"
-            },
-            {
-                id: 20,
-                name: "Кошелек кожаный",
-                description: "Качественный кожаный кошелек с множеством отделений",
-                price: 1800,
-                category: "bags",
-                icon: "👛"
-            },
-            
-            // Украшения
-            {
-                id: 21,
-                name: "Кольцо серебряное",
-                description: "Элегантное серебряное кольцо с камнем",
-                price: 3500,
-                category: "jewelry",
-                icon: "💍"
-            },
-            {
-                id: 22,
-                name: "Серьги золотые",
-                description: "Стильные золотые серьги-гвоздики",
-                price: 4200,
-                category: "jewelry",
-                icon: "💎"
-            },
-            {
-                id: 23,
-                name: "Браслет кожаный",
-                description: "Модный кожаный браслет с металлическими элементами",
-                price: 1200,
-                category: "jewelry",
-                icon: "📿"
-            },
-            {
-                id: 24,
-                name: "Ожерелье жемчужное",
-                description: "Классическое жемчужное ожерелье",
-                price: 5500,
-                category: "jewelry",
-                icon: "📿"
-            },
-            
-            // Часы
-            {
-                id: 25,
-                name: "Часы наручные",
-                description: "Элегантные наручные часы с кожаным ремешком",
-                price: 8500,
-                category: "watches",
-                icon: "⌚"
-            },
-            {
-                id: 26,
-                name: "Умные часы",
-                description: "Современные умные часы с множеством функций",
-                price: 12000,
-                category: "watches",
-                icon: "⌚"
-            },
-            {
-                id: 27,
-                name: "Часы спортивные",
-                description: "Надежные спортивные часы для активного образа жизни",
-                price: 6500,
-                category: "watches",
-                icon: "⌚"
-            },
-            
-            // Спорт
-            {
-                id: 28,
-                name: "Спортивный костюм",
-                description: "Удобный спортивный костюм для тренировок",
-                price: 4500,
-                category: "sport",
-                icon: "👕"
-            },
-            {
-                id: 29,
-                name: "Кроссовки для бега",
-                description: "Профессиональные кроссовки для бега",
-                price: 5200,
-                category: "sport",
-                icon: "👟"
-            },
-            {
-                id: 30,
-                name: "Спортивная сумка",
-                description: "Вместительная спортивная сумка для тренировок",
-                price: 2200,
-                category: "sport",
-                icon: "🎒"
             }
         ];
+
+        // Currency conversion rates (to UAH as base)
+        const currencyRates = {
+            'UAH': 1,
+            'RUB': 0.25,
+            'EUR': 40,
+            'USD': 37
+        };
+
+        // Current currency
+        let currentCurrency = 'UAH';
+
+        // Currency symbols
+        const currencySymbols = {
+            'UAH': '₴',
+            'RUB': '₽',
+            'EUR': '€',
+            'USD': '$'
+        };
+
+        // Convert price to current currency
+        function convertPrice(priceInUAH) {
+            return Math.round(priceInUAH * currencyRates[currentCurrency]);
+        }
+
+        // Format price with currency symbol
+        function formatPrice(priceInUAH) {
+            const convertedPrice = convertPrice(priceInUAH);
+            return `${convertedPrice} ${currencySymbols[currentCurrency]}`;
+        }
+
+        // Change currency
+        function changeCurrency() {
+            const select = document.getElementById('currencySelect');
+            currentCurrency = select.value;
+            localStorage.setItem('selectedCurrency', currentCurrency);
+            
+            // Re-render products with new currency
+            renderProducts();
+            
+            // Update order modal if open
+            if (selectedProducts.length > 0) {
+                showOrderModal();
+            }
+        }
 
         // Order functionality
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
@@ -1380,7 +1237,7 @@
                 <div class="selected-product">
                     <div class="selected-product-image">${product.icon}</div>
                     <h3>${product.name}</h3>
-                    <div class="price">${product.price} ₽</div>
+                    <div class="price">${formatPrice(product.price)}</div>
                     <p>${product.description}</p>
                 </div>
                 <div class="selection-options">
@@ -1440,12 +1297,12 @@
                             <div class="order-item-image">${item.icon}</div>
                             <div class="order-item-info">
                                 <div class="order-item-name">${item.name}</div>
-                                <div class="order-item-price">${item.price} ₽ × ${item.quantity}</div>
+                                <div class="order-item-price">${formatPrice(item.price)} × ${item.quantity}</div>
                             </div>
                         </div>
                     `).join('')}
                 </div>
-                <div class="order-total">Итого: ${total} ₽</div>
+                <div class="order-total">Итого: ${formatPrice(total)}</div>
                 <div class="order-actions">
                     <button class="selection-btn primary" onclick="sendOrderToTelegram()">
                         <i class="fab fa-telegram"></i>
@@ -1475,9 +1332,9 @@
             const product = products.find(p => p.id === productId);
             if (!product) return;
             
-            // Send single product to Telegram bot
-            const message = `🛍️ Хочу заказать товар:\n\n${product.name}\n💰 Цена: ${product.price} ₽\n📝 ${product.description}`;
-            const telegramUrl = `https://t.me/re_zero_shop_bot?start=order_${product.id}`;
+            // Send single product to Telegram bot with currency info
+            const price = formatPrice(product.price);
+            const telegramUrl = `https://t.me/re_zero_shop_bot?start=order_${product.id}_${currentCurrency}`;
             
             tg.openTelegramLink(telegramUrl);
             closeProductModal();
@@ -1490,15 +1347,14 @@
             }
             
             const total = selectedProducts.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            let message = `🛍️ Хочу оформить заказ:\n\n`;
             
-            selectedProducts.forEach(item => {
-                message += `• ${item.name} × ${item.quantity} = ${item.price * item.quantity} ₽\n`;
-            });
+            // Create order data string
+            const orderData = selectedProducts.map(item => 
+                `${item.id}:${item.quantity}`
+            ).join(',');
             
-            message += `\n💰 Итого: ${total} ₽`;
-            
-            const telegramUrl = `https://t.me/re_zero_shop_bot?start=order_multiple`;
+            // Send multiple products to Telegram bot with currency and order data
+            const telegramUrl = `https://t.me/re_zero_shop_bot?start=order_multiple_${currentCurrency}_${orderData}`;
             tg.openTelegramLink(telegramUrl);
             closeOrderModal();
         }
@@ -1537,7 +1393,7 @@
                     <div class="product-info">
                         <h3 class="product-title">${product.name}</h3>
                         <p class="product-description">${product.description}</p>
-                        <div class="product-price">${product.price} ₽</div>
+                        <div class="product-price">${formatPrice(product.price)}</div>
                         <button class="add-to-cart" onclick="selectProduct(${product.id})">
                             <i class="fas fa-shopping-cart"></i>
                             Выбрать товар
@@ -1573,6 +1429,13 @@
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
+            // Load saved currency
+            const savedCurrency = localStorage.getItem('selectedCurrency');
+            if (savedCurrency) {
+                currentCurrency = savedCurrency;
+                document.getElementById('currencySelect').value = currentCurrency;
+            }
+            
             renderProducts();
             updateTelegramAvatar();
             
