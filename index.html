@@ -917,9 +917,187 @@
             flex-direction: column;
             gap: 15px;
         }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            background: var(--gradient-accent);
+            padding: 15px 0;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .admin-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .admin-content h3 {
+            color: white;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .admin-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .admin-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Address Modal Styles */
+        .address-content {
+            text-align: center;
+        }
+
+        .address-form {
+            margin-bottom: 20px;
+        }
+
+        .address-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .address-form textarea {
+            width: 100%;
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            color: var(--text-light);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .address-form textarea::placeholder {
+            color: var(--text-gray);
+        }
+
+        .address-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .current-address {
+            background: rgba(31, 41, 55, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .current-address h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .current-address p {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Confirm Modal Styles */
+        .confirm-content {
+            text-align: center;
+        }
+
+        .confirm-product {
+            margin-bottom: 30px;
+        }
+
+        .confirm-product-image {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            margin: 0 auto 20px;
+        }
+
+        .confirm-product h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .confirm-product .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .confirm-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
     </style>
 </head>
 <body>
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel" style="display: none;">
+        <div class="container">
+            <div class="admin-content">
+                <h3><i class="fas fa-cog"></i> Панель управления</h3>
+                <div class="admin-buttons">
+                    <button class="admin-btn" onclick="showAddProductModal()">
+                        <i class="fas fa-plus"></i> Добавить товар
+                    </button>
+                    <button class="admin-btn" onclick="showEditProductModal()">
+                        <i class="fas fa-edit"></i> Редактировать товар
+                    </button>
+                    <button class="admin-btn" onclick="showDeleteProductModal()">
+                        <i class="fas fa-trash"></i> Удалить товар
+                    </button>
+                    <button class="admin-btn" onclick="showStockModal()">
+                        <i class="fas fa-boxes"></i> Изменить количество
+                    </button>
+                    <button class="admin-btn" onclick="showDiscountModal()">
+                        <i class="fas fa-percentage"></i> Скидка
+                    </button>
+                    <button class="admin-btn" onclick="toggleProductAvailability()">
+                        <i class="fas fa-toggle-on"></i> Наличие
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -963,6 +1141,10 @@
                         <i class="fas fa-th-large"></i>
                         Категории
                     </a>
+                    <button class="btn btn-secondary" onclick="showAddressModal()">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Адрес
+                    </button>
                 </div>
             </div>
         </div>
@@ -1101,6 +1283,56 @@
         </div>
     </div>
 
+    <!-- Address Modal -->
+    <div class="cart-modal" id="addressModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Адрес доставки</h3>
+                <button class="close-cart" onclick="closeAddressModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="address-content">
+                <div class="address-form">
+                    <label for="addressInput">Введите адрес доставки:</label>
+                    <textarea id="addressInput" placeholder="Город, улица, дом, квартира, индекс..." rows="4"></textarea>
+                    <div class="address-actions">
+                        <button class="selection-btn primary" onclick="saveAddress()">
+                            <i class="fas fa-save"></i>
+                            Сохранить адрес
+                        </button>
+                        <button class="selection-btn secondary" onclick="closeAddressModal()">
+                            Отмена
+                        </button>
+                    </div>
+                </div>
+                <div class="current-address" id="currentAddress" style="display: none;">
+                    <h4>Текущий адрес:</h4>
+                    <p id="addressText"></p>
+                    <button class="selection-btn secondary" onclick="editAddress()">
+                        <i class="fas fa-edit"></i>
+                        Изменить адрес
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div class="cart-modal" id="confirmModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>Подтверждение заказа</h3>
+                <button class="close-cart" onclick="closeConfirmModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="confirm-content" id="confirmContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -1220,6 +1452,8 @@
 
         // Order functionality
         let selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+        let userAddress = localStorage.getItem('userAddress') || '';
+        let isAdmin = false;
 
         function selectProduct(productId) {
             const product = products.find(p => p.id === productId);
@@ -1241,13 +1475,9 @@
                     <p>${product.description}</p>
                 </div>
                 <div class="selection-options">
-                    <button class="selection-btn primary" onclick="addToOrder(${product.id})">
-                        <i class="fas fa-shopping-cart"></i>
-                        Добавить в заказ
-                    </button>
-                    <button class="selection-btn secondary" onclick="orderNow(${product.id})">
+                    <button class="selection-btn primary" onclick="confirmOrder(${product.id})">
                         <i class="fab fa-telegram"></i>
-                        Заказать сейчас в Telegram
+                        Заказать
                     </button>
                 </div>
             `;
@@ -1259,58 +1489,32 @@
             document.getElementById('productModal').style.display = 'none';
         }
 
-        function addToOrder(productId) {
+        function confirmOrder(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
             
-            // Check if product already in order
-            const existingItem = selectedProducts.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                selectedProducts.push({...product, quantity: 1});
-            }
-            
-            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-            closeProductModal();
-            
-            // Show order modal
-            showOrderModal();
+            // Show confirmation modal
+            showConfirmModal(product);
         }
 
-        function showOrderModal() {
-            const modal = document.getElementById('orderModal');
-            const content = document.getElementById('orderContent');
-            
-            if (selectedProducts.length === 0) {
-                content.innerHTML = '<p>Заказ пуст</p>';
-                modal.style.display = 'flex';
-                return;
-            }
-            
-            const total = selectedProducts.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        function showConfirmModal(product) {
+            const modal = document.getElementById('confirmModal');
+            const content = document.getElementById('confirmContent');
             
             content.innerHTML = `
-                <div class="order-items">
-                    ${selectedProducts.map(item => `
-                        <div class="order-item">
-                            <div class="order-item-image">${item.icon}</div>
-                            <div class="order-item-info">
-                                <div class="order-item-name">${item.name}</div>
-                                <div class="order-item-price">${formatPrice(item.price)} × ${item.quantity}</div>
-                            </div>
-                        </div>
-                    `).join('')}
+                <div class="confirm-product">
+                    <div class="confirm-product-image">${product.icon}</div>
+                    <h3>${product.name}</h3>
+                    <div class="price">${formatPrice(product.price)}</div>
+                    <p>${product.description}</p>
                 </div>
-                <div class="order-total">Итого: ${formatPrice(total)}</div>
-                <div class="order-actions">
-                    <button class="selection-btn primary" onclick="sendOrderToTelegram()">
+                <div class="confirm-actions">
+                    <button class="selection-btn primary" onclick="processOrder(${product.id})">
                         <i class="fab fa-telegram"></i>
-                        Отправить заказ в Telegram
+                        Подтвердить заказ
                     </button>
-                    <button class="selection-btn secondary" onclick="clearOrder()">
-                        <i class="fas fa-trash"></i>
-                        Очистить заказ
+                    <button class="selection-btn secondary" onclick="closeConfirmModal()">
+                        Отмена
                     </button>
                 </div>
             `;
@@ -1318,45 +1522,38 @@
             modal.style.display = 'flex';
         }
 
-        function closeOrderModal() {
-            document.getElementById('orderModal').style.display = 'none';
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').style.display = 'none';
         }
 
-        function clearOrder() {
-            selectedProducts = [];
-            localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts));
-            closeOrderModal();
-        }
-
-        function orderNow(productId) {
+        function processOrder(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
             
-            // Send single product to Telegram bot with currency info
-            const price = formatPrice(product.price);
-            const telegramUrl = `https://t.me/re_zero_shop_bot?start=order_${product.id}_${currentCurrency}`;
-            
-            tg.openTelegramLink(telegramUrl);
-            closeProductModal();
-        }
-
-        function sendOrderToTelegram() {
-            if (selectedProducts.length === 0) {
-                tg.showAlert('Заказ пуст!');
+            // Check if address is set
+            if (!userAddress) {
+                tg.showAlert('Пожалуйста, сначала укажите адрес доставки!');
+                closeConfirmModal();
+                showAddressModal();
                 return;
             }
             
-            const total = selectedProducts.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            // Create order data with address
+            const orderData = {
+                productId: product.id,
+                productName: product.name,
+                productDescription: product.description,
+                price: product.price,
+                currency: currentCurrency,
+                address: userAddress
+            };
             
-            // Create order data string
-            const orderData = selectedProducts.map(item => 
-                `${item.id}:${item.quantity}`
-            ).join(',');
+            // Send order to Telegram bot
+            const orderString = encodeURIComponent(JSON.stringify(orderData));
+            const telegramUrl = `https://t.me/re_zero_shop_bot?start=order_${orderString}`;
             
-            // Send multiple products to Telegram bot with currency and order data
-            const telegramUrl = `https://t.me/re_zero_shop_bot?start=order_multiple_${currentCurrency}_${orderData}`;
             tg.openTelegramLink(telegramUrl);
-            closeOrderModal();
+            closeConfirmModal();
         }
 
         // Telegram functions
@@ -1376,6 +1573,98 @@
         function openTelegramSupport() {
             tg.openTelegramLink('https://t.me/ZERO_952');
             closeTelegramModal();
+        }
+
+        // Address functions
+        function showAddressModal() {
+            const modal = document.getElementById('addressModal');
+            const addressForm = modal.querySelector('.address-form');
+            const currentAddress = modal.querySelector('.current-address');
+            const addressText = modal.querySelector('#addressText');
+            
+            if (userAddress) {
+                addressForm.style.display = 'none';
+                currentAddress.style.display = 'block';
+                addressText.textContent = userAddress;
+            } else {
+                addressForm.style.display = 'block';
+                currentAddress.style.display = 'none';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeAddressModal() {
+            document.getElementById('addressModal').style.display = 'none';
+        }
+
+        function saveAddress() {
+            const addressInput = document.getElementById('addressInput');
+            const address = addressInput.value.trim();
+            
+            if (!address) {
+                tg.showAlert('Пожалуйста, введите адрес доставки!');
+                return;
+            }
+            
+            userAddress = address;
+            localStorage.setItem('userAddress', userAddress);
+            
+            // Update modal display
+            const modal = document.getElementById('addressModal');
+            const addressForm = modal.querySelector('.address-form');
+            const currentAddress = modal.querySelector('.current-address');
+            const addressText = modal.querySelector('#addressText');
+            
+            addressForm.style.display = 'none';
+            currentAddress.style.display = 'block';
+            addressText.textContent = userAddress;
+            
+            tg.showAlert('Адрес сохранен!');
+        }
+
+        function editAddress() {
+            const modal = document.getElementById('addressModal');
+            const addressForm = modal.querySelector('.address-form');
+            const currentAddress = modal.querySelector('.current-address');
+            const addressInput = document.getElementById('addressInput');
+            
+            addressForm.style.display = 'block';
+            currentAddress.style.display = 'none';
+            addressInput.value = userAddress;
+        }
+
+        // Admin functions
+        function checkAdminStatus() {
+            const user = tg.initDataUnsafe?.user;
+            if (user && (user.id === 1485058648 || user.id === 1463627072)) {
+                isAdmin = true;
+                document.getElementById('adminPanel').style.display = 'block';
+            }
+        }
+
+        function showAddProductModal() {
+            tg.showAlert('Функция добавления товара будет реализована в следующей версии');
+        }
+
+        function showEditProductModal() {
+            tg.showAlert('Функция редактирования товара будет реализована в следующей версии');
+        }
+
+        function showDeleteProductModal() {
+            tg.showAlert('Функция удаления товара будет реализована в следующей версии');
+        }
+
+        function showStockModal() {
+            tg.showAlert('Функция изменения количества будет реализована в следующей версии');
+        }
+
+        function showDiscountModal() {
+            tg.showAlert('Функция скидок будет реализована в следующей версии');
+        }
+
+        function toggleProductAvailability() {
+            tg.showAlert('Функция управления наличием будет реализована в следующей версии');
         }
 
         function filterProducts(category) {
@@ -1436,8 +1725,12 @@
                 document.getElementById('currencySelect').value = currentCurrency;
             }
             
+            // Load saved address
+            userAddress = localStorage.getItem('userAddress') || '';
+            
             renderProducts();
             updateTelegramAvatar();
+            checkAdminStatus();
             
             // Search input
             const searchInput = document.querySelector('.search-box input');
@@ -1464,6 +1757,18 @@
                 }
             });
             
+            document.getElementById('addressModal').addEventListener('click', (e) => {
+                if (e.target.id === 'addressModal') {
+                    closeAddressModal();
+                }
+            });
+            
+            document.getElementById('confirmModal').addEventListener('click', (e) => {
+                if (e.target.id === 'confirmModal') {
+                    closeConfirmModal();
+                }
+            });
+            
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -1481,36 +1786,8 @@
 
         // Telegram WebApp events
         tg.onEvent('mainButtonClicked', function() {
-            if (selectedProducts.length > 0) {
-                sendOrderToTelegram();
-            }
+            // Main button functionality removed - using direct order confirmation
         });
-
-        // Show main button when order has items
-        function updateMainButton() {
-            if (selectedProducts.length > 0) {
-                tg.MainButton.setText('Отправить заказ в Telegram');
-                tg.MainButton.show();
-            } else {
-                tg.MainButton.hide();
-            }
-        }
-
-        // Update main button when order changes
-        const originalAddToOrder = addToOrder;
-        addToOrder = function(productId) {
-            originalAddToOrder(productId);
-            updateMainButton();
-        };
-
-        const originalClearOrder = clearOrder;
-        clearOrder = function() {
-            originalClearOrder();
-            updateMainButton();
-        };
-
-        // Initialize main button
-        updateMainButton();
     </script>
 </body>
 </html>
