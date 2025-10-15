@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Re:Zero Shop - Жизнь в другом мире моды с нуля</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -33,34 +32,6 @@
             background: var(--darker-bg);
             color: var(--text-light);
             overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('https://i.ibb.co/d0TCL9vb/e12d194007eee7faede7c4b23e265143.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            z-index: -2;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(17, 24, 39, 0.3) 0%, rgba(31, 41, 55, 0.2) 100%);
-            z-index: -1;
         }
 
         .container {
@@ -71,20 +42,38 @@
 
         /* Header */
         .header {
-            background: rgba(99, 102, 241, 0.7);
-            padding: 15px 0;
+            background: var(--gradient-primary);
+            padding: 20px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .telegram-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .telegram-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         .logo {
@@ -146,41 +135,23 @@
         }
 
         .cart-btn, .menu-btn {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            width: 50px;
-            height: 50px;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-light);
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cart-btn::before, .menu-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .cart-btn:hover::before, .menu-btn:hover::before {
-            left: 100%;
+            backdrop-filter: blur(10px);
         }
 
         .cart-btn:hover, .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         .cart-count {
@@ -201,12 +172,11 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-            padding: 80px 0;
+            background: var(--gradient-primary);
+            padding: 60px 0;
             text-align: center;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
         .hero::before {
@@ -216,14 +186,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
         }
 
         .hero-content {
@@ -243,37 +207,10 @@
         .hero p {
             font-size: 1.2rem;
             color: var(--text-gray);
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .hero-stats .stat-item {
-            text-align: center;
-        }
-
-        .hero-stats .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        .hero-stats .stat-label {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            font-weight: 500;
         }
 
         .cta-buttons {
@@ -284,63 +221,39 @@
         }
 
         .btn {
-            padding: 18px 35px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 15px;
+            border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            position: relative;
-            overflow: hidden;
-            font-size: 1rem;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            gap: 10px;
         }
 
         .btn-primary {
             background: var(--gradient-accent);
             color: white;
-            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
         }
 
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
             color: var(--text-light);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
         }
 
         .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
         /* Categories */
         .categories {
-            padding: 80px 0;
-            background: rgba(31, 41, 55, 0.1);
-            backdrop-filter: blur(5px);
+            padding: 60px 0;
+            background: var(--dark-bg);
         }
 
         .section-title {
@@ -360,38 +273,37 @@
         }
 
         .category-card {
-            background: rgba(17, 24, 39, 0.4);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 25px;
-            padding: 40px 30px;
+            background: var(--darker-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
         .category-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
             background: var(--gradient-primary);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            opacity: 0.1;
+            transition: left 0.3s ease;
         }
 
         .category-card:hover::before {
-            opacity: 0.1;
+            left: 0;
         }
 
         .category-card:hover {
-            transform: translateY(-15px) scale(1.02);
+            transform: translateY(-10px);
             border-color: var(--primary-color);
-            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
         }
 
         .category-icon {
@@ -415,9 +327,7 @@
 
         /* Products */
         .products {
-            padding: 80px 0;
-            background: rgba(17, 24, 39, 0.05);
-            backdrop-filter: blur(5px);
+            padding: 60px 0;
         }
 
         .products-grid {
@@ -427,37 +337,17 @@
         }
 
         .product-card {
-            background: rgba(17, 24, 39, 0.4);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 25px;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            position: relative;
-        }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--gradient-primary);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 1;
-        }
-
-        .product-card:hover::before {
-            opacity: 0.05;
         }
 
         .product-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(99, 102, 241, 0.3);
-            border-color: var(--primary-color);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
         .product-image {
@@ -472,67 +362,14 @@
             overflow: hidden;
         }
 
-        .product-overlay {
+        .product-image::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-end;
-            padding: 15px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .product-card:hover .product-overlay {
-            opacity: 1;
-        }
-
-        .favorite-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #666;
-        }
-
-        .favorite-btn:hover {
-            background: #ff6b6b;
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .low-stock {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #ff6b6b;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .product-stock {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            margin-bottom: 10px;
-        }
-
-        .add-to-cart:disabled {
-            background: #666;
-            cursor: not-allowed;
-            opacity: 0.6;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
         }
 
         .product-info {
@@ -563,34 +400,16 @@
             background: var(--gradient-primary);
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 15px;
+            padding: 12px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 2;
-        }
-
-        .add-to-cart::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .add-to-cart:hover::before {
-            left: 100%;
+            transition: all 0.3s ease;
         }
 
         .add-to-cart:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
         }
 
         /* Cart Modal */
@@ -609,16 +428,13 @@
         }
 
         .cart-content {
-            background: rgba(17, 24, 39, 0.8);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 25px;
-            padding: 35px;
+            background: var(--dark-bg);
+            border-radius: 20px;
+            padding: 30px;
             max-width: 500px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
         }
 
         .cart-header {
@@ -667,8 +483,6 @@
             justify-content: center;
             color: white;
             font-size: 1.5rem;
-            background-size: cover;
-            background-position: center;
         }
 
         .cart-item-info {
@@ -752,11 +566,10 @@
 
         /* Footer */
         .footer {
-            background: rgba(17, 24, 39, 0.3);
-            border-top: 1px solid rgba(99, 102, 241, 0.2);
-            padding: 60px 0 40px;
+            background: var(--darker-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 0;
             text-align: center;
-            backdrop-filter: blur(10px);
         }
 
         .footer-content {
@@ -809,167 +622,39 @@
             transform: translateY(-3px);
         }
 
-        /* TikTok icon fallback */
-        .fa-tiktok:before {
-            content: "🎵";
-            font-style: normal;
-            font-size: 1.2rem;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 15px;
-            }
-
-            .header {
-                padding: 12px 0;
-            }
-
             .header-content {
                 flex-direction: column;
-                gap: 15px;
-            }
-
-            .logo h1 {
-                font-size: 1.5rem;
+                gap: 20px;
             }
 
             .search-box {
                 display: block;
                 width: 100%;
-                order: 3;
             }
 
             .search-box input {
                 width: 100%;
-                font-size: 16px;
-            }
-
-            .header-actions {
-                order: 2;
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .cart-btn, .menu-btn {
-                width: 45px;
-                height: 45px;
-            }
-
-            .hero {
-                padding: 60px 0;
             }
 
             .hero h2 {
-                font-size: 2.2rem;
-                line-height: 1.2;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-                margin-bottom: 25px;
-            }
-
-            .hero-stats {
-                gap: 30px;
-                margin-bottom: 30px;
-            }
-
-            .hero-stats .stat-number {
                 font-size: 2rem;
             }
 
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
-                gap: 15px;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 280px;
-                justify-content: center;
-            }
-
-            .categories {
-                padding: 60px 0;
-            }
-
-            .section-title {
-                font-size: 2rem;
-                margin-bottom: 40px;
             }
 
             .categories-grid,
             .products-grid {
                 grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .category-card {
-                padding: 30px 20px;
-            }
-
-            .products {
-                padding: 60px 0;
-            }
-
-            .product-card {
-                margin: 0 auto;
-                max-width: 320px;
-            }
-
-            .telegram-menu {
-                width: 100%;
-                right: -100%;
-            }
-
-            .cart-content {
-                width: 95%;
-                padding: 25px;
-                margin: 20px;
-            }
-
-            .footer {
-                padding: 40px 0 30px;
             }
 
             .footer-content {
                 grid-template-columns: 1fr;
                 text-align: center;
-                gap: 25px;
-            }
-
-            .social-links {
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h2 {
-                font-size: 1.8rem;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-            }
-
-            .category-card {
-                padding: 25px 15px;
-            }
-
-            .category-icon {
-                font-size: 2.5rem;
-            }
-
-            .product-image {
-                height: 180px;
-            }
-
-            .cart-content {
-                padding: 20px;
-                margin: 10px;
             }
         }
 
@@ -985,15 +670,8 @@
             }
         }
 
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
         }
 
         @keyframes pulse {
@@ -1005,916 +683,26 @@
             }
         }
 
-        @keyframes glow {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
-            }
-            50% {
-                box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .slide-in-right {
-            animation: slideInRight 0.6s ease-out;
-        }
-
         .pulse {
             animation: pulse 2s infinite;
         }
 
-        .glow {
-            animation: glow 2s infinite;
-        }
-
-        /* Loading animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(99, 102, 241, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Loading Screen Styles */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        .loading-screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.7) 50%, rgba(15, 52, 96, 0.8) 100%);
-            z-index: -1;
-        }
-
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loading-logo {
-            font-size: 4rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #f59e0b, #ef4444, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            animation: logoGlow 2s ease-in-out infinite alternate;
-        }
-
-        .loading-slogan {
-            color: #e5e7eb;
+        /* TikTok icon fallback */
+        .fa-tiktok:before {
+            content: "🎵";
+            font-style: normal;
             font-size: 1.2rem;
-            margin-bottom: 40px;
-            text-align: center;
-            opacity: 0.8;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(99, 102, 241, 0.3);
-            border-top: 4px solid #6366f1;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 30px;
-        }
-
-        .loading-text {
-            color: #9ca3af;
-            font-size: 1rem;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        .loading-progress {
-            width: 200px;
-            height: 4px;
-            background: rgba(99, 102, 241, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-
-        .loading-progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-            border-radius: 2px;
-            animation: progressLoad 3s ease-in-out;
-        }
-
-        @keyframes logoGlow {
-            0% { filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5)); }
-            100% { filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.8)); }
-        }
-
-        @keyframes progressLoad {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
-        /* Auth Modal Styles */
-        .auth-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            backdrop-filter: blur(10px);
-        }
-
-        .auth-content {
-            background: rgba(17, 24, 39, 0.8);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 25px;
-            padding: 40px;
-            max-width: 400px;
-            width: 90%;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .auth-header h3 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 30px;
-            background: rgba(31, 41, 55, 0.5);
-            border-radius: 15px;
-            padding: 5px;
-        }
-
-        .auth-tab {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--text-gray);
-            font-weight: 600;
-        }
-
-        .auth-tab.active {
-            background: var(--gradient-primary);
-            color: white;
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px;
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 12px;
-            color: var(--text-light);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .form-group input::placeholder {
-            color: var(--text-gray);
-        }
-
-        .auth-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--gradient-primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 15px;
-        }
-
-        .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
-        }
-
-
-
-        .auth-switch {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .auth-switch a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .auth-switch a:hover {
-            text-decoration: underline;
-        }
-
-        /* Address and Payment Modal Styles */
-        .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 12px;
-            color: var(--text-light);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .form-group select {
-            width: 100%;
-            padding: 15px;
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 12px;
-            color: var(--text-light);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .payment-methods {
-            margin-bottom: 30px;
-        }
-
-        .payment-method {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 20px;
-            background: rgba(31, 41, 55, 0.3);
-            border: 2px solid rgba(99, 102, 241, 0.2);
-            border-radius: 15px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .payment-method:hover {
-            border-color: var(--primary-color);
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .payment-method.selected {
-            border-color: var(--primary-color);
-            background: rgba(99, 102, 241, 0.2);
-        }
-
-        .payment-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient-primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .payment-info {
-            flex: 1;
-        }
-
-        .payment-info h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .payment-info p {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
-
-        .payment-radio {
-            position: relative;
-        }
-
-        .payment-radio input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--primary-color);
-        }
-
-        /* Profile Modal Styles */
-        .profile-content {
-            text-align: center;
-        }
-
-        .profile-avatar {
-            font-size: 4rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .profile-info h4 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        .profile-info p {
-            color: var(--text-gray);
-            margin-bottom: 30px;
-        }
-
-        .profile-stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            display: block;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-
-        .stat-label {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
-
-        .profile-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        /* Settings Modal Styles */
-        .settings-content {
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-
-        .setting-group {
-            margin-bottom: 30px;
-        }
-
-        .setting-group h4 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .setting-item:last-child {
-            border-bottom: none;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--border-color);
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--primary-color);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .setting-select {
-            width: 100%;
-            padding: 12px;
-            background: var(--darker-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-light);
-            font-size: 1rem;
-        }
-
-        .setting-select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        /* Info Modal Styles */
-        .info-content {
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-
-        .info-section {
-            margin-bottom: 25px;
-        }
-
-        .info-section h4 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .info-section p {
-            line-height: 1.6;
-            color: var(--text-gray);
-        }
-
-        /* Telegram Menu Styles */
-        .telegram-menu {
-            position: fixed;
-            top: 0;
-            right: -320px;
-            width: 320px;
-            height: 100vh;
-            background: rgba(17, 24, 39, 0.8);
-            border-left: 1px solid rgba(99, 102, 241, 0.2);
-            transition: right 0.4s ease;
-            z-index: 1001;
-            backdrop-filter: blur(20px);
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .telegram-menu.active {
-            right: 0;
-        }
-
-        .telegram-menu-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            background: var(--gradient-primary);
-        }
-
-        .telegram-profile {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .telegram-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--gradient-accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .telegram-avatar:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
-        }
-
-        .telegram-info h4 {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-
-        .telegram-info p {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
-
-        .telegram-menu-content {
-            padding: 20px;
-        }
-
-        .menu-section {
-            margin-bottom: 30px;
-        }
-
-        .menu-section h5 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            padding-left: 10px;
-        }
-
-        .menu-item:hover {
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .menu-item i {
-            width: 20px;
-            text-align: center;
-            color: var(--text-gray);
-        }
-
-        .menu-item span {
-            flex: 1;
-        }
-
-        .menu-badge {
-            background: var(--gradient-accent);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .language-selector {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .lang-btn {
-            padding: 5px 10px;
-            border: 1px solid var(--border-color);
-            background: transparent;
-            color: var(--text-light);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .lang-btn.active {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 1000;
-        }
-
-        .menu-overlay.active {
-            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo">Re:Zero Shop</div>
-        <div class="loading-slogan">Life in another world of fashion from scratch</div>
-        <div class="loading-spinner"></div>
-        <div class="loading-text" id="loadingText">Loading...</div>
-        <div class="loading-progress">
-            <div class="loading-progress-bar"></div>
-        </div>
-    </div>
-
-    <!-- Address Modal -->
-    <div class="auth-modal" id="addressModal">
-        <div class="auth-content">
-            <div class="auth-header">
-                <h3>Delivery Address</h3>
-                <p>Add or edit your delivery address</p>
-            </div>
-            
-            <form onsubmit="saveAddress(event)">
-                <div class="form-group">
-                    <label for="addressName">Address Name</label>
-                    <input type="text" id="addressName" placeholder="Home, Work, etc." required>
-                </div>
-                <div class="form-group">
-                    <label for="addressCountry">Country</label>
-                    <select id="addressCountry" required>
-                        <option value="">Select Country</option>
-                        <option value="UA">Ukraine</option>
-                        <option value="PL">Poland</option>
-                        <option value="DE">Germany</option>
-                        <option value="FR">France</option>
-                        <option value="IT">Italy</option>
-                        <option value="ES">Spain</option>
-                        <option value="NL">Netherlands</option>
-                        <option value="BE">Belgium</option>
-                        <option value="AT">Austria</option>
-                        <option value="CZ">Czech Republic</option>
-                        <option value="SK">Slovakia</option>
-                        <option value="HU">Hungary</option>
-                        <option value="RO">Romania</option>
-                        <option value="BG">Bulgaria</option>
-                        <option value="HR">Croatia</option>
-                        <option value="SI">Slovenia</option>
-                        <option value="LT">Lithuania</option>
-                        <option value="LV">Latvia</option>
-                        <option value="EE">Estonia</option>
-                        <option value="FI">Finland</option>
-                        <option value="SE">Sweden</option>
-                        <option value="DK">Denmark</option>
-                        <option value="NO">Norway</option>
-                        <option value="CH">Switzerland</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="addressCity">City</label>
-                    <input type="text" id="addressCity" placeholder="Enter city" required>
-                </div>
-                <div class="form-group">
-                    <label for="addressStreet">Street Address</label>
-                    <input type="text" id="addressStreet" placeholder="Street, house number, apartment" required>
-                </div>
-                <div class="form-group">
-                    <label for="addressPostal">Postal Code</label>
-                    <input type="text" id="addressPostal" placeholder="Postal code" required>
-                </div>
-                <div class="form-group">
-                    <label for="addressPhone">Phone Number</label>
-                    <input type="tel" id="addressPhone" placeholder="+380123456789" required>
-                </div>
-                <div class="form-group">
-                    <label for="addressNotes">Delivery Notes (Optional)</label>
-                    <textarea id="addressNotes" placeholder="Special instructions for delivery" rows="3"></textarea>
-                </div>
-                <button type="submit" class="auth-btn">Save Address</button>
-            </form>
-            
-            <div class="auth-switch">
-                <a href="#" onclick="hideAddressModal()">Cancel</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Payment Modal -->
-    <div class="auth-modal" id="paymentModal">
-        <div class="auth-content">
-            <div class="auth-header">
-                <h3>Payment Method</h3>
-                <p>Choose your preferred payment method</p>
-            </div>
-            
-            <div class="payment-methods">
-                <div class="payment-method" onclick="selectPaymentMethod('card_ua')">
-                    <div class="payment-icon">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-                    <div class="payment-info">
-                        <h4>Ukrainian Card</h4>
-                        <p>Visa, Mastercard, МИР</p>
-                    </div>
-                    <div class="payment-radio">
-                        <input type="radio" name="payment" value="card_ua" id="card_ua">
-                        <label for="card_ua"></label>
-                    </div>
-                </div>
-                
-                <div class="payment-method" onclick="selectPaymentMethod('paypal')">
-                    <div class="payment-icon">
-                        <i class="fab fa-paypal"></i>
-                    </div>
-                    <div class="payment-info">
-                        <h4>PayPal</h4>
-                        <p>Pay with PayPal account</p>
-                    </div>
-                    <div class="payment-radio">
-                        <input type="radio" name="payment" value="paypal" id="paypal">
-                        <label for="paypal"></label>
-                    </div>
-                </div>
-                
-                <div class="payment-method" onclick="selectPaymentMethod('crypto')">
-                    <div class="payment-icon">
-                        <i class="fab fa-bitcoin"></i>
-                    </div>
-                    <div class="payment-info">
-                        <h4>Cryptocurrency</h4>
-                        <p>Bitcoin, Ethereum, USDT</p>
-                    </div>
-                    <div class="payment-radio">
-                        <input type="radio" name="payment" value="crypto" id="crypto">
-                        <label for="crypto"></label>
-                    </div>
-                </div>
-                
-                <div class="payment-method" onclick="selectPaymentMethod('euro')">
-                    <div class="payment-icon">
-                        <i class="fas fa-euro-sign"></i>
-                    </div>
-                    <div class="payment-info">
-                        <h4>Euro Transfer</h4>
-                        <p>SEPA bank transfer</p>
-                    </div>
-                    <div class="payment-radio">
-                        <input type="radio" name="payment" value="euro" id="euro">
-                        <label for="euro"></label>
-                    </div>
-                </div>
-            </div>
-            
-            <button class="auth-btn" onclick="confirmPayment()">Confirm Payment</button>
-            
-            <div class="auth-switch">
-                <a href="#" onclick="hidePaymentModal()">Cancel</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Auth Modal -->
-    <div class="auth-modal" id="authModal">
-        <div class="auth-content">
-            <div class="auth-header">
-                <h3>Welcome to Re:Zero Shop</h3>
-                <p>Sign in to continue shopping</p>
-            </div>
-            
-            <div class="auth-tabs">
-                <div class="auth-tab active" onclick="switchAuthTab('login')">Login</div>
-                <div class="auth-tab" onclick="switchAuthTab('register')">Register</div>
-            </div>
-
-            <!-- Login Form -->
-            <div class="auth-form active" id="loginForm">
-                <form onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label for="loginEmail">Email or Phone</label>
-                        <input type="text" id="loginEmail" placeholder="Enter your email or phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword">Password</label>
-                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
-                    </div>
-                    <button type="submit" class="auth-btn">Sign In</button>
-                </form>
-                
-                <div class="auth-switch">
-                    Don't have an account? <a href="#" onclick="switchAuthTab('register')">Sign up</a>
-                </div>
-            </div>
-
-            <!-- Register Form -->
-            <div class="auth-form" id="registerForm">
-                <form onsubmit="handleRegister(event)">
-                    <div class="form-group">
-                        <label for="registerName">Full Name</label>
-                        <input type="text" id="registerName" placeholder="Enter your full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registerEmail">Email</label>
-                        <input type="email" id="registerEmail" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registerPhone">Phone (Optional)</label>
-                        <input type="tel" id="registerPhone" placeholder="Enter your phone number">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerPassword">Password</label>
-                        <input type="password" id="registerPassword" placeholder="Create a password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="registerConfirmPassword">Confirm Password</label>
-                        <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
-                    </div>
-                    <button type="submit" class="auth-btn">Create Account</button>
-                </form>
-                
-                <div class="auth-switch">
-                    Already have an account? <a href="#" onclick="switchAuthTab('login')">Sign in</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
+                <div class="telegram-avatar" id="telegramAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
                 <div class="logo">
                     <i class="fas fa-magic"></i>
                     <div>
@@ -1928,10 +716,10 @@
                         <input type="text" placeholder="Поиск товаров...">
                     </div>
                     <div class="cart-btn" onclick="toggleCart()">
-                        <i class="fas fa-shopping-bag"></i>
+                        <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count" id="cartCount">0</span>
                     </div>
-                    <div class="menu-btn" onclick="toggleTelegramMenu()">
+                    <div class="menu-btn">
                         <i class="fas fa-bars"></i>
                     </div>
                 </div>
@@ -1943,30 +731,16 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content fade-in-up">
-                <h2>Re:Zero Shop</h2>
-                <p>Discover unique fashion items inspired by the world of Re:Zero. Each piece tells its own story and helps you create an unforgettable style.</p>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label">Products</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">10K+</div>
-                        <div class="stat-label">Happy Customers</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Support</div>
-                    </div>
-                </div>
+                <h2>Добро пожаловать в Re:Zero Shop</h2>
+                <p>Откройте для себя уникальную коллекцию модных товаров. Каждый предмет рассказывает свою историю и поможет вам создать неповторимый стиль.</p>
                 <div class="cta-buttons">
                     <a href="#products" class="btn btn-primary">
                         <i class="fas fa-shopping-bag"></i>
-                        Start Shopping
+                        Начать покупки
                     </a>
                     <a href="#categories" class="btn btn-secondary">
                         <i class="fas fa-th-large"></i>
-                        Categories
+                        Категории
                     </a>
                 </div>
             </div>
@@ -1978,33 +752,61 @@
         <div class="container">
             <h2 class="section-title">Категории товаров</h2>
             <div class="categories-grid">
-                <div class="category-card" onclick="filterProducts('clothing')">
+                <div class="category-card" onclick="filterProducts('women')">
                     <div class="category-icon">
-                        <i class="fas fa-tshirt"></i>
+                        <i class="fas fa-female"></i>
                     </div>
-                    <h3>Одежда</h3>
-                    <p>Стильная одежда для мужчин и женщин: платья, костюмы, джинсы, толстовки</p>
+                    <h3>Женская одежда</h3>
+                    <p>Платья, блузки, юбки, брюки и другая стильная женская одежда</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('men')">
+                    <div class="category-icon">
+                        <i class="fas fa-male"></i>
+                    </div>
+                    <h3>Мужская одежда</h3>
+                    <p>Рубашки, футболки, джинсы, костюмы и другая мужская одежда</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('shoes')">
+                    <div class="category-icon">
+                        <i class="fas fa-shoe-prints"></i>
+                    </div>
+                    <h3>Обувь</h3>
+                    <p>Кроссовки, туфли, сапоги, ботинки для любого случая</p>
                 </div>
                 <div class="category-card" onclick="filterProducts('accessories')">
                     <div class="category-icon">
                         <i class="fas fa-gem"></i>
                     </div>
                     <h3>Аксессуары</h3>
-                    <p>Украшения, часы, сумки, очки и другие аксессуары для завершения образа</p>
+                    <p>Сумки, украшения, часы, очки и другие аксессуары</p>
                 </div>
-                <div class="category-card" onclick="showProfile()">
+                <div class="category-card" onclick="filterProducts('bags')">
                     <div class="category-icon">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-shopping-bag"></i>
                     </div>
-                    <h3>Профиль</h3>
-                    <p>Личный кабинет, история заказов, избранные товары</p>
+                    <h3>Сумки</h3>
+                    <p>Рюкзаки, клатчи, сумки через плечо, кошельки</p>
                 </div>
-                <div class="category-card" onclick="showSettings()">
+                <div class="category-card" onclick="filterProducts('jewelry')">
                     <div class="category-icon">
-                        <i class="fas fa-cog"></i>
+                        <i class="fas fa-ring"></i>
                     </div>
-                    <h3>Настройки</h3>
-                    <p>Настройки аккаунта, уведомления, язык, тема</p>
+                    <h3>Украшения</h3>
+                    <p>Кольца, серьги, браслеты, ожерелья и подвески</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('watches')">
+                    <div class="category-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Часы</h3>
+                    <p>Наручные часы, умные часы, классические и спортивные модели</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('sport')">
+                    <div class="category-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Спорт</h3>
+                    <p>Спортивная одежда, обувь и аксессуары для активного образа жизни</p>
                 </div>
             </div>
         </div>
@@ -2043,271 +845,39 @@
         </div>
     </div>
 
-    <!-- Profile Modal -->
-    <div class="cart-modal" id="profileModal">
-        <div class="cart-content">
-            <div class="cart-header">
-                <h3>Личный профиль</h3>
-                <button class="close-cart" onclick="closeModal('profileModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="profile-content">
-                <div class="profile-avatar">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="profile-info">
-                    <h4>Пользователь</h4>
-                    <p>ID: 123456789</p>
-                </div>
-                <div class="profile-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">5</span>
-                        <span class="stat-label">Заказов</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">3</span>
-                        <span class="stat-label">Избранное</span>
-                    </div>
-                </div>
-                <div class="profile-actions">
-                    <button class="btn btn-primary" onclick="showOrderHistory()">
-                        <i class="fas fa-history"></i>
-                        История заказов
-                    </button>
-                    <button class="btn btn-secondary" onclick="showFavorites()">
-                        <i class="fas fa-heart"></i>
-                        Избранное
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div class="cart-modal" id="settingsModal">
-        <div class="cart-content">
-            <div class="cart-header">
-                <h3>Настройки</h3>
-                <button class="close-cart" onclick="closeModal('settingsModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="settings-content">
-                <div class="setting-group">
-                    <h4>Уведомления</h4>
-                    <div class="setting-item">
-                        <span>Push-уведомления</span>
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="setting-item">
-                        <span>Уведомления о заказах</span>
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="setting-group">
-                    <h4>Язык</h4>
-                    <select class="setting-select">
-                        <option value="ru">Русский</option>
-                        <option value="en">English</option>
-                    </select>
-                </div>
-                <div class="setting-group">
-                    <h4>Тема</h4>
-                    <select class="setting-select">
-                        <option value="dark">Темная</option>
-                        <option value="light">Светлая</option>
-                    </select>
-                </div>
-                <div class="setting-group">
-                    <h4>Валюта</h4>
-                    <select class="setting-select">
-                        <option value="rub">₽ Рубль</option>
-                        <option value="usd">$ Доллар</option>
-                        <option value="eur">€ Евро</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Info Modal -->
-    <div class="cart-modal" id="infoModal">
-        <div class="cart-content">
-            <div class="cart-header">
-                <h3>Информация</h3>
-                <button class="close-cart" onclick="closeModal('infoModal')">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="info-content">
-                <div class="info-section">
-                    <h4>About Store</h4>
-                    <p>Re:Zero Shop - modern online fashion store offering quality clothing and accessories at affordable prices with fast delivery across Europe.</p>
-                </div>
-                <div class="info-section">
-                    <h4>Delivery & Payment</h4>
-                    <p>• Free delivery for orders over €50<br>
-                    • Express delivery: 1-2 days<br>
-                    • Standard delivery across Europe: 3-7 days<br>
-                    • Payment by card, PayPal or bank transfer</p>
-                </div>
-                <div class="info-section">
-                    <h4>Returns</h4>
-                    <p>Returns are possible within 14 days of purchase while maintaining the product appearance and packaging.</p>
-                </div>
-                <div class="info-section">
-                    <h4>Contacts</h4>
-                    <p>📧 Email: re..zero.shop@gmail.com<br>
-                    💬 Telegram: @Re_Zero_Shop<br>
-                    📷 Instagram: @re_zero_shop<br>
-                    🎵 TikTok: @re.zero.shop</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Telegram Menu -->
-    <div class="menu-overlay" id="menuOverlay" onclick="toggleTelegramMenu()"></div>
-    <div class="telegram-menu" id="telegramMenu">
-        <div class="telegram-menu-header">
-            <div class="telegram-profile">
-                <div class="telegram-avatar" id="telegramAvatar">
-                    <i class="fas fa-user"></i>
-                </div>
-            </div>
-        </div>
-        <div class="telegram-menu-content">
-            <div class="menu-section" id="authSection">
-                <h5>Account</h5>
-                <div class="menu-item" id="authMenuItem" onclick="handleAuthAction(); toggleTelegramMenu();">
-                    <i class="fas fa-user" id="authIcon"></i>
-                    <span id="authText">Sign In</span>
-                </div>
-                <div class="menu-item" id="profileMenuItem" onclick="showProfile(); toggleTelegramMenu();" style="display: none;">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Profile</span>
-                </div>
-                <div class="menu-item" id="orderMenuItem" onclick="showOrderHistory(); toggleTelegramMenu();" style="display: none;">
-                    <i class="fas fa-history"></i>
-                    <span>Order History</span>
-                    <span class="menu-badge">3</span>
-                </div>
-                <div class="menu-item" id="favoritesMenuItem" onclick="showFavorites(); toggleTelegramMenu();" style="display: none;">
-                    <i class="fas fa-heart"></i>
-                    <span>Favorites</span>
-                    <span class="menu-badge">5</span>
-                </div>
-                <div class="menu-item" onclick="showAddressModal(); toggleTelegramMenu();">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Addresses</span>
-                </div>
-                <div class="menu-item" onclick="showPaymentModal(); toggleTelegramMenu();">
-                    <i class="fas fa-credit-card"></i>
-                    <span>Payment Methods</span>
-                </div>
-            </div>
-            
-            <div class="menu-section">
-                <h5>Shop</h5>
-                <div class="menu-item" onclick="filterProducts('clothing'); toggleTelegramMenu();">
-                    <i class="fas fa-tshirt"></i>
-                    <span>Clothing</span>
-                </div>
-                <div class="menu-item" onclick="filterProducts('accessories'); toggleTelegramMenu();">
-                    <i class="fas fa-gem"></i>
-                    <span>Accessories</span>
-                </div>
-                <div class="menu-item" onclick="toggleCart(); toggleTelegramMenu();">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>Cart</span>
-                    <span class="menu-badge" id="menuCartCount">0</span>
-                </div>
-            </div>
-            
-            <div class="menu-section">
-                <h5>Settings</h5>
-                <div class="menu-item" onclick="showSettings(); toggleTelegramMenu();">
-                    <i class="fas fa-cog"></i>
-                    <span>Settings</span>
-                </div>
-                <div class="menu-item" onclick="showInfo(); toggleTelegramMenu();">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Information</span>
-                </div>
-                <div class="menu-item">
-                    <i class="fas fa-globe"></i>
-                    <span>Language</span>
-                    <div class="language-selector">
-                        <button class="lang-btn active" onclick="changeLanguage('en')">EN</button>
-                        <button class="lang-btn" onclick="changeLanguage('ru')">RU</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="menu-section">
-                <h5>Support</h5>
-                <div class="menu-item" onclick="contactSupport(); toggleTelegramMenu();">
-                    <i class="fas fa-headset"></i>
-                    <span>Contact Support</span>
-                </div>
-                <div class="menu-item" onclick="contactBuyer(); toggleTelegramMenu();">
-                    <i class="fas fa-comments"></i>
-                    <span>Contact Buyer</span>
-                </div>
-                <div class="menu-item" onclick="shareApp(); toggleTelegramMenu();">
-                    <i class="fas fa-share"></i>
-                    <span>Share App</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>About Store</h4>
-                    <p>Re:Zero Shop - modern online fashion store offering quality clothing and accessories at affordable prices with fast delivery across Europe.</p>
+                    <h4>О магазине</h4>
+                    <p>Re:Zero Shop - ваш проводник в мир моды и стиля. Мы предлагаем качественные товары для создания неповторимого образа.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Help</h4>
-                    <p><a href="#" onclick="showInfo()">Delivery & Payment</a></p>
-                    <p><a href="#" onclick="showInfo()">Size Guide</a></p>
-                    <p><a href="#" onclick="showInfo()">Returns</a></p>
-                    <p><a href="#" onclick="showInfo()">Contacts</a></p>
+                    <h4>Помощь</h4>
+                    <p><a href="#">Доставка и оплата</a></p>
+                    <p><a href="#">Размеры</a></p>
+                    <p><a href="#">Возврат товара</a></p>
+                    <p><a href="#">Контакты</a></p>
                 </div>
                 <div class="footer-section">
-                    <h4>Follow Us</h4>
+                    <h4>Следите за нами</h4>
                     <div class="social-links">
-                        <a href="mailto:re..zero.shop@gmail.com" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
-                        <a href="https://t.me/Re_Zero_Shop" class="social-link" title="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="https://t.me/ZERO_952" class="social-link" title="Поддержка Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="https://t.me/re_zero_shop_bot" class="social-link" title="Чат Telegram"><i class="fab fa-telegram"></i></a>
                         <a href="https://www.instagram.com/re_zero_shop?igsh=MWtsdDBtaWRia2V1cQ==" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
                         <a href="https://www.tiktok.com/@re.zero.shop?_t=ZM-90V0S66SeBk&_r=1&fbclid=PAb21jcANb16NleHRuA2FlbQIxMQABp0QM0X8iTx6y3jziY4Nrrb5X6dtvweU9N3GnOY-Gxs4GG7Wip9vggRLvf0Tp_aem_WAbSaw0xlx0eVTSltw65bQ" class="social-link" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="mailto:re.zero.shop@gmail.com" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
             </div>
             <div style="border-top: 1px solid var(--border-color); padding-top: 20px; color: var(--text-gray);">
-                <p>&copy; 2025 Re:Zero Shop. All rights reserved.</p>
+                <p>&copy; 2024 Re:Zero Shop. Все права защищены.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Supabase Configuration
-        const SUPABASE_URL = 'https://fenqslbqkdpcbrvqjlwy.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlbnFzbGJxa2RwY2JydnFqbHd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0Nzk1NDAsImV4cCI6MjA3NjA1NTU0MH0.Bj1GACQ9BWmpkcwPmPcUBy2dE07t7z1Z0ogKzkoIvhU';
-        
-        // Initialize Supabase
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
         // Telegram WebApp API
         const tg = window.Telegram.WebApp;
         
@@ -2319,224 +889,264 @@
         tg.setHeaderColor('#6366f1');
         tg.setBackgroundColor('#111827');
 
-        // Global variables
-        let products = [];
-        let currentUser = null;
-        let isAuthenticated = false;
-        let loadingSteps = [
-            'Initializing...',
-            'Loading products...',
-            'Connecting to database...',
-            'Setting up user profile...',
-            'Almost ready...'
+        // Products data
+        const products = [
+            // Женская одежда
+            {
+                id: 1,
+                name: "Элегантное платье",
+                description: "Стильное платье для особых случаев из качественной ткани",
+                price: 4500,
+                category: "women",
+                icon: "👗"
+            },
+            {
+                id: 2,
+                name: "Блузка классическая",
+                description: "Универсальная блузка для офиса и повседневной носки",
+                price: 2500,
+                category: "women",
+                icon: "👚"
+            },
+            {
+                id: 3,
+                name: "Юбка-карандаш",
+                description: "Деловая юбка-карандаш в классическом стиле",
+                price: 3200,
+                category: "women",
+                icon: "👗"
+            },
+            {
+                id: 4,
+                name: "Джинсы скинни",
+                description: "Удобные джинсы скинни из эластичного денима",
+                price: 3800,
+                category: "women",
+                icon: "👖"
+            },
+            
+            // Мужская одежда
+            {
+                id: 5,
+                name: "Рубашка офисная",
+                description: "Классическая мужская рубашка для делового стиля",
+                price: 2800,
+                category: "men",
+                icon: "👔"
+            },
+            {
+                id: 6,
+                name: "Футболка базовая",
+                description: "Удобная хлопковая футболка для повседневной носки",
+                price: 1200,
+                category: "men",
+                icon: "👕"
+            },
+            {
+                id: 7,
+                name: "Костюм деловой",
+                description: "Классический мужской костюм для важных встреч",
+                price: 8500,
+                category: "men",
+                icon: "👔"
+            },
+            {
+                id: 8,
+                name: "Джинсы классические",
+                description: "Качественные мужские джинсы прямого кроя",
+                price: 3500,
+                category: "men",
+                icon: "👖"
+            },
+            
+            // Обувь
+            {
+                id: 9,
+                name: "Кроссовки спортивные",
+                description: "Удобные кроссовки для спорта и повседневной носки",
+                price: 4200,
+                category: "shoes",
+                icon: "👟"
+            },
+            {
+                id: 10,
+                name: "Туфли классические",
+                description: "Элегантные туфли для делового стиля",
+                price: 5500,
+                category: "shoes",
+                icon: "👞"
+            },
+            {
+                id: 11,
+                name: "Сапоги зимние",
+                description: "Теплые зимние сапоги из натуральной кожи",
+                price: 6800,
+                category: "shoes",
+                icon: "👢"
+            },
+            {
+                id: 12,
+                name: "Ботинки кожаные",
+                description: "Стильные кожаные ботинки для любого сезона",
+                price: 4800,
+                category: "shoes",
+                icon: "👞"
+            },
+            
+            // Аксессуары
+            {
+                id: 13,
+                name: "Солнечные очки",
+                description: "Стильные солнцезащитные очки с поляризацией",
+                price: 1800,
+                category: "accessories",
+                icon: "🕶️"
+            },
+            {
+                id: 14,
+                name: "Шарф шерстяной",
+                description: "Теплый шерстяной шарф для холодной погоды",
+                price: 1500,
+                category: "accessories",
+                icon: "🧣"
+            },
+            {
+                id: 15,
+                name: "Перчатки кожаные",
+                description: "Элегантные кожаные перчатки для зимы",
+                price: 2200,
+                category: "accessories",
+                icon: "🧤"
+            },
+            {
+                id: 16,
+                name: "Ремень кожаный",
+                description: "Качественный кожаный ремень с металлической пряжкой",
+                price: 1900,
+                category: "accessories",
+                icon: "👔"
+            },
+            
+            // Сумки
+            {
+                id: 17,
+                name: "Рюкзак городской",
+                description: "Стильный городской рюкзак для ежедневного использования",
+                price: 3200,
+                category: "bags",
+                icon: "🎒"
+            },
+            {
+                id: 18,
+                name: "Клатч вечерний",
+                description: "Элегантный клатч для вечерних выходов",
+                price: 2500,
+                category: "bags",
+                icon: "👜"
+            },
+            {
+                id: 19,
+                name: "Сумка через плечо",
+                description: "Удобная сумка через плечо для повседневной носки",
+                price: 2800,
+                category: "bags",
+                icon: "👜"
+            },
+            {
+                id: 20,
+                name: "Кошелек кожаный",
+                description: "Качественный кожаный кошелек с множеством отделений",
+                price: 1800,
+                category: "bags",
+                icon: "👛"
+            },
+            
+            // Украшения
+            {
+                id: 21,
+                name: "Кольцо серебряное",
+                description: "Элегантное серебряное кольцо с камнем",
+                price: 3500,
+                category: "jewelry",
+                icon: "💍"
+            },
+            {
+                id: 22,
+                name: "Серьги золотые",
+                description: "Стильные золотые серьги-гвоздики",
+                price: 4200,
+                category: "jewelry",
+                icon: "💎"
+            },
+            {
+                id: 23,
+                name: "Браслет кожаный",
+                description: "Модный кожаный браслет с металлическими элементами",
+                price: 1200,
+                category: "jewelry",
+                icon: "📿"
+            },
+            {
+                id: 24,
+                name: "Ожерелье жемчужное",
+                description: "Классическое жемчужное ожерелье",
+                price: 5500,
+                category: "jewelry",
+                icon: "📿"
+            },
+            
+            // Часы
+            {
+                id: 25,
+                name: "Часы наручные",
+                description: "Элегантные наручные часы с кожаным ремешком",
+                price: 8500,
+                category: "watches",
+                icon: "⌚"
+            },
+            {
+                id: 26,
+                name: "Умные часы",
+                description: "Современные умные часы с множеством функций",
+                price: 12000,
+                category: "watches",
+                icon: "⌚"
+            },
+            {
+                id: 27,
+                name: "Часы спортивные",
+                description: "Надежные спортивные часы для активного образа жизни",
+                price: 6500,
+                category: "watches",
+                icon: "⌚"
+            },
+            
+            // Спорт
+            {
+                id: 28,
+                name: "Спортивный костюм",
+                description: "Удобный спортивный костюм для тренировок",
+                price: 4500,
+                category: "sport",
+                icon: "👕"
+            },
+            {
+                id: 29,
+                name: "Кроссовки для бега",
+                description: "Профессиональные кроссовки для бега",
+                price: 5200,
+                category: "sport",
+                icon: "👟"
+            },
+            {
+                id: 30,
+                name: "Спортивная сумка",
+                description: "Вместительная спортивная сумка для тренировок",
+                price: 2200,
+                category: "sport",
+                icon: "🎒"
+            }
         ];
-        let currentStep = 0;
-
-        // Database Functions
-        async function initializeDatabase() {
-            try {
-                // Initialize products in database if not exists
-                await initializeProducts();
-                
-                // Load products from database
-                await loadProducts();
-                
-                // Initialize user
-                await initializeUser();
-                
-                console.log('Database initialized successfully');
-            } catch (error) {
-                console.error('Error initializing database:', error);
-                // Fallback to local products
-                loadLocalProducts();
-            }
-        }
-
-        async function initializeProducts() {
-            const { data: existingProducts } = await supabase
-                .from('products')
-                .select('*')
-                .limit(1);
-
-            if (!existingProducts || existingProducts.length === 0) {
-                const defaultProducts = [
-                    {
-                        name: "Classic Dress",
-                        description: "Elegant evening dress made from quality fabric",
-                        price: 45.00,
-                        category: "clothing",
-                        icon: "👗",
-                        image_url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
-                        stock: 10
-                    },
-                    {
-                        name: "Gold Ring",
-                        description: "Elegant gold ring with precious stone",
-                        price: 25.00,
-                        category: "accessories",
-                        icon: "💍",
-                        image_url: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400",
-                        stock: 15
-                    },
-                    {
-                        name: "Business Suit",
-                        description: "Stylish men's suit for office",
-                        price: 65.00,
-                        category: "clothing",
-                        icon: "👔",
-                        image_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
-                        stock: 8
-                    },
-                    {
-                        name: "Wrist Watch",
-                        description: "Elegant wrist watch with leather strap",
-                        price: 85.00,
-                        category: "accessories",
-                        icon: "⌚",
-                        image_url: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
-                        stock: 12
-                    },
-                    {
-                        name: "Sports Hoodie",
-                        description: "Comfortable hoodie for sports and casual wear",
-                        price: 32.00,
-                        category: "clothing",
-                        icon: "👕",
-                        image_url: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400",
-                        stock: 20
-                    },
-                    {
-                        name: "Silver Brooch",
-                        description: "Elegant silver brooch handmade",
-                        price: 18.00,
-                        category: "accessories",
-                        icon: "🦋",
-                        image_url: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400",
-                        stock: 25
-                    },
-                    {
-                        name: "Summer Dress",
-                        description: "Light summer dress made from natural cotton",
-                        price: 22.00,
-                        category: "clothing",
-                        icon: "👗",
-                        image_url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
-                        stock: 18
-                    },
-                    {
-                        name: "Leather Bag",
-                        description: "Stylish leather crossbody bag",
-                        price: 42.00,
-                        category: "accessories",
-                        icon: "👜",
-                        image_url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
-                        stock: 14
-                    },
-                    {
-                        name: "Classic Jeans",
-                        description: "Quality denim jeans",
-                        price: 28.00,
-                        category: "clothing",
-                        icon: "👖",
-                        image_url: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400",
-                        stock: 22
-                    },
-                    {
-                        name: "Sunglasses",
-                        description: "Stylish polarized sunglasses",
-                        price: 15.00,
-                        category: "accessories",
-                        icon: "🕶️",
-                        image_url: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",
-                        stock: 30
-                    }
-                ];
-
-                const { error } = await supabase
-                    .from('products')
-                    .insert(defaultProducts);
-
-                if (error) {
-                    console.error('Error inserting products:', error);
-                }
-            }
-        }
-
-        async function loadProducts() {
-            const { data, error } = await supabase
-                .from('products')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            if (error) {
-                console.error('Error loading products:', error);
-                loadLocalProducts();
-                return;
-            }
-
-            products = data || [];
-            renderProducts();
-        }
-
-        function loadLocalProducts() {
-            // Fallback local products
-            products = [
-                {
-                    id: 1,
-                    name: "Classic Dress",
-                    description: "Elegant evening dress made from quality fabric",
-                    price: 45.00,
-                    category: "clothing",
-                    icon: "👗",
-                    image_url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
-                    stock: 10
-                },
-                {
-                    id: 2,
-                    name: "Gold Ring",
-                    description: "Elegant gold ring with precious stone",
-                    price: 25.00,
-                    category: "accessories",
-                    icon: "💍",
-                    image_url: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400",
-                    stock: 15
-                }
-            ];
-            renderProducts();
-        }
-
-        async function initializeUser() {
-            const user = tg.initDataUnsafe?.user;
-            if (user) {
-                currentUser = {
-                    telegram_id: user.id,
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    username: user.username,
-                    language_code: user.language_code
-                };
-
-                // Check if user exists in database
-                const { data: existingUser } = await supabase
-                    .from('users')
-                    .select('*')
-                    .eq('telegram_id', user.id)
-                    .single();
-
-                if (!existingUser) {
-                    // Create new user
-                    const { error } = await supabase
-                        .from('users')
-                        .insert([currentUser]);
-
-                    if (error) {
-                        console.error('Error creating user:', error);
-                    }
-                } else {
-                    currentUser = existingUser;
-                }
-            }
-        }
 
         // Cart functionality
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -2548,24 +1158,9 @@
 
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
-            
-            if (!product) {
-                tg.showAlert('Product not found');
-                return;
-            }
-            
-            if (product.stock === 0) {
-                tg.showAlert('Product is out of stock');
-                return;
-            }
-            
             const existingItem = cart.find(item => item.id === productId);
             
             if (existingItem) {
-                if (existingItem.quantity >= product.stock) {
-                    tg.showAlert('Not enough stock available');
-                    return;
-                }
                 existingItem.quantity += 1;
             } else {
                 cart.push({...product, quantity: 1});
@@ -2575,7 +1170,7 @@
             updateCartCount();
             
             // Show success message
-            tg.showAlert('Item added to cart!');
+            tg.showAlert('Товар добавлен в корзину!');
         }
 
         function removeFromCart(productId) {
@@ -2612,19 +1207,17 @@
             const cartTotal = document.getElementById('cartTotal');
             
             if (cart.length === 0) {
-                cartItems.innerHTML = '<p style="text-align: center; color: var(--text-gray); padding: 20px;">Cart is empty</p>';
-                cartTotal.textContent = '€0.00';
+                cartItems.innerHTML = '<p style="text-align: center; color: var(--text-gray); padding: 20px;">Корзина пуста</p>';
+                cartTotal.textContent = '0 ₽';
                 return;
             }
             
             cartItems.innerHTML = cart.map(item => `
                 <div class="cart-item">
-                    <div class="cart-item-image" style="background-image: url('${item.image_url || 'https://via.placeholder.com/60x60?text=Product'}'); background-size: cover; background-position: center;">
-                        ${!item.image_url ? item.icon : ''}
-                    </div>
+                    <div class="cart-item-image">${item.icon}</div>
                     <div class="cart-item-info">
                         <div class="cart-item-title">${item.name}</div>
-                        <div class="cart-item-price">€${item.price.toFixed(2)}</div>
+                        <div class="cart-item-price">${item.price} ₽</div>
                     </div>
                     <div class="cart-item-controls">
                         <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
@@ -2638,175 +1231,25 @@
             `).join('');
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartTotal.textContent = `€${total.toFixed(2)}`;
+            cartTotal.textContent = `${total} ₽`;
         }
 
-        async function checkout() {
+        function checkout() {
             if (cart.length === 0) {
-                tg.showAlert('Cart is empty!');
+                tg.showAlert('Корзина пуста!');
                 return;
             }
             
-            if (!currentUser) {
-                tg.showAlert('Please login to place an order');
-                return;
-            }
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const message = `Заказ на сумму ${total} ₽ оформлен! Спасибо за покупку!`;
             
-            // Check if user has address and payment method
-            try {
-                const { data: addresses } = await supabase
-                    .from('addresses')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
-                    .limit(1);
-
-                const { data: paymentMethods } = await supabase
-                    .from('payment_methods')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
-                    .eq('is_default', true)
-                    .limit(1);
-
-                if (!addresses || addresses.length === 0) {
-                    tg.showAlert('Please add a delivery address first');
-                    showAddressModal();
-                    return;
-                }
-
-                if (!paymentMethods || paymentMethods.length === 0) {
-                    tg.showAlert('Please select a payment method first');
-                    showPaymentModal();
-                    return;
-                }
-
-                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                
-                // Create order in database
-                const orderData = {
-                    user_id: currentUser.id,
-                    telegram_id: currentUser.telegram_id,
-                    total_amount: total,
-                    status: 'pending',
-                    address_id: addresses[0].id,
-                    payment_method: paymentMethods[0].method,
-                    items: cart.map(item => ({
-                        product_id: item.id,
-                        quantity: item.quantity,
-                        price: item.price
-                    }))
-                };
-
-                const { data: order, error } = await supabase
-                    .from('orders')
-                    .insert([orderData])
-                    .select()
-                    .single();
-
-                if (error) {
-                    console.error('Error creating order:', error);
-                    tg.showAlert('Error creating order. Please try again.');
-                    return;
-                }
-
-                // Update product stock
-                for (const item of cart) {
-                    await supabase
-                        .from('products')
-                        .update({ stock: item.stock - item.quantity })
-                        .eq('id', item.id);
-                }
-
-                const message = `Order #${order.id} for €${total.toFixed(2)} placed successfully! Thank you for your purchase!`;
-                tg.showAlert(message);
-                
-                // Clear cart
-                cart = [];
-                localStorage.setItem('cart', JSON.stringify(cart));
-                updateCartCount();
-                toggleCart();
-                
-                // Reload products to update stock
-                await loadProducts();
-                
-            } catch (error) {
-                console.error('Checkout error:', error);
-                tg.showAlert('Error processing order. Please try again.');
-            }
-        }
-
-        // Favorites functionality
-        async function toggleFavorite(productId) {
-            if (!currentUser) {
-                tg.showAlert('Please login to add favorites');
-                return;
-            }
-
-            try {
-                const { data: existingFavorite } = await supabase
-                    .from('favorites')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
-                    .eq('product_id', productId)
-                    .single();
-
-                if (existingFavorite) {
-                    // Remove from favorites
-                    await supabase
-                        .from('favorites')
-                        .delete()
-                        .eq('id', existingFavorite.id);
-                    
-                    tg.showAlert('Removed from favorites');
-                } else {
-                    // Add to favorites
-                    await supabase
-                        .from('favorites')
-                        .insert([{
-                            user_id: currentUser.id,
-                            product_id: productId
-                        }]);
-                    
-                    tg.showAlert('Added to favorites');
-                }
-            } catch (error) {
-                console.error('Error toggling favorite:', error);
-            }
-        }
-
-        async function getFavorites() {
-            if (!currentUser) return [];
-
-            try {
-                const { data: favorites } = await supabase
-                    .from('favorites')
-                    .select(`
-                        *,
-                        products (*)
-                    `)
-                    .eq('user_id', currentUser.id);
-
-                return favorites || [];
-            } catch (error) {
-                console.error('Error getting favorites:', error);
-                return [];
-            }
-        }
-
-        async function getOrderHistory() {
-            if (!currentUser) return [];
-
-            try {
-                const { data: orders } = await supabase
-                    .from('orders')
-                    .select('*')
-                    .eq('user_id', currentUser.id)
-                    .order('created_at', { ascending: false });
-
-                return orders || [];
-            } catch (error) {
-                console.error('Error getting order history:', error);
-                return [];
-            }
+            tg.showAlert(message);
+            
+            // Clear cart
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            toggleCart();
         }
 
         function filterProducts(category) {
@@ -2818,22 +1261,16 @@
             const productsGrid = document.getElementById('productsGrid');
             productsGrid.innerHTML = productsToRender.map(product => `
                 <div class="product-card fade-in-up">
-                    <div class="product-image" style="background-image: url('${product.image_url || 'https://via.placeholder.com/300x200?text=Product'}'); background-size: cover; background-position: center;">
-                        <div class="product-overlay">
-                            <button class="favorite-btn" onclick="toggleFavorite(${product.id})" title="Add to favorites">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                            ${product.stock <= 5 ? '<span class="low-stock">Low Stock</span>' : ''}
-                        </div>
+                    <div class="product-image">
+                        ${product.icon}
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">${product.name}</h3>
                         <p class="product-description">${product.description}</p>
-                        <div class="product-price">€${product.price.toFixed(2)}</div>
-                        <div class="product-stock">Stock: ${product.stock}</div>
-                        <button class="add-to-cart" onclick="addToCart(${product.id})" ${product.stock === 0 ? 'disabled' : ''}>
+                        <div class="product-price">${product.price} ₽</div>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})">
                             <i class="fas fa-shopping-cart"></i>
-                            ${product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                            Добавить в корзину
                         </button>
                     </div>
                 </div>
@@ -2849,72 +1286,37 @@
             renderProducts(filteredProducts);
         }
 
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Start loading sequence
-            const loadingInterval = setInterval(updateLoadingText, 600);
+        // Update Telegram avatar
+        function updateTelegramAvatar() {
+            const user = tg.initDataUnsafe?.user;
+            const avatar = document.getElementById('telegramAvatar');
             
-            try {
-                // Step 1: Detect language
-                currentLanguage = detectLanguage();
-                updateLanguage();
-                
-                // Step 2: Check authentication
-                await checkAuthStatus();
-                
-                // Step 3: Initialize database
-                await initializeDatabase();
-                
-                // Step 4: Update UI
-                updateCartCount();
-                updateTelegramProfile();
-                updateAuthButton();
-                
-                // Step 5: Setup event listeners
-                setupEventListeners();
-                
-                // Complete loading
-                clearInterval(loadingInterval);
-                hideLoadingScreen();
-                
-            } catch (error) {
-                console.error('Initialization error:', error);
-                clearInterval(loadingInterval);
-                hideLoadingScreen();
+            if (user && user.photo_url) {
+                avatar.style.backgroundImage = `url(${user.photo_url})`;
+                avatar.style.backgroundSize = 'cover';
+                avatar.style.backgroundPosition = 'center';
+                avatar.innerHTML = '';
+            } else {
+                avatar.innerHTML = '<i class="fas fa-user"></i>';
             }
-        });
+        }
 
-        function setupEventListeners() {
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            renderProducts();
+            updateTelegramAvatar();
+            
             // Search input
             const searchInput = document.querySelector('.search-box input');
-            if (searchInput) {
-                searchInput.addEventListener('input', (e) => {
-                    searchProducts(e.target.value);
-                });
-            }
+            searchInput.addEventListener('input', (e) => {
+                searchProducts(e.target.value);
+            });
             
-            // Close modals when clicking outside
+            // Close cart modal when clicking outside
             document.getElementById('cartModal').addEventListener('click', (e) => {
                 if (e.target.id === 'cartModal') {
                     toggleCart();
-                }
-            });
-            
-            document.getElementById('authModal').addEventListener('click', (e) => {
-                if (e.target.id === 'authModal') {
-                    hideAuthModal();
-                }
-            });
-            
-            document.getElementById('addressModal').addEventListener('click', (e) => {
-                if (e.target.id === 'addressModal') {
-                    hideAddressModal();
-                }
-            });
-            
-            document.getElementById('paymentModal').addEventListener('click', (e) => {
-                if (e.target.id === 'paymentModal') {
-                    hidePaymentModal();
                 }
             });
             
@@ -2931,7 +1333,7 @@
                     }
                 });
             });
-        }
+        });
 
         // Telegram WebApp events
         tg.onEvent('mainButtonClicked', function() {
@@ -2963,635 +1365,6 @@
 
         // Initialize main button
         updateMainButton();
-
-        // Modal functions
-        function showProfile() {
-            document.getElementById('profileModal').style.display = 'flex';
-        }
-
-        function showSettings() {
-            document.getElementById('settingsModal').style.display = 'flex';
-        }
-
-        function showInfo() {
-            document.getElementById('infoModal').style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        async function showOrderHistory() {
-            if (!currentUser) {
-                tg.showAlert('Please login to view order history');
-                return;
-            }
-
-            try {
-                const orders = await getOrderHistory();
-                
-                if (orders.length === 0) {
-                    tg.showAlert('No orders found');
-                    return;
-                }
-
-                let message = 'Order History:\n\n';
-                orders.slice(0, 5).forEach(order => {
-                    const date = new Date(order.created_at).toLocaleDateString();
-                    message += `#${order.id} - €${order.total_amount.toFixed(2)}\n`;
-                    message += `Status: ${order.status}\n`;
-                    message += `Date: ${date}\n\n`;
-                });
-
-                tg.showAlert(message);
-            } catch (error) {
-                console.error('Error showing order history:', error);
-                tg.showAlert('Error loading order history');
-            }
-        }
-
-        async function showFavorites() {
-            if (!currentUser) {
-                tg.showAlert('Please login to view favorites');
-                return;
-            }
-
-            try {
-                const favorites = await getFavorites();
-                
-                if (favorites.length === 0) {
-                    tg.showAlert('No favorites found');
-                    return;
-                }
-
-                let message = 'Favorite Items:\n\n';
-                favorites.slice(0, 5).forEach(fav => {
-                    const product = fav.products;
-                    message += `• ${product.name} - €${product.price.toFixed(2)}\n`;
-                });
-
-                tg.showAlert(message);
-            } catch (error) {
-                console.error('Error showing favorites:', error);
-                tg.showAlert('Error loading favorites');
-            }
-        }
-
-        // Close modals when clicking outside
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('cart-modal')) {
-                e.target.style.display = 'none';
-            }
-        });
-
-        // Telegram Menu Functions
-        function toggleTelegramMenu() {
-            const menu = document.getElementById('telegramMenu');
-            const overlay = document.getElementById('menuOverlay');
-            
-            menu.classList.toggle('active');
-            overlay.classList.toggle('active');
-            
-            // Update Telegram profile info
-            updateTelegramProfile();
-        }
-
-        function updateTelegramProfile() {
-            const user = tg.initDataUnsafe?.user;
-            if (user) {
-                // Update avatar with user's photo if available
-                const avatar = document.getElementById('telegramAvatar');
-                if (user.photo_url) {
-                    avatar.style.backgroundImage = `url(${user.photo_url})`;
-                    avatar.style.backgroundSize = 'cover';
-                    avatar.innerHTML = '';
-                } else {
-                    avatar.innerHTML = '<i class="fas fa-user"></i>';
-                }
-            }
-        }
-
-        // Language Detection and Functions
-        let currentLanguage = 'en';
-        
-        function detectLanguage() {
-            // Priority: Telegram language > Browser language > Default English
-            const telegramUser = tg.initDataUnsafe?.user;
-            if (telegramUser?.language_code) {
-                const lang = telegramUser.language_code.toLowerCase();
-                if (lang.startsWith('ru')) return 'ru';
-                if (lang.startsWith('en')) return 'en';
-            }
-            
-            // Browser language detection
-            const browserLang = navigator.language || navigator.userLanguage;
-            if (browserLang.startsWith('ru')) return 'ru';
-            if (browserLang.startsWith('en')) return 'en';
-            
-            // Timezone-based detection
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            if (timezone.includes('Europe/Moscow') || timezone.includes('Europe/Kiev')) return 'ru';
-            
-            return 'en'; // Default fallback
-        }
-
-        const translations = {
-            en: {
-                welcome: "Re:Zero Shop",
-                slogan: "Discover unique fashion items inspired by the world of Re:Zero. Each piece tells its own story and helps you create an unforgettable style.",
-                startShopping: "Start Shopping",
-                categories: "Categories",
-                popularProducts: "Popular Products",
-                clothing: "Clothing",
-                accessories: "Accessories",
-                profile: "Profile",
-                settings: "Settings",
-                addToCart: "Add to Cart",
-                cart: "Cart",
-                checkout: "Checkout",
-                total: "Total",
-                orderPlaced: "Order placed! Thank you for your purchase!",
-                itemAdded: "Item added to cart!",
-                cartEmpty: "Cart is empty!",
-                loading: "Loading...",
-                initializing: "Initializing...",
-                loadingProducts: "Loading products...",
-                connectingDB: "Connecting to database...",
-                settingProfile: "Setting up user profile...",
-                almostReady: "Almost ready...",
-                signIn: "Sign In",
-                signUp: "Sign Up",
-                signOut: "Sign Out",
-                email: "Email",
-                password: "Password",
-                fullName: "Full Name",
-                phone: "Phone",
-                confirmPassword: "Confirm Password",
-                continueWithGoogle: "Continue with Google",
-                dontHaveAccount: "Don't have an account?",
-                alreadyHaveAccount: "Already have an account?",
-                signUpLink: "Sign up",
-                signInLink: "Sign in",
-                products: "Products",
-                customers: "Happy Customers",
-                support: "Support"
-            },
-            ru: {
-                welcome: "Re:Zero Shop",
-                slogan: "Откройте для себя уникальные модные товары, вдохновленные миром Re:Zero. Каждый предмет рассказывает свою историю и поможет вам создать неповторимый стиль.",
-                startShopping: "Начать покупки",
-                categories: "Категории",
-                popularProducts: "Популярные товары",
-                clothing: "Одежда",
-                accessories: "Аксессуары",
-                profile: "Профиль",
-                settings: "Настройки",
-                addToCart: "Добавить в корзину",
-                cart: "Корзина",
-                checkout: "Оформить заказ",
-                total: "Итого",
-                orderPlaced: "Заказ оформлен! Спасибо за покупку!",
-                itemAdded: "Товар добавлен в корзину!",
-                cartEmpty: "Корзина пуста!",
-                loading: "Загрузка...",
-                initializing: "Инициализация...",
-                loadingProducts: "Загрузка товаров...",
-                connectingDB: "Подключение к базе данных...",
-                settingProfile: "Настройка профиля пользователя...",
-                almostReady: "Почти готово...",
-                signIn: "Войти",
-                signUp: "Регистрация",
-                signOut: "Выйти",
-                email: "Email",
-                password: "Пароль",
-                fullName: "Полное имя",
-                phone: "Телефон",
-                confirmPassword: "Подтвердите пароль",
-                continueWithGoogle: "Продолжить с Google",
-                dontHaveAccount: "Нет аккаунта?",
-                alreadyHaveAccount: "Уже есть аккаунт?",
-                signUpLink: "Зарегистрироваться",
-                signInLink: "Войти",
-                products: "Товаров",
-                customers: "Довольных клиентов",
-                support: "Поддержка"
-            }
-        };
-
-        function changeLanguage(lang) {
-            currentLanguage = lang;
-            
-            // Update language buttons
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update text content
-            updateLanguage();
-        }
-
-        function updateLanguage() {
-            const t = translations[currentLanguage];
-            
-            // Update loading screen
-            const loadingText = document.getElementById('loadingText');
-            if (loadingText) {
-                loadingText.textContent = t.loading;
-            }
-            
-            // Update loading steps
-            loadingSteps = [
-                t.initializing,
-                t.loadingProducts,
-                t.connectingDB,
-                t.settingProfile,
-                t.almostReady
-            ];
-            
-            // Update main content
-            const heroTitle = document.querySelector('.hero h2');
-            const heroDescription = document.querySelector('.hero p');
-            const startBtn = document.querySelector('.btn-primary');
-            const categoriesBtn = document.querySelector('.btn-secondary');
-            const categoriesTitle = document.querySelector('#categories .section-title');
-            const productsTitle = document.querySelector('#products .section-title');
-            
-            if (heroTitle) heroTitle.textContent = t.welcome;
-            if (heroDescription) heroDescription.textContent = t.slogan;
-            if (startBtn) startBtn.innerHTML = `<i class="fas fa-shopping-bag"></i> ${t.startShopping}`;
-            if (categoriesBtn) categoriesBtn.innerHTML = `<i class="fas fa-th-large"></i> ${t.categories}`;
-            if (categoriesTitle) categoriesTitle.textContent = t.categories;
-            if (productsTitle) productsTitle.textContent = t.popularProducts;
-            
-            // Update hero stats
-            const statLabels = document.querySelectorAll('.hero-stats .stat-label');
-            if (statLabels[0]) statLabels[0].textContent = t.products;
-            if (statLabels[1]) statLabels[1].textContent = t.customers;
-            if (statLabels[2]) statLabels[2].textContent = t.support;
-            
-            // Update category cards
-            const categoryCards = document.querySelectorAll('.category-card');
-            if (categoryCards[0]) categoryCards[0].querySelector('h3').textContent = t.clothing;
-            if (categoryCards[1]) categoryCards[1].querySelector('h3').textContent = t.accessories;
-            if (categoryCards[2]) categoryCards[2].querySelector('h3').textContent = t.profile;
-            if (categoryCards[3]) categoryCards[3].querySelector('h3').textContent = t.settings;
-            
-            // Update auth modal
-            updateAuthModalLanguage(t);
-        }
-
-        function updateAuthModalLanguage(t) {
-            // Update auth tabs
-            const loginTab = document.querySelector('[onclick="switchAuthTab(\'login\')"]');
-            const registerTab = document.querySelector('[onclick="switchAuthTab(\'register\')"]');
-            if (loginTab) loginTab.textContent = t.signIn;
-            if (registerTab) registerTab.textContent = t.signUp;
-            
-            // Update form labels and placeholders
-            const loginEmail = document.getElementById('loginEmail');
-            const loginPassword = document.getElementById('loginPassword');
-            const registerName = document.getElementById('registerName');
-            const registerEmail = document.getElementById('registerEmail');
-            const registerPhone = document.getElementById('registerPhone');
-            const registerPassword = document.getElementById('registerPassword');
-            const registerConfirmPassword = document.getElementById('registerConfirmPassword');
-            
-            if (loginEmail) {
-                loginEmail.placeholder = currentLanguage === 'ru' ? 'Введите email или телефон' : 'Enter your email or phone';
-            }
-            if (loginPassword) {
-                loginPassword.placeholder = currentLanguage === 'ru' ? 'Введите пароль' : 'Enter your password';
-            }
-            if (registerName) {
-                registerName.placeholder = currentLanguage === 'ru' ? 'Введите полное имя' : 'Enter your full name';
-            }
-            if (registerEmail) {
-                registerEmail.placeholder = currentLanguage === 'ru' ? 'Введите email' : 'Enter your email';
-            }
-            if (registerPhone) {
-                registerPhone.placeholder = currentLanguage === 'ru' ? 'Введите номер телефона' : 'Enter your phone number';
-            }
-            if (registerPassword) {
-                registerPassword.placeholder = currentLanguage === 'ru' ? 'Создайте пароль' : 'Create a password';
-            }
-            if (registerConfirmPassword) {
-                registerConfirmPassword.placeholder = currentLanguage === 'ru' ? 'Подтвердите пароль' : 'Confirm your password';
-            }
-        }
-
-        // Additional Functions
-        function contactSupport() {
-            tg.openTelegramLink('https://t.me/Re_Zero_Shop');
-        }
-
-        function contactBuyer() {
-            tg.openTelegramLink('https://t.me/ZERO_952');
-        }
-
-        function shareApp() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Re:Zero Shop',
-                    text: 'Check out this amazing fashion store!',
-                    url: window.location.href
-                });
-            } else {
-                tg.showAlert('Share this app with your friends!');
-            }
-        }
-
-        // Address Functions
-        function showAddressModal() {
-            document.getElementById('addressModal').style.display = 'flex';
-        }
-
-        function hideAddressModal() {
-            document.getElementById('addressModal').style.display = 'none';
-        }
-
-        async function saveAddress(event) {
-            event.preventDefault();
-            
-            const addressData = {
-                name: document.getElementById('addressName').value,
-                country: document.getElementById('addressCountry').value,
-                city: document.getElementById('addressCity').value,
-                street: document.getElementById('addressStreet').value,
-                postal: document.getElementById('addressPostal').value,
-                phone: document.getElementById('addressPhone').value,
-                notes: document.getElementById('addressNotes').value
-            };
-
-            try {
-                if (!currentUser) {
-                    tg.showAlert('Please sign in to save addresses');
-                    return;
-                }
-
-                const { error } = await supabase
-                    .from('addresses')
-                    .insert([{
-                        user_id: currentUser.id,
-                        ...addressData
-                    }]);
-
-                if (error) throw error;
-
-                tg.showAlert('Address saved successfully!');
-                hideAddressModal();
-                
-                // Clear form
-                document.getElementById('addressName').value = '';
-                document.getElementById('addressCountry').value = '';
-                document.getElementById('addressCity').value = '';
-                document.getElementById('addressStreet').value = '';
-                document.getElementById('addressPostal').value = '';
-                document.getElementById('addressPhone').value = '';
-                document.getElementById('addressNotes').value = '';
-
-            } catch (error) {
-                console.error('Error saving address:', error);
-                tg.showAlert('Error saving address. Please try again.');
-            }
-        }
-
-        // Payment Functions
-        function showPaymentModal() {
-            document.getElementById('paymentModal').style.display = 'flex';
-        }
-
-        function hidePaymentModal() {
-            document.getElementById('paymentModal').style.display = 'none';
-        }
-
-        function selectPaymentMethod(method) {
-            // Remove selected class from all methods
-            document.querySelectorAll('.payment-method').forEach(el => {
-                el.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked method
-            event.currentTarget.classList.add('selected');
-            
-            // Check the radio button
-            document.getElementById(method).checked = true;
-        }
-
-        async function confirmPayment() {
-            const selectedPayment = document.querySelector('input[name="payment"]:checked');
-            
-            if (!selectedPayment) {
-                tg.showAlert('Please select a payment method');
-                return;
-            }
-
-            try {
-                if (!currentUser) {
-                    tg.showAlert('Please sign in to save payment methods');
-                    return;
-                }
-
-                const paymentData = {
-                    user_id: currentUser.id,
-                    method: selectedPayment.value,
-                    is_default: true
-                };
-
-                const { error } = await supabase
-                    .from('payment_methods')
-                    .upsert([paymentData]);
-
-                if (error) throw error;
-
-                tg.showAlert('Payment method saved successfully!');
-                hidePaymentModal();
-
-            } catch (error) {
-                console.error('Error saving payment method:', error);
-                tg.showAlert('Error saving payment method. Please try again.');
-            }
-        }
-
-        // Update cart count in menu
-        function updateMenuCartCount() {
-            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('menuCartCount').textContent = count;
-        }
-
-        // Override cart functions to update menu
-        const originalUpdateCartCount = updateCartCount;
-        updateCartCount = function() {
-            originalUpdateCartCount();
-            updateMenuCartCount();
-        };
-
-        // Loading Screen Functions
-        function updateLoadingText() {
-            const loadingText = document.getElementById('loadingText');
-            if (loadingText && currentStep < loadingSteps.length) {
-                loadingText.textContent = loadingSteps[currentStep];
-                currentStep++;
-            }
-        }
-
-        function hideLoadingScreen() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            if (loadingScreen) {
-                setTimeout(() => {
-                    loadingScreen.classList.add('hidden');
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                    }, 500);
-                }, 1000);
-            }
-        }
-
-        // Auth Functions
-        function handleAuthAction() {
-            if (isAuthenticated) {
-                // Show logout option
-                if (confirm('Do you want to sign out?')) {
-                    signOut();
-                }
-                return;
-            }
-            document.getElementById('authModal').style.display = 'flex';
-        }
-
-        function hideAuthModal() {
-            document.getElementById('authModal').style.display = 'none';
-        }
-
-        function switchAuthTab(tab) {
-            // Update tabs
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            document.querySelector(`[onclick="switchAuthTab('${tab}')"]`).classList.add('active');
-            
-            // Update forms
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            document.getElementById(tab + 'Form').classList.add('active');
-        }
-
-        async function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            try {
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-                
-                if (error) throw error;
-                
-                isAuthenticated = true;
-                currentUser = data.user;
-                updateAuthButton();
-                hideAuthModal();
-                tg.showAlert('Successfully signed in!');
-                
-            } catch (error) {
-                tg.showAlert('Login failed: ' + error.message);
-            }
-        }
-
-        async function handleRegister(event) {
-            event.preventDefault();
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const phone = document.getElementById('registerPhone').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                tg.showAlert('Passwords do not match!');
-                return;
-            }
-            
-            try {
-                const { data, error } = await supabase.auth.signUp({
-                    email: email,
-                    password: password,
-                    options: {
-                        data: {
-                            full_name: name,
-                            phone: phone
-                        }
-                    }
-                });
-                
-                if (error) throw error;
-                
-                tg.showAlert('Registration successful! Please check your email to verify your account.');
-                switchAuthTab('login');
-                
-            } catch (error) {
-                tg.showAlert('Registration failed: ' + error.message);
-            }
-        }
-
-
-        async function signOut() {
-            try {
-                const { error } = await supabase.auth.signOut();
-                if (error) throw error;
-                
-                isAuthenticated = false;
-                currentUser = null;
-                updateAuthButton();
-                tg.showAlert('Successfully signed out!');
-                
-            } catch (error) {
-                tg.showAlert('Sign out failed: ' + error.message);
-            }
-        }
-
-        function updateAuthButton() {
-            const authIcon = document.getElementById('authIcon');
-            const authText = document.getElementById('authText');
-            const authMenuItem = document.getElementById('authMenuItem');
-            const profileMenuItem = document.getElementById('profileMenuItem');
-            const orderMenuItem = document.getElementById('orderMenuItem');
-            const favoritesMenuItem = document.getElementById('favoritesMenuItem');
-            
-            if (isAuthenticated) {
-                // Show authenticated state
-                if (authIcon) authIcon.className = 'fas fa-sign-out-alt';
-                if (authText) authText.textContent = 'Sign Out';
-                if (authMenuItem) authMenuItem.title = 'Sign Out';
-                
-                // Show profile menu items
-                if (profileMenuItem) profileMenuItem.style.display = 'flex';
-                if (orderMenuItem) orderMenuItem.style.display = 'flex';
-                if (favoritesMenuItem) favoritesMenuItem.style.display = 'flex';
-            } else {
-                // Show unauthenticated state
-                if (authIcon) authIcon.className = 'fas fa-user';
-                if (authText) authText.textContent = 'Sign In';
-                if (authMenuItem) authMenuItem.title = 'Sign In';
-                
-                // Hide profile menu items
-                if (profileMenuItem) profileMenuItem.style.display = 'none';
-                if (orderMenuItem) orderMenuItem.style.display = 'none';
-                if (favoritesMenuItem) favoritesMenuItem.style.display = 'none';
-            }
-        }
-
-        // Check authentication status
-        async function checkAuthStatus() {
-            try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (user) {
-                    isAuthenticated = true;
-                    currentUser = user;
-                    updateAuthButton();
-                }
-            } catch (error) {
-                console.error('Auth check error:', error);
-            }
-        }
     </script>
 </body>
 </html>
