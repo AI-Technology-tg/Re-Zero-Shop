@@ -429,6 +429,26 @@
             box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
         }
 
+        .quick-order-btn {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .quick-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
+        }
+
         /* Cart Modal */
         .cart-modal {
             position: fixed;
@@ -1186,8 +1206,54 @@
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
             
-            // Show success message
-            tg.showAlert('Товар добавлен в корзину!');
+            // Show success message with quick order option
+            tg.showConfirm(
+                `${product.name} добавлен в корзину!\n\nХотите сразу оформить заказ?`,
+                (confirmed) => {
+                    if (confirmed) {
+                        quickOrder(productId);
+                    }
+                }
+            );
+        }
+
+        function quickOrder(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const total = product.price;
+            
+            // Формируем сообщение для бота
+            let orderMessage = `🛒 *БЫСТРЫЙ ЗАКАЗ*\n\n`;
+            orderMessage += `👤 *Покупатель:* ${tg.initDataUnsafe?.user?.first_name || 'Пользователь'}\n`;
+            orderMessage += `🆔 *ID:* ${tg.initDataUnsafe?.user?.id || 'Неизвестно'}\n\n`;
+            orderMessage += `📦 *Товар:*\n`;
+            orderMessage += `• ${product.name} × 1 = ${product.price} ₽\n\n`;
+            orderMessage += `💰 *Итого: ${total} ₽*\n`;
+            orderMessage += `📅 *Дата:* ${new Date().toLocaleString('ru-RU')}\n\n`;
+            orderMessage += `📞 *Для оформления заказа перейдите в бота:*`;
+            
+            // Открываем бота с готовым сообщением
+            const botUrl = `https://t.me/re_zero_shop_bot?start=quick_order_${productId}_${Date.now()}`;
+            
+            // Показываем подтверждение
+            tg.showConfirm(
+                `Оформить заказ "${product.name}" на ${total} ₽?\n\nВы будете перенаправлены в Telegram бота для завершения заказа.`,
+                (confirmed) => {
+                    if (confirmed) {
+                        // Открываем бота
+                        tg.openTelegramLink(botUrl);
+                        
+                        // Удаляем товар из корзины
+                        removeFromCart(productId);
+                        
+                        // Показываем уведомление
+                        setTimeout(() => {
+                            tg.showAlert('Заказ отправлен в бота! Проверьте Telegram.');
+                        }, 1000);
+                    }
+                }
+            );
         }
 
         function removeFromCart(productId) {
@@ -1258,15 +1324,45 @@
             }
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const message = `Заказ на сумму ${total} ₽ оформлен! Спасибо за покупку!`;
             
-            tg.showAlert(message);
+            // Формируем сообщение для бота
+            let orderMessage = `🛒 *НОВЫЙ ЗАКАЗ*\n\n`;
+            orderMessage += `👤 *Покупатель:* ${tg.initDataUnsafe?.user?.first_name || 'Пользователь'}\n`;
+            orderMessage += `🆔 *ID:* ${tg.initDataUnsafe?.user?.id || 'Неизвестно'}\n\n`;
+            orderMessage += `📦 *Товары:*\n`;
             
-            // Clear cart
-            cart = [];
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-            toggleCart();
+            cart.forEach(item => {
+                orderMessage += `• ${item.name} × ${item.quantity} = ${item.price * item.quantity} ₽\n`;
+            });
+            
+            orderMessage += `\n💰 *Итого: ${total} ₽*\n`;
+            orderMessage += `📅 *Дата:* ${new Date().toLocaleString('ru-RU')}\n\n`;
+            orderMessage += `📞 *Для оформления заказа перейдите в бота:*`;
+            
+            // Открываем бота с готовым сообщением
+            const botUrl = `https://t.me/re_zero_shop_bot?start=order_${Date.now()}`;
+            
+            // Показываем подтверждение
+            tg.showConfirm(
+                `Оформить заказ на ${total} ₽?\n\nВы будете перенаправлены в Telegram бота для завершения заказа.`,
+                (confirmed) => {
+                    if (confirmed) {
+                        // Открываем бота
+                        tg.openTelegramLink(botUrl);
+                        
+                        // Очищаем корзину после подтверждения
+                        cart = [];
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        updateCartCount();
+                        toggleCart();
+                        
+                        // Показываем уведомление
+                        setTimeout(() => {
+                            tg.showAlert('Заказ отправлен в бота! Проверьте Telegram.');
+                        }, 1000);
+                    }
+                }
+            );
         }
 
         function filterProducts(category) {
@@ -1285,10 +1381,16 @@
                         <h3 class="product-title">${product.name}</h3>
                         <p class="product-description">${product.description}</p>
                         <div class="product-price">${product.price} ₽</div>
-                        <button class="add-to-cart" onclick="addToCart(${product.id})">
-                            <i class="fas fa-shopping-cart"></i>
-                            Добавить в корзину
-                        </button>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="add-to-cart" onclick="addToCart(${product.id})" style="flex: 1;">
+                                <i class="fas fa-shopping-cart"></i>
+                                В корзину
+                            </button>
+                            <button class="quick-order-btn" onclick="quickOrder(${product.id})" style="flex: 1; background: var(--gradient-accent);">
+                                <i class="fas fa-bolt"></i>
+                                Заказать
+                            </button>
+                        </div>
                     </div>
                 </div>
             `).join('');
