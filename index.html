@@ -1279,6 +1279,107 @@
             text-decoration: underline;
         }
 
+        /* Address and Payment Modal Styles */
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .payment-methods {
+            margin-bottom: 30px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(31, 41, 55, 0.3);
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-info h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .payment-info p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .payment-radio {
+            position: relative;
+        }
+
+        .payment-radio input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
         /* Profile Modal Styles */
         .profile-content {
             text-align: center;
@@ -1596,6 +1697,152 @@
         <div class="loading-text" id="loadingText">Loading...</div>
         <div class="loading-progress">
             <div class="loading-progress-bar"></div>
+        </div>
+    </div>
+
+    <!-- Address Modal -->
+    <div class="auth-modal" id="addressModal">
+        <div class="auth-content">
+            <div class="auth-header">
+                <h3>Delivery Address</h3>
+                <p>Add or edit your delivery address</p>
+            </div>
+            
+            <form onsubmit="saveAddress(event)">
+                <div class="form-group">
+                    <label for="addressName">Address Name</label>
+                    <input type="text" id="addressName" placeholder="Home, Work, etc." required>
+                </div>
+                <div class="form-group">
+                    <label for="addressCountry">Country</label>
+                    <select id="addressCountry" required>
+                        <option value="">Select Country</option>
+                        <option value="UA">Ukraine</option>
+                        <option value="PL">Poland</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+                        <option value="IT">Italy</option>
+                        <option value="ES">Spain</option>
+                        <option value="NL">Netherlands</option>
+                        <option value="BE">Belgium</option>
+                        <option value="AT">Austria</option>
+                        <option value="CZ">Czech Republic</option>
+                        <option value="SK">Slovakia</option>
+                        <option value="HU">Hungary</option>
+                        <option value="RO">Romania</option>
+                        <option value="BG">Bulgaria</option>
+                        <option value="HR">Croatia</option>
+                        <option value="SI">Slovenia</option>
+                        <option value="LT">Lithuania</option>
+                        <option value="LV">Latvia</option>
+                        <option value="EE">Estonia</option>
+                        <option value="FI">Finland</option>
+                        <option value="SE">Sweden</option>
+                        <option value="DK">Denmark</option>
+                        <option value="NO">Norway</option>
+                        <option value="CH">Switzerland</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="addressCity">City</label>
+                    <input type="text" id="addressCity" placeholder="Enter city" required>
+                </div>
+                <div class="form-group">
+                    <label for="addressStreet">Street Address</label>
+                    <input type="text" id="addressStreet" placeholder="Street, house number, apartment" required>
+                </div>
+                <div class="form-group">
+                    <label for="addressPostal">Postal Code</label>
+                    <input type="text" id="addressPostal" placeholder="Postal code" required>
+                </div>
+                <div class="form-group">
+                    <label for="addressPhone">Phone Number</label>
+                    <input type="tel" id="addressPhone" placeholder="+380123456789" required>
+                </div>
+                <div class="form-group">
+                    <label for="addressNotes">Delivery Notes (Optional)</label>
+                    <textarea id="addressNotes" placeholder="Special instructions for delivery" rows="3"></textarea>
+                </div>
+                <button type="submit" class="auth-btn">Save Address</button>
+            </form>
+            
+            <div class="auth-switch">
+                <a href="#" onclick="hideAddressModal()">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="auth-modal" id="paymentModal">
+        <div class="auth-content">
+            <div class="auth-header">
+                <h3>Payment Method</h3>
+                <p>Choose your preferred payment method</p>
+            </div>
+            
+            <div class="payment-methods">
+                <div class="payment-method" onclick="selectPaymentMethod('card_ua')">
+                    <div class="payment-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h4>Ukrainian Card</h4>
+                        <p>Visa, Mastercard, МИР</p>
+                    </div>
+                    <div class="payment-radio">
+                        <input type="radio" name="payment" value="card_ua" id="card_ua">
+                        <label for="card_ua"></label>
+                    </div>
+                </div>
+                
+                <div class="payment-method" onclick="selectPaymentMethod('paypal')">
+                    <div class="payment-icon">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h4>PayPal</h4>
+                        <p>Pay with PayPal account</p>
+                    </div>
+                    <div class="payment-radio">
+                        <input type="radio" name="payment" value="paypal" id="paypal">
+                        <label for="paypal"></label>
+                    </div>
+                </div>
+                
+                <div class="payment-method" onclick="selectPaymentMethod('crypto')">
+                    <div class="payment-icon">
+                        <i class="fab fa-bitcoin"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h4>Cryptocurrency</h4>
+                        <p>Bitcoin, Ethereum, USDT</p>
+                    </div>
+                    <div class="payment-radio">
+                        <input type="radio" name="payment" value="crypto" id="crypto">
+                        <label for="crypto"></label>
+                    </div>
+                </div>
+                
+                <div class="payment-method" onclick="selectPaymentMethod('euro')">
+                    <div class="payment-icon">
+                        <i class="fas fa-euro-sign"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h4>Euro Transfer</h4>
+                        <p>SEPA bank transfer</p>
+                    </div>
+                    <div class="payment-radio">
+                        <input type="radio" name="payment" value="euro" id="euro">
+                        <label for="euro"></label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="auth-btn" onclick="confirmPayment()">Confirm Payment</button>
+            
+            <div class="auth-switch">
+                <a href="#" onclick="hidePaymentModal()">Cancel</a>
+            </div>
         </div>
     </div>
 
@@ -1957,6 +2204,14 @@
                     <span>Favorites</span>
                     <span class="menu-badge">5</span>
                 </div>
+                <div class="menu-item" onclick="showAddressModal(); toggleTelegramMenu();">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Addresses</span>
+                </div>
+                <div class="menu-item" onclick="showPaymentModal(); toggleTelegramMenu();">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payment Methods</span>
+                </div>
             </div>
             
             <div class="menu-section">
@@ -2001,6 +2256,10 @@
                 <div class="menu-item" onclick="contactSupport(); toggleTelegramMenu();">
                     <i class="fas fa-headset"></i>
                     <span>Contact Support</span>
+                </div>
+                <div class="menu-item" onclick="contactBuyer(); toggleTelegramMenu();">
+                    <i class="fas fa-comments"></i>
+                    <span>Contact Buyer</span>
                 </div>
                 <div class="menu-item" onclick="shareApp(); toggleTelegramMenu();">
                     <i class="fas fa-share"></i>
@@ -2393,15 +2652,43 @@
                 return;
             }
             
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
+            // Check if user has address and payment method
             try {
+                const { data: addresses } = await supabase
+                    .from('addresses')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .limit(1);
+
+                const { data: paymentMethods } = await supabase
+                    .from('payment_methods')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .eq('is_default', true)
+                    .limit(1);
+
+                if (!addresses || addresses.length === 0) {
+                    tg.showAlert('Please add a delivery address first');
+                    showAddressModal();
+                    return;
+                }
+
+                if (!paymentMethods || paymentMethods.length === 0) {
+                    tg.showAlert('Please select a payment method first');
+                    showPaymentModal();
+                    return;
+                }
+
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                
                 // Create order in database
                 const orderData = {
                     user_id: currentUser.id,
                     telegram_id: currentUser.telegram_id,
                     total_amount: total,
                     status: 'pending',
+                    address_id: addresses[0].id,
+                    payment_method: paymentMethods[0].method,
                     items: cart.map(item => ({
                         product_id: item.id,
                         quantity: item.quantity,
@@ -2616,6 +2903,18 @@
             document.getElementById('authModal').addEventListener('click', (e) => {
                 if (e.target.id === 'authModal') {
                     hideAuthModal();
+                }
+            });
+            
+            document.getElementById('addressModal').addEventListener('click', (e) => {
+                if (e.target.id === 'addressModal') {
+                    hideAddressModal();
+                }
+            });
+            
+            document.getElementById('paymentModal').addEventListener('click', (e) => {
+                if (e.target.id === 'paymentModal') {
+                    hidePaymentModal();
                 }
             });
             
@@ -2983,7 +3282,11 @@
 
         // Additional Functions
         function contactSupport() {
-            tg.openTelegramLink('https://t.me/rezeroshop_support');
+            tg.openTelegramLink('https://t.me/Re_Zero_Shop');
+        }
+
+        function contactBuyer() {
+            tg.openTelegramLink('https://t.me/ZERO_952');
         }
 
         function shareApp() {
@@ -2995,6 +3298,118 @@
                 });
             } else {
                 tg.showAlert('Share this app with your friends!');
+            }
+        }
+
+        // Address Functions
+        function showAddressModal() {
+            document.getElementById('addressModal').style.display = 'flex';
+        }
+
+        function hideAddressModal() {
+            document.getElementById('addressModal').style.display = 'none';
+        }
+
+        async function saveAddress(event) {
+            event.preventDefault();
+            
+            const addressData = {
+                name: document.getElementById('addressName').value,
+                country: document.getElementById('addressCountry').value,
+                city: document.getElementById('addressCity').value,
+                street: document.getElementById('addressStreet').value,
+                postal: document.getElementById('addressPostal').value,
+                phone: document.getElementById('addressPhone').value,
+                notes: document.getElementById('addressNotes').value
+            };
+
+            try {
+                if (!currentUser) {
+                    tg.showAlert('Please sign in to save addresses');
+                    return;
+                }
+
+                const { error } = await supabase
+                    .from('addresses')
+                    .insert([{
+                        user_id: currentUser.id,
+                        ...addressData
+                    }]);
+
+                if (error) throw error;
+
+                tg.showAlert('Address saved successfully!');
+                hideAddressModal();
+                
+                // Clear form
+                document.getElementById('addressName').value = '';
+                document.getElementById('addressCountry').value = '';
+                document.getElementById('addressCity').value = '';
+                document.getElementById('addressStreet').value = '';
+                document.getElementById('addressPostal').value = '';
+                document.getElementById('addressPhone').value = '';
+                document.getElementById('addressNotes').value = '';
+
+            } catch (error) {
+                console.error('Error saving address:', error);
+                tg.showAlert('Error saving address. Please try again.');
+            }
+        }
+
+        // Payment Functions
+        function showPaymentModal() {
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function hidePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function selectPaymentMethod(method) {
+            // Remove selected class from all methods
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked method
+            event.currentTarget.classList.add('selected');
+            
+            // Check the radio button
+            document.getElementById(method).checked = true;
+        }
+
+        async function confirmPayment() {
+            const selectedPayment = document.querySelector('input[name="payment"]:checked');
+            
+            if (!selectedPayment) {
+                tg.showAlert('Please select a payment method');
+                return;
+            }
+
+            try {
+                if (!currentUser) {
+                    tg.showAlert('Please sign in to save payment methods');
+                    return;
+                }
+
+                const paymentData = {
+                    user_id: currentUser.id,
+                    method: selectedPayment.value,
+                    is_default: true
+                };
+
+                const { error } = await supabase
+                    .from('payment_methods')
+                    .upsert([paymentData]);
+
+                if (error) throw error;
+
+                tg.showAlert('Payment method saved successfully!');
+                hidePaymentModal();
+
+            } catch (error) {
+                console.error('Error saving payment method:', error);
+                tg.showAlert('Error saving payment method. Please try again.');
             }
         }
 
