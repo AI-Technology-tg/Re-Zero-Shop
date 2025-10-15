@@ -30,8 +30,25 @@
         body {
             font-family: 'Inter', sans-serif;
             background: var(--darker-bg);
+            background-image: url('https://i.ibb.co/fdPF6bcf/f772e7ca2f075fad6735ac2e1ce31451.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
             color: var(--text-light);
             overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(17, 24, 39, 0.85);
+            z-index: -1;
         }
 
         .container {
@@ -825,6 +842,146 @@
             line-height: 1.6;
             color: var(--text-gray);
         }
+
+        /* Telegram Menu Styles */
+        .telegram-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: var(--dark-bg);
+            border-left: 1px solid var(--border-color);
+            transition: right 0.3s ease;
+            z-index: 1001;
+            backdrop-filter: blur(20px);
+        }
+
+        .telegram-menu.active {
+            right: 0;
+        }
+
+        .telegram-menu-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--gradient-primary);
+        }
+
+        .telegram-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .telegram-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .telegram-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .telegram-info p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .telegram-menu-content {
+            padding: 20px;
+        }
+
+        .menu-section {
+            margin-bottom: 30px;
+        }
+
+        .menu-section h5 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding-left: 10px;
+        }
+
+        .menu-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            color: var(--text-gray);
+        }
+
+        .menu-item span {
+            flex: 1;
+        }
+
+        .menu-badge {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .lang-btn {
+            padding: 5px 10px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-light);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .menu-overlay.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -848,7 +1005,7 @@
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count" id="cartCount">0</span>
                     </div>
-                    <div class="menu-btn">
+                    <div class="menu-btn" onclick="toggleTelegramMenu()">
                         <i class="fas fa-bars"></i>
                     </div>
                 </div>
@@ -1051,25 +1208,109 @@
             </div>
             <div class="info-content">
                 <div class="info-section">
-                    <h4>О магазине</h4>
-                    <p>Re:Zero Shop - современный онлайн магазин модной одежды и аксессуаров. Мы предлагаем качественные товары по доступным ценам с быстрой доставкой по всей России.</p>
+                    <h4>About Store</h4>
+                    <p>Re:Zero Shop - modern online fashion store offering quality clothing and accessories at affordable prices with fast delivery across Europe.</p>
                 </div>
                 <div class="info-section">
-                    <h4>Доставка и оплата</h4>
-                    <p>• Бесплатная доставка при заказе от 3000 ₽<br>
-                    • Доставка по Москве: 1-2 дня<br>
-                    • Доставка по России: 3-7 дней<br>
-                    • Оплата картой, наличными или переводом</p>
+                    <h4>Delivery & Payment</h4>
+                    <p>• Free delivery for orders over €50<br>
+                    • Express delivery: 1-2 days<br>
+                    • Standard delivery across Europe: 3-7 days<br>
+                    • Payment by card, PayPal or bank transfer</p>
                 </div>
                 <div class="info-section">
-                    <h4>Возврат товара</h4>
-                    <p>Возврат товара возможен в течение 14 дней с момента покупки при сохранении товарного вида и упаковки.</p>
+                    <h4>Returns</h4>
+                    <p>Returns are possible within 14 days of purchase while maintaining the product appearance and packaging.</p>
                 </div>
                 <div class="info-section">
-                    <h4>Контакты</h4>
-                    <p>📞 Телефон: +7 (999) 123-45-67<br>
-                    📧 Email: info@rezeroshop.ru<br>
+                    <h4>Contacts</h4>
+                    <p>📞 Phone: +49 123 456 789<br>
+                    📧 Email: info@rezeroshop.com<br>
                     💬 Telegram: @rezeroshop</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Telegram Menu -->
+    <div class="menu-overlay" id="menuOverlay" onclick="toggleTelegramMenu()"></div>
+    <div class="telegram-menu" id="telegramMenu">
+        <div class="telegram-menu-header">
+            <div class="telegram-profile">
+                <div class="telegram-avatar" id="telegramAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="telegram-info">
+                    <h4 id="telegramName">User</h4>
+                    <p id="telegramUsername">@username</p>
+                </div>
+            </div>
+        </div>
+        <div class="telegram-menu-content">
+            <div class="menu-section">
+                <h5>Account</h5>
+                <div class="menu-item" onclick="showProfile(); toggleTelegramMenu();">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </div>
+                <div class="menu-item" onclick="showOrderHistory(); toggleTelegramMenu();">
+                    <i class="fas fa-history"></i>
+                    <span>Order History</span>
+                    <span class="menu-badge">3</span>
+                </div>
+                <div class="menu-item" onclick="showFavorites(); toggleTelegramMenu();">
+                    <i class="fas fa-heart"></i>
+                    <span>Favorites</span>
+                    <span class="menu-badge">5</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <h5>Shop</h5>
+                <div class="menu-item" onclick="filterProducts('clothing'); toggleTelegramMenu();">
+                    <i class="fas fa-tshirt"></i>
+                    <span>Clothing</span>
+                </div>
+                <div class="menu-item" onclick="filterProducts('accessories'); toggleTelegramMenu();">
+                    <i class="fas fa-gem"></i>
+                    <span>Accessories</span>
+                </div>
+                <div class="menu-item" onclick="toggleCart(); toggleTelegramMenu();">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                    <span class="menu-badge" id="menuCartCount">0</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <h5>Settings</h5>
+                <div class="menu-item" onclick="showSettings(); toggleTelegramMenu();">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="menu-item" onclick="showInfo(); toggleTelegramMenu();">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Information</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-globe"></i>
+                    <span>Language</span>
+                    <div class="language-selector">
+                        <button class="lang-btn active" onclick="changeLanguage('en')">EN</button>
+                        <button class="lang-btn" onclick="changeLanguage('ru')">RU</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <h5>Support</h5>
+                <div class="menu-item" onclick="contactSupport(); toggleTelegramMenu();">
+                    <i class="fas fa-headset"></i>
+                    <span>Contact Support</span>
+                </div>
+                <div class="menu-item" onclick="shareApp(); toggleTelegramMenu();">
+                    <i class="fas fa-share"></i>
+                    <span>Share App</span>
                 </div>
             </div>
         </div>
@@ -1080,28 +1321,28 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>О магазине</h4>
-                    <p>Re:Zero Shop - современный онлайн магазин модной одежды и аксессуаров. Мы предлагаем качественные товары по доступным ценам с быстрой доставкой по всей России.</p>
+                    <h4>About Store</h4>
+                    <p>Re:Zero Shop - modern online fashion store offering quality clothing and accessories at affordable prices with fast delivery across Europe.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Помощь</h4>
-                    <p><a href="#" onclick="showInfo()">Доставка и оплата</a></p>
-                    <p><a href="#" onclick="showInfo()">Размеры</a></p>
-                    <p><a href="#" onclick="showInfo()">Возврат товара</a></p>
-                    <p><a href="#" onclick="showInfo()">Контакты</a></p>
+                    <h4>Help</h4>
+                    <p><a href="#" onclick="showInfo()">Delivery & Payment</a></p>
+                    <p><a href="#" onclick="showInfo()">Size Guide</a></p>
+                    <p><a href="#" onclick="showInfo()">Returns</a></p>
+                    <p><a href="#" onclick="showInfo()">Contacts</a></p>
                 </div>
                 <div class="footer-section">
-                    <h4>Следите за нами</h4>
+                    <h4>Follow Us</h4>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
             <div style="border-top: 1px solid var(--border-color); padding-top: 20px; color: var(--text-gray);">
-                <p>&copy; 2024 Re:Zero Shop. Все права защищены.</p>
+                <p>&copy; 2025 Re:Zero Shop. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1344,6 +1585,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
             renderProducts();
+            updateTelegramProfile();
+            updateLanguage();
             
             // Search input
             const searchInput = document.querySelector('.search-box input');
@@ -1435,6 +1678,139 @@
                 e.target.style.display = 'none';
             }
         });
+
+        // Telegram Menu Functions
+        function toggleTelegramMenu() {
+            const menu = document.getElementById('telegramMenu');
+            const overlay = document.getElementById('menuOverlay');
+            
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Update Telegram profile info
+            updateTelegramProfile();
+        }
+
+        function updateTelegramProfile() {
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                document.getElementById('telegramName').textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+                document.getElementById('telegramUsername').textContent = user.username ? '@' + user.username : 'Telegram User';
+                
+                // Update avatar with user's photo if available
+                const avatar = document.getElementById('telegramAvatar');
+                if (user.photo_url) {
+                    avatar.style.backgroundImage = `url(${user.photo_url})`;
+                    avatar.style.backgroundSize = 'cover';
+                    avatar.innerHTML = '';
+                } else {
+                    avatar.innerHTML = '<i class="fas fa-user"></i>';
+                }
+            }
+        }
+
+        // Language Functions
+        let currentLanguage = 'en';
+        const translations = {
+            en: {
+                welcome: "Welcome to Re:Zero Shop",
+                slogan: "Life in another world of fashion from scratch",
+                startShopping: "Start Shopping",
+                categories: "Categories",
+                popularProducts: "Popular Products",
+                clothing: "Clothing",
+                accessories: "Accessories",
+                profile: "Profile",
+                settings: "Settings",
+                addToCart: "Add to Cart",
+                cart: "Cart",
+                checkout: "Checkout",
+                total: "Total",
+                orderPlaced: "Order placed! Thank you for your purchase!",
+                itemAdded: "Item added to cart!",
+                cartEmpty: "Cart is empty!"
+            },
+            ru: {
+                welcome: "Добро пожаловать в Re:Zero Shop",
+                slogan: "Жизнь в другом мире моды с нуля",
+                startShopping: "Начать покупки",
+                categories: "Категории",
+                popularProducts: "Популярные товары",
+                clothing: "Одежда",
+                accessories: "Аксессуары",
+                profile: "Профиль",
+                settings: "Настройки",
+                addToCart: "Добавить в корзину",
+                cart: "Корзина",
+                checkout: "Оформить заказ",
+                total: "Итого",
+                orderPlaced: "Заказ оформлен! Спасибо за покупку!",
+                itemAdded: "Товар добавлен в корзину!",
+                cartEmpty: "Корзина пуста!"
+            }
+        };
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update text content
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            const t = translations[currentLanguage];
+            
+            // Update main content
+            document.querySelector('.hero h2').textContent = t.welcome;
+            document.querySelector('.slogan').textContent = t.slogan;
+            document.querySelector('.btn-primary').innerHTML = `<i class="fas fa-shopping-bag"></i> ${t.startShopping}`;
+            document.querySelector('.btn-secondary').innerHTML = `<i class="fas fa-th-large"></i> ${t.categories}`;
+            document.querySelector('#categories .section-title').textContent = t.categories;
+            document.querySelector('#products .section-title').textContent = t.popularProducts;
+            
+            // Update category cards
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards[0].querySelector('h3').textContent = t.clothing;
+            categoryCards[1].querySelector('h3').textContent = t.accessories;
+            categoryCards[2].querySelector('h3').textContent = t.profile;
+            categoryCards[3].querySelector('h3').textContent = t.settings;
+        }
+
+        // Additional Functions
+        function contactSupport() {
+            tg.openTelegramLink('https://t.me/rezeroshop_support');
+        }
+
+        function shareApp() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Re:Zero Shop',
+                    text: 'Check out this amazing fashion store!',
+                    url: window.location.href
+                });
+            } else {
+                tg.showAlert('Share this app with your friends!');
+            }
+        }
+
+        // Update cart count in menu
+        function updateMenuCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('menuCartCount').textContent = count;
+        }
+
+        // Override cart functions to update menu
+        const originalUpdateCartCount = updateCartCount;
+        updateCartCount = function() {
+            originalUpdateCartCount();
+            updateMenuCartCount();
+        };
     </script>
 </body>
 </html>
