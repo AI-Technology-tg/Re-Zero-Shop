@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Re:Zero Shop - Жизнь в другом мире моды с нуля</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -359,14 +360,67 @@
             overflow: hidden;
         }
 
-        .product-image::before {
-            content: '';
+        .product-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .favorite-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .favorite-btn:hover {
+            background: #ff6b6b;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .low-stock {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-stock {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+        }
+
+        .add-to-cart:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .product-info {
@@ -480,6 +534,8 @@
             justify-content: center;
             color: white;
             font-size: 1.5rem;
+            background-size: cover;
+            background-position: center;
         }
 
         .cart-item-info {
@@ -1348,6 +1404,13 @@
     </footer>
 
     <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://fenqslbqkdpcbrvqjlwy.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlbnFzbGJxa2RwY2JydnFqbHd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA0Nzk1NDAsImV4cCI6MjA3NjA1NTU0MH0.Bj1GACQ9BWmpkcwPmPcUBy2dE07t7z1Z0ogKzkoIvhU';
+        
+        // Initialize Supabase
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         // Telegram WebApp API
         const tg = window.Telegram.WebApp;
         
@@ -1359,89 +1422,215 @@
         tg.setHeaderColor('#6366f1');
         tg.setBackgroundColor('#111827');
 
-        // Products data
-        const products = [
-            {
-                id: 1,
-                name: "Классическое платье",
-                description: "Элегантное вечернее платье из качественной ткани",
-                price: 4500,
-                category: "clothing",
-                icon: "👗"
-            },
-            {
-                id: 2,
-                name: "Золотое кольцо",
-                description: "Изящное золотое кольцо с драгоценным камнем",
-                price: 2500,
-                category: "accessories",
-                icon: "💍"
-            },
-            {
-                id: 3,
-                name: "Деловой костюм",
-                description: "Стильный мужской костюм для офиса",
-                price: 6500,
-                category: "clothing",
-                icon: "👔"
-            },
-            {
-                id: 4,
-                name: "Наручные часы",
-                description: "Элегантные наручные часы с кожаным ремешком",
-                price: 8500,
-                category: "accessories",
-                icon: "⌚"
-            },
-            {
-                id: 5,
-                name: "Спортивная толстовка",
-                description: "Удобная толстовка для спорта и повседневной носки",
-                price: 3200,
-                category: "clothing",
-                icon: "👕"
-            },
-            {
-                id: 6,
-                name: "Серебряная брошь",
-                description: "Изящная серебряная брошь ручной работы",
-                price: 1800,
-                category: "accessories",
-                icon: "🦋"
-            },
-            {
-                id: 7,
-                name: "Летнее платье",
-                description: "Легкое летнее платье из натурального хлопка",
-                price: 2200,
-                category: "clothing",
-                icon: "👗"
-            },
-            {
-                id: 8,
-                name: "Кожаная сумка",
-                description: "Стильная кожаная сумка через плечо",
-                price: 4200,
-                category: "accessories",
-                icon: "👜"
-            },
-            {
-                id: 9,
-                name: "Джинсы классические",
-                description: "Качественные джинсы из денима",
-                price: 2800,
-                category: "clothing",
-                icon: "👖"
-            },
-            {
-                id: 10,
-                name: "Солнечные очки",
-                description: "Стильные солнцезащитные очки с поляризацией",
-                price: 1500,
-                category: "accessories",
-                icon: "🕶️"
+        // Global variables
+        let products = [];
+        let currentUser = null;
+
+        // Database Functions
+        async function initializeDatabase() {
+            try {
+                // Initialize products in database if not exists
+                await initializeProducts();
+                
+                // Load products from database
+                await loadProducts();
+                
+                // Initialize user
+                await initializeUser();
+                
+                console.log('Database initialized successfully');
+            } catch (error) {
+                console.error('Error initializing database:', error);
+                // Fallback to local products
+                loadLocalProducts();
             }
-        ];
+        }
+
+        async function initializeProducts() {
+            const { data: existingProducts } = await supabase
+                .from('products')
+                .select('*')
+                .limit(1);
+
+            if (!existingProducts || existingProducts.length === 0) {
+                const defaultProducts = [
+                    {
+                        name: "Classic Dress",
+                        description: "Elegant evening dress made from quality fabric",
+                        price: 45.00,
+                        category: "clothing",
+                        icon: "👗",
+                        image_url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
+                        stock: 10
+                    },
+                    {
+                        name: "Gold Ring",
+                        description: "Elegant gold ring with precious stone",
+                        price: 25.00,
+                        category: "accessories",
+                        icon: "💍",
+                        image_url: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400",
+                        stock: 15
+                    },
+                    {
+                        name: "Business Suit",
+                        description: "Stylish men's suit for office",
+                        price: 65.00,
+                        category: "clothing",
+                        icon: "👔",
+                        image_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+                        stock: 8
+                    },
+                    {
+                        name: "Wrist Watch",
+                        description: "Elegant wrist watch with leather strap",
+                        price: 85.00,
+                        category: "accessories",
+                        icon: "⌚",
+                        image_url: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
+                        stock: 12
+                    },
+                    {
+                        name: "Sports Hoodie",
+                        description: "Comfortable hoodie for sports and casual wear",
+                        price: 32.00,
+                        category: "clothing",
+                        icon: "👕",
+                        image_url: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400",
+                        stock: 20
+                    },
+                    {
+                        name: "Silver Brooch",
+                        description: "Elegant silver brooch handmade",
+                        price: 18.00,
+                        category: "accessories",
+                        icon: "🦋",
+                        image_url: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400",
+                        stock: 25
+                    },
+                    {
+                        name: "Summer Dress",
+                        description: "Light summer dress made from natural cotton",
+                        price: 22.00,
+                        category: "clothing",
+                        icon: "👗",
+                        image_url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
+                        stock: 18
+                    },
+                    {
+                        name: "Leather Bag",
+                        description: "Stylish leather crossbody bag",
+                        price: 42.00,
+                        category: "accessories",
+                        icon: "👜",
+                        image_url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+                        stock: 14
+                    },
+                    {
+                        name: "Classic Jeans",
+                        description: "Quality denim jeans",
+                        price: 28.00,
+                        category: "clothing",
+                        icon: "👖",
+                        image_url: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400",
+                        stock: 22
+                    },
+                    {
+                        name: "Sunglasses",
+                        description: "Stylish polarized sunglasses",
+                        price: 15.00,
+                        category: "accessories",
+                        icon: "🕶️",
+                        image_url: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",
+                        stock: 30
+                    }
+                ];
+
+                const { error } = await supabase
+                    .from('products')
+                    .insert(defaultProducts);
+
+                if (error) {
+                    console.error('Error inserting products:', error);
+                }
+            }
+        }
+
+        async function loadProducts() {
+            const { data, error } = await supabase
+                .from('products')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading products:', error);
+                loadLocalProducts();
+                return;
+            }
+
+            products = data || [];
+            renderProducts();
+        }
+
+        function loadLocalProducts() {
+            // Fallback local products
+            products = [
+                {
+                    id: 1,
+                    name: "Classic Dress",
+                    description: "Elegant evening dress made from quality fabric",
+                    price: 45.00,
+                    category: "clothing",
+                    icon: "👗",
+                    image_url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
+                    stock: 10
+                },
+                {
+                    id: 2,
+                    name: "Gold Ring",
+                    description: "Elegant gold ring with precious stone",
+                    price: 25.00,
+                    category: "accessories",
+                    icon: "💍",
+                    image_url: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400",
+                    stock: 15
+                }
+            ];
+            renderProducts();
+        }
+
+        async function initializeUser() {
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                currentUser = {
+                    telegram_id: user.id,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    username: user.username,
+                    language_code: user.language_code
+                };
+
+                // Check if user exists in database
+                const { data: existingUser } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('telegram_id', user.id)
+                    .single();
+
+                if (!existingUser) {
+                    // Create new user
+                    const { error } = await supabase
+                        .from('users')
+                        .insert([currentUser]);
+
+                    if (error) {
+                        console.error('Error creating user:', error);
+                    }
+                } else {
+                    currentUser = existingUser;
+                }
+            }
+        }
 
         // Cart functionality
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -1453,9 +1642,24 @@
 
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
+            
+            if (!product) {
+                tg.showAlert('Product not found');
+                return;
+            }
+            
+            if (product.stock === 0) {
+                tg.showAlert('Product is out of stock');
+                return;
+            }
+            
             const existingItem = cart.find(item => item.id === productId);
             
             if (existingItem) {
+                if (existingItem.quantity >= product.stock) {
+                    tg.showAlert('Not enough stock available');
+                    return;
+                }
                 existingItem.quantity += 1;
             } else {
                 cart.push({...product, quantity: 1});
@@ -1465,7 +1669,7 @@
             updateCartCount();
             
             // Show success message
-            tg.showAlert('Товар добавлен в корзину!');
+            tg.showAlert('Item added to cart!');
         }
 
         function removeFromCart(productId) {
@@ -1502,17 +1706,19 @@
             const cartTotal = document.getElementById('cartTotal');
             
             if (cart.length === 0) {
-                cartItems.innerHTML = '<p style="text-align: center; color: var(--text-gray); padding: 20px;">Корзина пуста</p>';
-                cartTotal.textContent = '0 ₽';
+                cartItems.innerHTML = '<p style="text-align: center; color: var(--text-gray); padding: 20px;">Cart is empty</p>';
+                cartTotal.textContent = '€0.00';
                 return;
             }
             
             cartItems.innerHTML = cart.map(item => `
                 <div class="cart-item">
-                    <div class="cart-item-image">${item.icon}</div>
+                    <div class="cart-item-image" style="background-image: url('${item.image_url || 'https://via.placeholder.com/60x60?text=Product'}'); background-size: cover; background-position: center;">
+                        ${!item.image_url ? item.icon : ''}
+                    </div>
                     <div class="cart-item-info">
                         <div class="cart-item-title">${item.name}</div>
-                        <div class="cart-item-price">${item.price} ₽</div>
+                        <div class="cart-item-price">€${item.price.toFixed(2)}</div>
                     </div>
                     <div class="cart-item-controls">
                         <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
@@ -1526,25 +1732,147 @@
             `).join('');
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartTotal.textContent = `${total} ₽`;
+            cartTotal.textContent = `€${total.toFixed(2)}`;
         }
 
-        function checkout() {
+        async function checkout() {
             if (cart.length === 0) {
-                tg.showAlert('Корзина пуста!');
+                tg.showAlert('Cart is empty!');
+                return;
+            }
+            
+            if (!currentUser) {
+                tg.showAlert('Please login to place an order');
                 return;
             }
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const message = `Заказ на сумму ${total} ₽ оформлен! Спасибо за покупку!`;
             
-            tg.showAlert(message);
-            
-            // Clear cart
-            cart = [];
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-            toggleCart();
+            try {
+                // Create order in database
+                const orderData = {
+                    user_id: currentUser.id,
+                    telegram_id: currentUser.telegram_id,
+                    total_amount: total,
+                    status: 'pending',
+                    items: cart.map(item => ({
+                        product_id: item.id,
+                        quantity: item.quantity,
+                        price: item.price
+                    }))
+                };
+
+                const { data: order, error } = await supabase
+                    .from('orders')
+                    .insert([orderData])
+                    .select()
+                    .single();
+
+                if (error) {
+                    console.error('Error creating order:', error);
+                    tg.showAlert('Error creating order. Please try again.');
+                    return;
+                }
+
+                // Update product stock
+                for (const item of cart) {
+                    await supabase
+                        .from('products')
+                        .update({ stock: item.stock - item.quantity })
+                        .eq('id', item.id);
+                }
+
+                const message = `Order #${order.id} for €${total.toFixed(2)} placed successfully! Thank you for your purchase!`;
+                tg.showAlert(message);
+                
+                // Clear cart
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+                toggleCart();
+                
+                // Reload products to update stock
+                await loadProducts();
+                
+            } catch (error) {
+                console.error('Checkout error:', error);
+                tg.showAlert('Error processing order. Please try again.');
+            }
+        }
+
+        // Favorites functionality
+        async function toggleFavorite(productId) {
+            if (!currentUser) {
+                tg.showAlert('Please login to add favorites');
+                return;
+            }
+
+            try {
+                const { data: existingFavorite } = await supabase
+                    .from('favorites')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .eq('product_id', productId)
+                    .single();
+
+                if (existingFavorite) {
+                    // Remove from favorites
+                    await supabase
+                        .from('favorites')
+                        .delete()
+                        .eq('id', existingFavorite.id);
+                    
+                    tg.showAlert('Removed from favorites');
+                } else {
+                    // Add to favorites
+                    await supabase
+                        .from('favorites')
+                        .insert([{
+                            user_id: currentUser.id,
+                            product_id: productId
+                        }]);
+                    
+                    tg.showAlert('Added to favorites');
+                }
+            } catch (error) {
+                console.error('Error toggling favorite:', error);
+            }
+        }
+
+        async function getFavorites() {
+            if (!currentUser) return [];
+
+            try {
+                const { data: favorites } = await supabase
+                    .from('favorites')
+                    .select(`
+                        *,
+                        products (*)
+                    `)
+                    .eq('user_id', currentUser.id);
+
+                return favorites || [];
+            } catch (error) {
+                console.error('Error getting favorites:', error);
+                return [];
+            }
+        }
+
+        async function getOrderHistory() {
+            if (!currentUser) return [];
+
+            try {
+                const { data: orders } = await supabase
+                    .from('orders')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('created_at', { ascending: false });
+
+                return orders || [];
+            } catch (error) {
+                console.error('Error getting order history:', error);
+                return [];
+            }
         }
 
         function filterProducts(category) {
@@ -1556,16 +1884,22 @@
             const productsGrid = document.getElementById('productsGrid');
             productsGrid.innerHTML = productsToRender.map(product => `
                 <div class="product-card fade-in-up">
-                    <div class="product-image">
-                        ${product.icon}
+                    <div class="product-image" style="background-image: url('${product.image_url || 'https://via.placeholder.com/300x200?text=Product'}'); background-size: cover; background-position: center;">
+                        <div class="product-overlay">
+                            <button class="favorite-btn" onclick="toggleFavorite(${product.id})" title="Add to favorites">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            ${product.stock <= 5 ? '<span class="low-stock">Low Stock</span>' : ''}
+                        </div>
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">${product.name}</h3>
                         <p class="product-description">${product.description}</p>
-                        <div class="product-price">${product.price} ₽</div>
-                        <button class="add-to-cart" onclick="addToCart(${product.id})">
+                        <div class="product-price">€${product.price.toFixed(2)}</div>
+                        <div class="product-stock">Stock: ${product.stock}</div>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})" ${product.stock === 0 ? 'disabled' : ''}>
                             <i class="fas fa-shopping-cart"></i>
-                            Добавить в корзину
+                            ${product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                         </button>
                     </div>
                 </div>
@@ -1582,9 +1916,11 @@
         }
 
         // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Initialize database first
+            await initializeDatabase();
+            
             updateCartCount();
-            renderProducts();
             updateTelegramProfile();
             updateLanguage();
             
@@ -1664,12 +2000,60 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        function showOrderHistory() {
-            tg.showAlert('История заказов:\n\n1. Заказ #001 - 15,500 ₽ (Выполнен)\n2. Заказ #002 - 8,200 ₽ (В пути)\n3. Заказ #003 - 12,300 ₽ (Обработка)');
+        async function showOrderHistory() {
+            if (!currentUser) {
+                tg.showAlert('Please login to view order history');
+                return;
+            }
+
+            try {
+                const orders = await getOrderHistory();
+                
+                if (orders.length === 0) {
+                    tg.showAlert('No orders found');
+                    return;
+                }
+
+                let message = 'Order History:\n\n';
+                orders.slice(0, 5).forEach(order => {
+                    const date = new Date(order.created_at).toLocaleDateString();
+                    message += `#${order.id} - €${order.total_amount.toFixed(2)}\n`;
+                    message += `Status: ${order.status}\n`;
+                    message += `Date: ${date}\n\n`;
+                });
+
+                tg.showAlert(message);
+            } catch (error) {
+                console.error('Error showing order history:', error);
+                tg.showAlert('Error loading order history');
+            }
         }
 
-        function showFavorites() {
-            tg.showAlert('Избранные товары:\n\n• Классическое платье - 4,500 ₽\n• Золотое кольцо - 2,500 ₽\n• Наручные часы - 8,500 ₽');
+        async function showFavorites() {
+            if (!currentUser) {
+                tg.showAlert('Please login to view favorites');
+                return;
+            }
+
+            try {
+                const favorites = await getFavorites();
+                
+                if (favorites.length === 0) {
+                    tg.showAlert('No favorites found');
+                    return;
+                }
+
+                let message = 'Favorite Items:\n\n';
+                favorites.slice(0, 5).forEach(fav => {
+                    const product = fav.products;
+                    message += `• ${product.name} - €${product.price.toFixed(2)}\n`;
+                });
+
+                tg.showAlert(message);
+            } catch (error) {
+                console.error('Error showing favorites:', error);
+                tg.showAlert('Error loading favorites');
+            }
         }
 
         // Close modals when clicking outside
