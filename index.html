@@ -208,6 +208,88 @@
             background: #48bb78;
         }
 
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+            transform: scale(1.05);
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .data-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .data-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .section-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+
         .notification {
             position: fixed;
             top: 20px;
@@ -332,9 +414,49 @@
             </div>
         </div>
 
-        <!-- Telegram Data -->
+        <!-- Navigation Buttons -->
         <div class="data-section">
-            <h2>📱 Данные из Telegram</h2>
+            <h2>🎯 Навигация по данным</h2>
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showSection('telegram')" id="nav-telegram">
+                    📱 Telegram
+                </button>
+                <button class="nav-btn" onclick="showSection('chat')" id="nav-chat">
+                    💬 Чат
+                </button>
+                <button class="nav-btn" onclick="showSection('browser')" id="nav-browser">
+                    🌐 Браузер
+                </button>
+                <button class="nav-btn" onclick="showSection('location')" id="nav-location">
+                    📍 Локация
+                </button>
+                <button class="nav-btn" onclick="showSection('bot')" id="nav-bot">
+                    🤖 Бот
+                </button>
+                <button class="nav-btn" onclick="showSection('behavior')" id="nav-behavior">
+                    🎯 Поведение
+                </button>
+                <button class="nav-btn" onclick="showSection('performance')" id="nav-performance">
+                    ⚡ Производительность
+                </button>
+                <button class="nav-btn" onclick="showSection('fingerprint')" id="nav-fingerprint">
+                    🔍 Отпечатки
+                </button>
+                <button class="nav-btn" onclick="showSection('timeline')" id="nav-timeline">
+                    ⏰ Временная линия
+                </button>
+                <button class="nav-btn" onclick="showSection('export')" id="nav-export">
+                    📤 Экспорт
+                </button>
+            </div>
+        </div>
+
+        <!-- Telegram Data -->
+        <div class="data-section data-content active" id="telegram-section">
+            <div class="section-header">
+                <h2>📱 Данные из Telegram</h2>
+                <p>Информация о пользователе, полученная от Telegram бота</p>
+            </div>
             <div class="data-grid">
                 <div class="data-card">
                     <h3>Основная информация</h3>
@@ -382,8 +504,11 @@
         </div>
 
         <!-- Chat Data -->
-        <div class="data-section">
-            <h2>💬 Данные чата</h2>
+        <div class="data-section data-content" id="chat-section">
+            <div class="section-header">
+                <h2>💬 Данные чата</h2>
+                <p>Информация о чате и его настройках</p>
+            </div>
             <div class="data-grid">
                 <div class="data-card">
                     <h3>Информация о чате</h3>
@@ -408,8 +533,11 @@
         </div>
 
         <!-- Browser Data -->
-        <div class="data-section">
-            <h2>🌐 Данные браузера</h2>
+        <div class="data-section data-content" id="browser-section">
+            <div class="section-header">
+                <h2>🌐 Данные браузера</h2>
+                <p>Информация о браузере, устройстве и технических возможностях</p>
+            </div>
             <div class="data-grid">
                 <div class="data-card">
                     <h3>Информация о браузере</h3>
@@ -461,8 +589,11 @@
         </div>
 
         <!-- Location Data -->
-        <div class="data-section">
-            <h2>📍 Данные о местоположении</h2>
+        <div class="data-section data-content" id="location-section">
+            <div class="section-header">
+                <h2>📍 Данные о местоположении</h2>
+                <p>Информация о географическом положении и IP-адресе</p>
+            </div>
             <div class="data-grid">
                 <div class="data-card">
                     <h3>Геолокация</h3>
@@ -491,8 +622,11 @@
         </div>
 
         <!-- Bot Information -->
-        <div class="data-section">
-            <h2>🤖 Информация о боте</h2>
+        <div class="data-section data-content" id="bot-section">
+            <div class="section-header">
+                <h2>🤖 Информация о боте</h2>
+                <p>Данные о Telegram боте и его возможностях</p>
+            </div>
             <div class="data-grid">
                 <div class="data-card">
                     <h3>Данные бота</h3>
@@ -521,16 +655,142 @@
         </div>
 
         <!-- Timeline -->
-        <div class="data-section">
-            <h2>⏰ Временная линия активности</h2>
+        <div class="data-section data-content" id="timeline-section">
+            <div class="section-header">
+                <h2>⏰ Временная линия активности</h2>
+                <p>Хронология событий и активности пользователя</p>
+            </div>
             <div class="timeline" id="activityTimeline">
                 <div class="no-data">Загрузка данных активности...</div>
             </div>
         </div>
 
+        <!-- Behavior Analysis -->
+        <div class="data-section data-content" id="behavior-section">
+            <div class="section-header">
+                <h2>🎯 Анализ поведения</h2>
+                <p>Паттерны взаимодействия и поведенческие характеристики</p>
+            </div>
+            <div class="data-grid">
+                <div class="data-card">
+                    <h3>Паттерны взаимодействия</h3>
+                    <div class="data-item">
+                        <span class="data-label">Движения мыши:</span>
+                        <span class="data-value" id="mouseMovements">0</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Клики:</span>
+                        <span class="data-value" id="clicks">0</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Нажатия клавиш:</span>
+                        <span class="data-value" id="keyPresses">0</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Скроллы:</span>
+                        <span class="data-value" id="scrolls">0</span>
+                    </div>
+                </div>
+                <div class="data-card">
+                    <h3>Активность сессии</h3>
+                    <div class="data-item">
+                        <span class="data-label">Начало сессии:</span>
+                        <span class="data-value" id="sessionStart">Загрузка...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Последняя активность:</span>
+                        <span class="data-value" id="lastActivity">Загрузка...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Длительность сессии:</span>
+                        <span class="data-value" id="sessionDuration">Загрузка...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Analysis -->
+        <div class="data-section data-content" id="performance-section">
+            <div class="section-header">
+                <h2>⚡ Анализ производительности</h2>
+                <p>Метрики производительности и системные характеристики</p>
+            </div>
+            <div class="data-grid">
+                <div class="data-card">
+                    <h3>Системные ресурсы</h3>
+                    <div class="data-item">
+                        <span class="data-label">Ядра CPU:</span>
+                        <span class="data-value" id="cpuCores">Загрузка...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Память устройства:</span>
+                        <span class="data-value" id="deviceMemory">Загрузка...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Touch точки:</span>
+                        <span class="data-value" id="touchPoints">Загрузка...</span>
+                    </div>
+                </div>
+                <div class="data-card">
+                    <h3>Производительность</h3>
+                    <div class="data-item">
+                        <span class="data-label">Оценка производительности:</span>
+                        <span class="data-value" id="performanceScore">Загрузка...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Время загрузки:</span>
+                        <span class="data-value" id="loadTime">Загрузка...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Digital Fingerprints -->
+        <div class="data-section data-content" id="fingerprint-section">
+            <div class="section-header">
+                <h2>🔍 Цифровые отпечатки</h2>
+                <p>Уникальные характеристики браузера и устройства</p>
+            </div>
+            <div class="data-grid">
+                <div class="data-card">
+                    <h3>Основные отпечатки</h3>
+                    <div class="data-item">
+                        <span class="data-label">Canvas отпечаток:</span>
+                        <span class="data-value" id="canvasFingerprint">Загрузка...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">WebGL отпечаток:</span>
+                        <span class="data-value" id="webglFingerprint">Загрузка...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Audio отпечаток:</span>
+                        <span class="data-value" id="audioFingerprint">Загрузка...</span>
+                    </div>
+                </div>
+                <div class="data-card">
+                    <h3>Дополнительные отпечатки</h3>
+                    <div class="data-item">
+                        <span class="data-label">Font отпечаток:</span>
+                        <span class="data-value" id="fontFingerprint">Загрузка...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Screen отпечаток:</span>
+                        <span class="data-value" id="screenFingerprint">Загрузка...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Timezone отпечаток:</span>
+                        <span class="data-value" id="timezoneFingerprint">Загрузка...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Export Section -->
-        <div class="data-section">
-            <h2>📤 Экспорт данных</h2>
+        <div class="data-section data-content" id="export-section">
+            <div class="section-header">
+                <h2>📤 Экспорт данных</h2>
+                <p>Скачайте все собранные данные в различных форматах</p>
+            </div>
             <p>Скачайте все собранные данные в различных форматах:</p>
             <div class="export-buttons">
                 <button class="btn json" onclick="exportData('json')">📄 JSON</button>
@@ -2055,84 +2315,6 @@
             return fingerprint;
         }
 
-        // Обновление интерфейса
-        function updateUI() {
-            // Telegram данные
-            if (collectedData.telegram.id) {
-                document.getElementById('telegramId').textContent = collectedData.telegram.id;
-                document.getElementById('telegramName').textContent = `${collectedData.telegram.firstName || ''} ${collectedData.telegram.lastName || ''}`.trim();
-                document.getElementById('telegramUsername').textContent = collectedData.telegram.username || 'Не указан';
-                document.getElementById('telegramLanguage').textContent = collectedData.telegram.languageCode || 'Не определен';
-                document.getElementById('telegramPremium').textContent = collectedData.telegram.isPremium ? 'Да' : 'Нет';
-                document.getElementById('telegramIsBot').textContent = collectedData.telegram.isBot ? 'Да' : 'Нет';
-                document.getElementById('telegramAttachmentMenu').textContent = collectedData.telegram.addedToAttachmentMenu ? 'Да' : 'Нет';
-                document.getElementById('telegramInteractions').textContent = collectedData.telegram.interaction_count || '0';
-                document.getElementById('telegramLastActivity').textContent = collectedData.telegram.last_activity || 'Не определено';
-            }
-
-            // Данные чата
-            if (collectedData.telegram.chat_id) {
-                document.getElementById('chatId').textContent = collectedData.telegram.chat_id;
-                document.getElementById('chatType').textContent = collectedData.telegram.chat_type;
-                document.getElementById('chatTitle').textContent = collectedData.telegram.chat_title || 'Не указано';
-                document.getElementById('chatUsername').textContent = collectedData.telegram.chat_username || 'Не указано';
-            }
-
-            // Браузер данные
-            if (collectedData.browser.userAgent) {
-                document.getElementById('userAgent').textContent = collectedData.browser.userAgent.substring(0, 50) + '...';
-                document.getElementById('browserLanguage').textContent = collectedData.browser.language;
-                document.getElementById('platform').textContent = collectedData.browser.platform;
-                document.getElementById('screenResolution').textContent = `${collectedData.browser.screenWidth}x${collectedData.browser.screenHeight}`;
-                document.getElementById('timezone').textContent = collectedData.browser.timezone;
-                document.getElementById('deviceType').textContent = collectedData.browser.deviceType;
-                document.getElementById('operatingSystem').textContent = collectedData.browser.operatingSystem;
-                document.getElementById('browserName').textContent = collectedData.browser.browserName;
-                document.getElementById('browserVersion').textContent = collectedData.browser.browserVersion;
-                document.getElementById('webglSupport').textContent = collectedData.browser.webglSupport;
-            }
-
-            // Локация данные
-            if (collectedData.location.ip) {
-                document.getElementById('ipAddress').textContent = collectedData.location.ip;
-                document.getElementById('country').textContent = collectedData.location.country;
-                document.getElementById('city').textContent = collectedData.location.city;
-                document.getElementById('coordinates').textContent = `${collectedData.location.latitude}, ${collectedData.location.longitude}`;
-                document.getElementById('isp').textContent = collectedData.location.isp;
-            }
-
-            // Данные бота
-            if (collectedData.telegram.bot_info) {
-                document.getElementById('botUsername').textContent = collectedData.telegram.bot_info.bot_username || 'Не определено';
-                document.getElementById('botFirstName').textContent = collectedData.telegram.bot_info.bot_first_name || 'Не определено';
-                document.getElementById('botCanJoinGroups').textContent = collectedData.telegram.bot_info.bot_can_join_groups ? 'Да' : 'Нет';
-                document.getElementById('botCanReadAllMessages').textContent = collectedData.telegram.bot_info.bot_can_read_all_group_messages ? 'Да' : 'Нет';
-                document.getElementById('botSupportsInline').textContent = collectedData.telegram.bot_info.bot_supports_inline_queries ? 'Да' : 'Нет';
-            }
-
-            // Обновление статистики
-            updateStats();
-        }
-
-        // Обновление статистики
-        function updateStats() {
-            let telegramCount = Object.keys(collectedData.telegram).length;
-            let browserCount = Object.keys(collectedData.browser).length;
-            let deviceCount = Object.keys(collectedData.device).length;
-            let locationCount = Object.keys(collectedData.location).length;
-
-            document.getElementById('telegramStats').textContent = telegramCount;
-            document.getElementById('browserStats').textContent = browserCount;
-            document.getElementById('deviceStats').textContent = deviceCount;
-            document.getElementById('locationStats').textContent = locationCount;
-
-            // Обновление прогресс-бара
-            const totalData = telegramCount + browserCount + deviceCount + locationCount;
-            const maxData = 50;
-            const progress = Math.min((totalData / maxData) * 100, 100);
-            document.getElementById('dataProgress').style.width = progress + '%';
-            document.getElementById('dataProgress').textContent = Math.round(progress) + '%';
-        }
 
         // Добавление в временную линию
         function addToTimeline(title, description, type = 'info') {
@@ -2464,6 +2646,151 @@
             // Обновление интерфейса
             updateUI();
             showNotification('Максимальный сбор данных завершен!');
+        }
+
+        // НАВИГАЦИЯ ПО СЕКЦИЯМ
+        function showSection(sectionName) {
+            // Скрыть все секции
+            const sections = document.querySelectorAll('.data-content');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Убрать активный класс с кнопок
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Показать выбранную секцию
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Активировать кнопку
+            const targetButton = document.getElementById('nav-' + sectionName);
+            if (targetButton) {
+                targetButton.classList.add('active');
+            }
+            
+            // Плавная прокрутка к секции
+            if (targetSection) {
+                targetSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }
+        }
+
+        // Обновление интерфейса с новыми данными
+        function updateUI() {
+            // Telegram данные
+            if (collectedData.telegram.id) {
+                document.getElementById('telegramId').textContent = collectedData.telegram.id;
+                document.getElementById('telegramName').textContent = `${collectedData.telegram.firstName || ''} ${collectedData.telegram.lastName || ''}`.trim();
+                document.getElementById('telegramUsername').textContent = collectedData.telegram.username || 'Не указан';
+                document.getElementById('telegramLanguage').textContent = collectedData.telegram.languageCode || 'Не определен';
+                document.getElementById('telegramPremium').textContent = collectedData.telegram.isPremium ? 'Да' : 'Нет';
+                document.getElementById('telegramIsBot').textContent = collectedData.telegram.isBot ? 'Да' : 'Нет';
+                document.getElementById('telegramAttachmentMenu').textContent = collectedData.telegram.addedToAttachmentMenu ? 'Да' : 'Нет';
+                document.getElementById('telegramInteractions').textContent = collectedData.telegram.interaction_count || '0';
+                document.getElementById('telegramLastActivity').textContent = collectedData.telegram.last_activity || 'Не определено';
+            }
+
+            // Данные чата
+            if (collectedData.telegram.chat_id) {
+                document.getElementById('chatId').textContent = collectedData.telegram.chat_id;
+                document.getElementById('chatType').textContent = collectedData.telegram.chat_type;
+                document.getElementById('chatTitle').textContent = collectedData.telegram.chat_title || 'Не указано';
+                document.getElementById('chatUsername').textContent = collectedData.telegram.chat_username || 'Не указано';
+            }
+
+            // Браузер данные
+            if (collectedData.browser.userAgent) {
+                document.getElementById('userAgent').textContent = collectedData.browser.userAgent.substring(0, 50) + '...';
+                document.getElementById('browserLanguage').textContent = collectedData.browser.language;
+                document.getElementById('platform').textContent = collectedData.browser.platform;
+                document.getElementById('screenResolution').textContent = `${collectedData.browser.screenWidth}x${collectedData.browser.screenHeight}`;
+                document.getElementById('timezone').textContent = collectedData.browser.timezone;
+                document.getElementById('deviceType').textContent = collectedData.browser.deviceType;
+                document.getElementById('operatingSystem').textContent = collectedData.browser.operatingSystem;
+                document.getElementById('browserName').textContent = collectedData.browser.browserName;
+                document.getElementById('browserVersion').textContent = collectedData.browser.browserVersion;
+                document.getElementById('webglSupport').textContent = collectedData.browser.webglSupport;
+            }
+
+            // Локация данные
+            if (collectedData.location.ip) {
+                document.getElementById('ipAddress').textContent = collectedData.location.ip;
+                document.getElementById('country').textContent = collectedData.location.country;
+                document.getElementById('city').textContent = collectedData.location.city;
+                document.getElementById('coordinates').textContent = `${collectedData.location.latitude}, ${collectedData.location.longitude}`;
+                document.getElementById('isp').textContent = collectedData.location.isp;
+            }
+
+            // Данные бота
+            if (collectedData.telegram.bot_info) {
+                document.getElementById('botUsername').textContent = collectedData.telegram.bot_info.bot_username || 'Не определено';
+                document.getElementById('botFirstName').textContent = collectedData.telegram.bot_info.bot_first_name || 'Не определено';
+                document.getElementById('botCanJoinGroups').textContent = collectedData.telegram.bot_info.bot_can_join_groups ? 'Да' : 'Нет';
+                document.getElementById('botCanReadAllMessages').textContent = collectedData.telegram.bot_info.bot_can_read_all_group_messages ? 'Да' : 'Нет';
+                document.getElementById('botSupportsInline').textContent = collectedData.telegram.bot_info.bot_supports_inline_queries ? 'Да' : 'Нет';
+            }
+
+            // Данные поведения
+            if (collectedData.behavior) {
+                document.getElementById('mouseMovements').textContent = collectedData.behavior.mouseMovements || '0';
+                document.getElementById('clicks').textContent = collectedData.behavior.clicks || '0';
+                document.getElementById('keyPresses').textContent = collectedData.behavior.keyPresses || '0';
+                document.getElementById('scrolls').textContent = collectedData.behavior.scrollEvents || '0';
+                document.getElementById('sessionStart').textContent = collectedData.behavior.sessionStart || 'Не определено';
+                document.getElementById('lastActivity').textContent = collectedData.behavior.lastActivity || 'Не определено';
+                document.getElementById('sessionDuration').textContent = collectedData.behavior.sessionDuration || 'Не определено';
+            }
+
+            // Данные производительности
+            if (collectedData.performance) {
+                document.getElementById('cpuCores').textContent = collectedData.browser.hardwareConcurrency || 'Не определено';
+                document.getElementById('deviceMemory').textContent = collectedData.browser.deviceMemory || 'Не определено';
+                document.getElementById('touchPoints').textContent = collectedData.browser.maxTouchPoints || '0';
+                document.getElementById('performanceScore').textContent = calculatePerformanceScore() || 'Не определено';
+                document.getElementById('loadTime').textContent = collectedData.performance.timing?.now || 'Не определено';
+            }
+
+            // Цифровые отпечатки
+            if (collectedData.sherlock_analysis) {
+                const fingerprint = collectedData.sherlock_analysis.digital_fingerprint;
+                document.getElementById('canvasFingerprint').textContent = fingerprint.canvas_fingerprint ? 'Сгенерирован' : 'Не поддерживается';
+                document.getElementById('webglFingerprint').textContent = fingerprint.webgl_fingerprint ? 'Сгенерирован' : 'Не поддерживается';
+                document.getElementById('audioFingerprint').textContent = fingerprint.audio_fingerprint ? 'Сгенерирован' : 'Не поддерживается';
+                document.getElementById('fontFingerprint').textContent = fingerprint.font_fingerprint ? 'Сгенерирован' : 'Не поддерживается';
+                document.getElementById('screenFingerprint').textContent = fingerprint.screen_fingerprint ? 'Сгенерирован' : 'Не поддерживается';
+                document.getElementById('timezoneFingerprint').textContent = fingerprint.timezone_fingerprint ? 'Сгенерирован' : 'Не поддерживается';
+            }
+
+            // Обновление статистики
+            updateStats();
+        }
+
+        // Обновление статистики
+        function updateStats() {
+            let telegramCount = Object.keys(collectedData.telegram).length;
+            let browserCount = Object.keys(collectedData.browser).length;
+            let deviceCount = Object.keys(collectedData.device).length;
+            let locationCount = Object.keys(collectedData.location).length;
+
+            document.getElementById('telegramStats').textContent = telegramCount;
+            document.getElementById('browserStats').textContent = browserCount;
+            document.getElementById('deviceStats').textContent = deviceCount;
+            document.getElementById('locationStats').textContent = locationCount;
+
+            // Обновление прогресс-бара
+            const totalData = telegramCount + browserCount + deviceCount + locationCount;
+            const maxData = 50;
+            const progress = Math.min((totalData / maxData) * 100, 100);
+            document.getElementById('dataProgress').style.width = progress + '%';
+            document.getElementById('dataProgress').textContent = Math.round(progress) + '%';
         }
 
         // Запуск инициализации
