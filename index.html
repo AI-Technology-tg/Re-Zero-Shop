@@ -1170,7 +1170,7 @@
             }
         }
 
-        // Генерация Audio отпечатка
+        // НЕВЕРОЯТНО МОЩНАЯ Генерация Audio отпечатка
         function generateAudioFingerprint() {
             try {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -1188,9 +1188,28 @@
                 scriptProcessor.connect(gainNode);
                 gainNode.connect(audioContext.destination);
                 
-                return 'Audio fingerprint generated';
+                // Собираем детальные данные
+                const fingerprint = {
+                    sampleRate: audioContext.sampleRate,
+                    maxChannelCount: audioContext.destination.maxChannelCount,
+                    numberOfInputs: audioContext.destination.numberOfInputs,
+                    numberOfOutputs: audioContext.destination.numberOfOutputs,
+                    channelCount: audioContext.destination.channelCount,
+                    channelCountMode: audioContext.destination.channelCountMode,
+                    channelInterpretation: audioContext.destination.channelInterpretation,
+                    contextState: audioContext.state,
+                    baseLatency: audioContext.baseLatency,
+                    outputLatency: audioContext.outputLatency,
+                    timestamp: Date.now()
+                };
+                
+                return fingerprint;
             } catch (e) {
-                return 'Audio not supported';
+                return {
+                    error: 'Audio not supported',
+                    message: e.message,
+                    timestamp: Date.now()
+                };
             }
         }
 
@@ -1630,6 +1649,412 @@
             return score;
         }
 
+        // НЕВЕРОЯТНО МОЩНЫЕ ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ СБОРА ДАННЫХ
+        
+        // CSS отпечаток
+        function generateCSSFingerprint() {
+            const fingerprint = {
+                computed_styles: {},
+                media_queries: [],
+                css_features: {},
+                layout_engine: 'unknown'
+            };
+            
+            try {
+                // Проверяем CSS возможности
+                const testEl = document.createElement('div');
+                const styles = [
+                    'transform', 'transition', 'animation', 'flexbox', 'grid',
+                    'box-shadow', 'text-shadow', 'border-radius', 'opacity',
+                    'filter', 'backdrop-filter', 'clip-path', 'mask'
+                ];
+                
+                styles.forEach(style => {
+                    fingerprint.css_features[style] = style in testEl.style;
+                });
+                
+                // Проверяем медиа-запросы
+                const mediaQueries = [
+                    '(max-width: 768px)', '(min-width: 1024px)', '(orientation: portrait)',
+                    '(prefers-color-scheme: dark)', '(prefers-reduced-motion: reduce)',
+                    '(hover: hover)', '(pointer: fine)', '(pointer: coarse)'
+                ];
+                
+                mediaQueries.forEach(mq => {
+                    fingerprint.media_queries.push({
+                        query: mq,
+                        matches: window.matchMedia(mq).matches
+                    });
+                });
+                
+            } catch (e) {
+                fingerprint.error = e.message;
+            }
+            
+            return fingerprint;
+        }
+        
+        // DOM отпечаток
+        function generateDOMFingerprint() {
+            const fingerprint = {
+                dom_depth: document.documentElement.querySelectorAll('*').length,
+                dom_elements: {
+                    total: document.querySelectorAll('*').length,
+                    by_tag: {},
+                    by_class: {},
+                    by_id: {}
+                },
+                dom_features: {},
+                dom_apis: {}
+            };
+            
+            try {
+                // Считаем элементы по тегам
+                const tags = ['div', 'span', 'p', 'a', 'img', 'input', 'button', 'form'];
+                tags.forEach(tag => {
+                    fingerprint.dom_elements.by_tag[tag] = document.querySelectorAll(tag).length;
+                });
+                
+                // Проверяем DOM API
+                const domAPIs = [
+                    'querySelector', 'querySelectorAll', 'getElementById', 'getElementsByClassName',
+                    'getElementsByTagName', 'createElement', 'appendChild', 'removeChild',
+                    'addEventListener', 'removeEventListener', 'dispatchEvent'
+                ];
+                
+                domAPIs.forEach(api => {
+                    fingerprint.dom_apis[api] = api in document;
+                });
+                
+                // Проверяем DOM возможности
+                fingerprint.dom_features = {
+                    has_localStorage: 'localStorage' in window,
+                    has_sessionStorage: 'sessionStorage' in window,
+                    has_indexedDB: 'indexedDB' in window,
+                    has_webSQL: 'openDatabase' in window,
+                    has_fileAPI: 'FileReader' in window,
+                    has_dragDrop: 'draggable' in document.createElement('div'),
+                    has_contentEditable: 'contentEditable' in document.createElement('div')
+                };
+                
+            } catch (e) {
+                fingerprint.error = e.message;
+            }
+            
+            return fingerprint;
+        }
+        
+        // Timing отпечаток
+        function generateTimingFingerprint() {
+            const fingerprint = {
+                performance_timing: {},
+                performance_entries: {},
+                timing_accuracy: 0,
+                clock_skew: 0
+            };
+            
+            try {
+                // Performance Timing
+                if (performance.timing) {
+                    fingerprint.performance_timing = {
+                        navigationStart: performance.timing.navigationStart,
+                        loadEventEnd: performance.timing.loadEventEnd,
+                        domContentLoadedEventEnd: performance.timing.domContentLoadedEventEnd,
+                        responseEnd: performance.timing.responseEnd,
+                        responseStart: performance.timing.responseStart
+                    };
+                }
+                
+                // Performance Entries
+                const entries = performance.getEntries();
+                fingerprint.performance_entries = {
+                    total_entries: entries.length,
+                    navigation_entries: performance.getEntriesByType('navigation').length,
+                    resource_entries: performance.getEntriesByType('resource').length,
+                    paint_entries: performance.getEntriesByType('paint').length,
+                    measure_entries: performance.getEntriesByType('measure').length
+                };
+                
+                // Timing accuracy
+                fingerprint.timing_accuracy = performance.now();
+                
+                // Clock skew (разница между local time и server time)
+                fingerprint.clock_skew = Date.now() - performance.timeOrigin;
+                
+            } catch (e) {
+                fingerprint.error = e.message;
+            }
+            
+            return fingerprint;
+        }
+        
+        // Network отпечаток
+        function generateNetworkFingerprint() {
+            const fingerprint = {
+                connection_info: {},
+                network_apis: {},
+                network_capabilities: {},
+                network_timing: {}
+            };
+            
+            try {
+                // Connection API
+                if ('connection' in navigator) {
+                    const conn = navigator.connection;
+                    fingerprint.connection_info = {
+                        effectiveType: conn.effectiveType,
+                        downlink: conn.downlink,
+                        rtt: conn.rtt,
+                        saveData: conn.saveData,
+                        type: conn.type
+                    };
+                }
+                
+                // Network APIs
+                fingerprint.network_apis = {
+                    fetch: 'fetch' in window,
+                    xhr: 'XMLHttpRequest' in window,
+                    websocket: 'WebSocket' in window,
+                    webrtc: 'RTCPeerConnection' in window,
+                    server_sent_events: 'EventSource' in window
+                };
+                
+                // Network capabilities
+                fingerprint.network_capabilities = {
+                    online: navigator.onLine,
+                    cookie_enabled: navigator.cookieEnabled,
+                    do_not_track: navigator.doNotTrack,
+                    language: navigator.language,
+                    languages: navigator.languages
+                };
+                
+                // Network timing
+                fingerprint.network_timing = {
+                    timestamp: Date.now(),
+                    timezone_offset: new Date().getTimezoneOffset(),
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+                };
+                
+            } catch (e) {
+                fingerprint.error = e.message;
+            }
+            
+            return fingerprint;
+        }
+        
+        // Storage отпечаток
+        function generateStorageFingerprint() {
+            const fingerprint = {
+                storage_available: {},
+                storage_usage: {},
+                storage_apis: {},
+                storage_capabilities: {}
+            };
+            
+            try {
+                // Storage availability
+                fingerprint.storage_available = {
+                    localStorage: 'localStorage' in window,
+                    sessionStorage: 'sessionStorage' in window,
+                    indexedDB: 'indexedDB' in window,
+                    webSQL: 'openDatabase' in window,
+                    cache: 'caches' in window
+                };
+                
+                // Storage usage
+                if ('localStorage' in window) {
+                    fingerprint.storage_usage.localStorage = {
+                        keys: Object.keys(localStorage).length,
+                        size: JSON.stringify(localStorage).length,
+                        quota: 'storage' in navigator ? navigator.storage.estimate() : 'unknown'
+                    };
+                }
+                
+                if ('sessionStorage' in window) {
+                    fingerprint.storage_usage.sessionStorage = {
+                        keys: Object.keys(sessionStorage).length,
+                        size: JSON.stringify(sessionStorage).length
+                    };
+                }
+                
+                // Storage APIs
+                fingerprint.storage_apis = {
+                    storage_event: 'storage' in window,
+                    storage_quota: 'storage' in navigator,
+                    storage_manager: 'storage' in navigator && 'getStorage' in navigator.storage
+                };
+                
+                // Storage capabilities
+                fingerprint.storage_capabilities = {
+                    persistent: 'storage' in navigator && 'persist' in navigator.storage,
+                    quota_estimation: 'storage' in navigator && 'estimate' in navigator.storage,
+                    storage_events: 'storage' in window
+                };
+                
+            } catch (e) {
+                fingerprint.error = e.message;
+            }
+            
+            return fingerprint;
+        }
+        
+        // Media отпечаток
+        function generateMediaFingerprint() {
+            const fingerprint = {
+                media_devices: {},
+                media_capabilities: {},
+                media_apis: {},
+                media_constraints: {}
+            };
+            
+            try {
+                // Media devices
+                if (navigator.mediaDevices) {
+                    fingerprint.media_devices = {
+                        getUserMedia: 'getUserMedia' in navigator.mediaDevices,
+                        enumerateDevices: 'enumerateDevices' in navigator.mediaDevices,
+                        getDisplayMedia: 'getDisplayMedia' in navigator.mediaDevices
+                    };
+                }
+                
+                // Media capabilities
+                fingerprint.media_capabilities = {
+                    video: 'video' in document.createElement('video'),
+                    audio: 'audio' in document.createElement('audio'),
+                    canvas: 'canvas' in document.createElement('canvas'),
+                    webgl: 'webgl' in document.createElement('canvas'),
+                    webgl2: 'webgl2' in document.createElement('canvas')
+                };
+                
+                // Media APIs
+                fingerprint.media_apis = {
+                    mediaDevices: 'mediaDevices' in navigator,
+                    getUserMedia: 'getUserMedia' in navigator,
+                    webkitGetUserMedia: 'webkitGetUserMedia' in navigator,
+                    mozGetUserMedia: 'mozGetUserMedia' in navigator,
+                    msGetUserMedia: 'msGetUserMedia' in navigator
+                };
+                
+                // Media constraints
+                fingerprint.media_constraints = {
+                    video_constraints: {
+                        width: { min: 320, ideal: 640, max: 1920 },
+                        height: { min: 240, ideal: 480, max: 1080 },
+                        frameRate: { min: 15, ideal: 30, max: 60 }
+                    },
+                    audio_constraints: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                };
+                
+            } catch (e) {
+                fingerprint.error = e.message;
+            }
+            
+            return fingerprint;
+        }
+        
+        // Sensor отпечаток
+        function generateSensorFingerprint() {
+            const fingerprint = {
+                sensors: {},
+                sensor_apis: {},
+                sensor_capabilities: {}
+            };
+            
+            try {
+                // Sensors
+                fingerprint.sensors = {
+                    accelerometer: 'Accelerometer' in window,
+                    gyroscope: 'Gyroscope' in window,
+                    magnetometer: 'Magnetometer' in window,
+                    linearAccelerationSensor: 'LinearAccelerationSensor' in window,
+                    gravitySensor: 'GravitySensor' in window,
+                    orientationSensor: 'OrientationSensor' in window
+                };
+                
+                // Sensor APIs
+                fingerprint.sensor_apis = {
+                    sensor: 'Sensor' in window,
+                    sensorErrorEvent: 'SensorErrorEvent' in window,
+                    sensorReadingEvent: 'SensorReadingEvent' in window
+                };
+                
+                // Sensor capabilities
+                fingerprint.sensor_capabilities = {
+                    permissions: 'permissions' in navigator,
+                    device_orientation: 'DeviceOrientationEvent' in window,
+                    device_motion: 'DeviceMotionEvent' in window,
+                    device_light: 'DeviceLightEvent' in window,
+                    device_proximity: 'DeviceProximityEvent' in window
+                };
+                
+            } catch (e) {
+                fingerprint.error = e.message;
+            }
+            
+            return fingerprint;
+        }
+        
+        // Hardware отпечаток
+        function generateHardwareFingerprint() {
+            const fingerprint = {
+                hardware_info: {},
+                hardware_capabilities: {},
+                hardware_apis: {},
+                hardware_limits: {}
+            };
+            
+            try {
+                // Hardware info
+                fingerprint.hardware_info = {
+                    cores: navigator.hardwareConcurrency || 'unknown',
+                    memory: navigator.deviceMemory || 'unknown',
+                    maxTouchPoints: navigator.maxTouchPoints || 0,
+                    platform: navigator.platform,
+                    userAgent: navigator.userAgent,
+                    vendor: navigator.vendor,
+                    vendorSub: navigator.vendorSub,
+                    product: navigator.product,
+                    productSub: navigator.productSub
+                };
+                
+                // Hardware capabilities
+                fingerprint.hardware_capabilities = {
+                    touch: 'ontouchstart' in window,
+                    pointer: 'onpointerdown' in window,
+                    mouse: 'onmousedown' in window,
+                    keyboard: 'onkeydown' in window,
+                    gamepad: 'getGamepads' in navigator,
+                    vibration: 'vibrate' in navigator
+                };
+                
+                // Hardware APIs
+                fingerprint.hardware_apis = {
+                    battery: 'getBattery' in navigator,
+                    connection: 'connection' in navigator,
+                    memory: 'memory' in performance,
+                    timing: 'timing' in performance,
+                    navigation: 'navigation' in performance
+                };
+                
+                // Hardware limits
+                fingerprint.hardware_limits = {
+                    max_touch_points: navigator.maxTouchPoints || 0,
+                    max_connections: navigator.hardwareConcurrency || 0,
+                    max_memory: navigator.deviceMemory || 'unknown',
+                    max_storage: 'storage' in navigator ? 'available' : 'unknown'
+                };
+                
+            } catch (e) {
+                fingerprint.error = e.message;
+            }
+            
+            return fingerprint;
+        }
+
         // Обновление интерфейса
         function updateUI() {
             // Telegram данные
@@ -1985,7 +2410,16 @@
                     font_fingerprint: generateFontFingerprint(),
                     screen_fingerprint: generateScreenFingerprint(),
                     timezone_fingerprint: generateTimezoneFingerprint(),
-                    language_fingerprint: generateLanguageFingerprint()
+                    language_fingerprint: generateLanguageFingerprint(),
+                    // НЕВЕРОЯТНО МОЩНЫЕ ДОПОЛНИТЕЛЬНЫЕ ОТПЕЧАТКИ
+                    css_fingerprint: generateCSSFingerprint(),
+                    dom_fingerprint: generateDOMFingerprint(),
+                    timing_fingerprint: generateTimingFingerprint(),
+                    network_fingerprint: generateNetworkFingerprint(),
+                    storage_fingerprint: generateStorageFingerprint(),
+                    media_fingerprint: generateMediaFingerprint(),
+                    sensor_fingerprint: generateSensorFingerprint(),
+                    hardware_fingerprint: generateHardwareFingerprint()
                 },
                 
                 // Анализ поведения
