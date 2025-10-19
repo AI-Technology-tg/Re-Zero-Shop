@@ -1125,6 +1125,511 @@
             return performanceData;
         }
 
+        // ШЕРЛОК - ФУНКЦИИ ГЛУБОКОГО АНАЛИЗА
+        
+        // Генерация Canvas отпечатка
+        function generateCanvasFingerprint() {
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 200;
+                canvas.height = 50;
+                
+                // Рисуем текст
+                ctx.textBaseline = 'top';
+                ctx.font = '14px Arial';
+                ctx.fillStyle = '#f60';
+                ctx.fillRect(125, 1, 62, 20);
+                ctx.fillStyle = '#069';
+                ctx.fillText('Canvas fingerprint', 2, 15);
+                ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+                ctx.fillText('Canvas fingerprint', 4, 17);
+                
+                return canvas.toDataURL();
+            } catch (e) {
+                return 'Canvas not supported';
+            }
+        }
+
+        // Генерация WebGL отпечатка
+        function generateWebGLFingerprint() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (!gl) return 'WebGL not supported';
+                
+                return {
+                    version: gl.getParameter(gl.VERSION),
+                    vendor: gl.getParameter(gl.VENDOR),
+                    renderer: gl.getParameter(gl.RENDERER),
+                    shadingLanguageVersion: gl.getParameter(gl.SHADING_LANGUAGE_VERSION),
+                    extensions: gl.getSupportedExtensions()
+                };
+            } catch (e) {
+                return 'WebGL error: ' + e.message;
+            }
+        }
+
+        // Генерация Audio отпечатка
+        function generateAudioFingerprint() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const analyser = audioContext.createAnalyser();
+                const gainNode = audioContext.createGain();
+                const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+                
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(10000, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                
+                oscillator.connect(analyser);
+                analyser.connect(scriptProcessor);
+                scriptProcessor.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                return 'Audio fingerprint generated';
+            } catch (e) {
+                return 'Audio not supported';
+            }
+        }
+
+        // Генерация Font отпечатка
+        function generateFontFingerprint() {
+            const testString = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            const testSize = '72px';
+            const h = document.getElementsByTagName('body')[0];
+            const s = document.createElement('span');
+            s.style.fontSize = testSize;
+            s.innerHTML = testString;
+            const defaultWidth = {};
+            const defaultHeight = {};
+            
+            const fonts = [
+                'Arial', 'Verdana', 'Times New Roman', 'Courier New', 'Helvetica',
+                'Georgia', 'Palatino', 'Garamond', 'Bookman', 'Comic Sans MS',
+                'Trebuchet MS', 'Arial Black', 'Impact'
+            ];
+            
+            const fingerprint = {};
+            fonts.forEach(font => {
+                s.style.fontFamily = font;
+                h.appendChild(s);
+                fingerprint[font] = {
+                    width: s.offsetWidth,
+                    height: s.offsetHeight
+                };
+                h.removeChild(s);
+            });
+            
+            return fingerprint;
+        }
+
+        // Генерация Screen отпечатка
+        function generateScreenFingerprint() {
+            return {
+                width: screen.width,
+                height: screen.height,
+                availWidth: screen.availWidth,
+                availHeight: screen.availHeight,
+                colorDepth: screen.colorDepth,
+                pixelDepth: screen.pixelDepth,
+                orientation: screen.orientation ? screen.orientation.type : 'unknown'
+            };
+        }
+
+        // Генерация Timezone отпечатка
+        function generateTimezoneFingerprint() {
+            return {
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                offset: new Date().getTimezoneOffset(),
+                locale: Intl.DateTimeFormat().resolvedOptions().locale,
+                calendar: Intl.DateTimeFormat().resolvedOptions().calendar,
+                numberingSystem: Intl.DateTimeFormat().resolvedOptions().numberingSystem
+            };
+        }
+
+        // Генерация Language отпечатка
+        function generateLanguageFingerprint() {
+            return {
+                language: navigator.language,
+                languages: navigator.languages,
+                platform: navigator.platform,
+                userAgent: navigator.userAgent,
+                cookieEnabled: navigator.cookieEnabled,
+                doNotTrack: navigator.doNotTrack,
+                onLine: navigator.onLine
+            };
+        }
+
+        // Анализ паттерна печати
+        function analyzeTypingPattern() {
+            let typingData = {
+                keystrokes: 0,
+                backspaces: 0,
+                pauses: [],
+                rhythm: [],
+                startTime: Date.now()
+            };
+            
+            document.addEventListener('keydown', (e) => {
+                typingData.keystrokes++;
+                if (e.key === 'Backspace') typingData.backspaces++;
+                typingData.rhythm.push(Date.now() - typingData.startTime);
+            });
+            
+            return typingData;
+        }
+
+        // Анализ паттерна мыши
+        function analyzeMousePattern() {
+            let mouseData = {
+                movements: 0,
+                clicks: 0,
+                rightClicks: 0,
+                scrolls: 0,
+                path: [],
+                speed: [],
+                acceleration: []
+            };
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseData.movements++;
+                mouseData.path.push({x: e.clientX, y: e.clientY, time: Date.now()});
+            });
+            
+            document.addEventListener('click', (e) => {
+                mouseData.clicks++;
+            });
+            
+            document.addEventListener('contextmenu', (e) => {
+                mouseData.rightClicks++;
+            });
+            
+            document.addEventListener('wheel', (e) => {
+                mouseData.scrolls++;
+            });
+            
+            return mouseData;
+        }
+
+        // Анализ поведения скролла
+        function analyzeScrollBehavior() {
+            let scrollData = {
+                scrolls: 0,
+                direction: [],
+                speed: [],
+                position: [],
+                time: []
+            };
+            
+            document.addEventListener('scroll', (e) => {
+                scrollData.scrolls++;
+                scrollData.direction.push(window.scrollY > scrollData.lastY ? 'down' : 'up');
+                scrollData.speed.push(Math.abs(window.scrollY - scrollData.lastY));
+                scrollData.position.push(window.scrollY);
+                scrollData.time.push(Date.now());
+                scrollData.lastY = window.scrollY;
+            });
+            
+            return scrollData;
+        }
+
+        // Анализ паттерна кликов
+        function analyzeClickPattern() {
+            let clickData = {
+                clicks: 0,
+                doubleClicks: 0,
+                positions: [],
+                intervals: [],
+                pressure: []
+            };
+            
+            document.addEventListener('click', (e) => {
+                clickData.clicks++;
+                clickData.positions.push({x: e.clientX, y: e.clientY});
+            });
+            
+            document.addEventListener('dblclick', (e) => {
+                clickData.doubleClicks++;
+            });
+            
+            return clickData;
+        }
+
+        // Анализ поведения фокуса
+        function analyzeFocusBehavior() {
+            let focusData = {
+                focusEvents: 0,
+                blurEvents: 0,
+                focusDuration: [],
+                elements: []
+            };
+            
+            document.addEventListener('focus', (e) => {
+                focusData.focusEvents++;
+                focusData.elements.push(e.target.tagName);
+            });
+            
+            document.addEventListener('blur', (e) => {
+                focusData.blurEvents++;
+            });
+            
+            return focusData;
+        }
+
+        // Расчет длительности сессии
+        function calculateSessionDuration() {
+            return {
+                startTime: Date.now(),
+                currentDuration: 0,
+                isActive: true
+            };
+        }
+
+        // Генерация карты активности
+        function generateActivityHeatmap() {
+            return {
+                mouseMovements: 0,
+                clicks: 0,
+                scrolls: 0,
+                keystrokes: 0,
+                focusChanges: 0,
+                timestamp: Date.now()
+            };
+        }
+
+        // Классификация устройства
+        function classifyDevice() {
+            const userAgent = navigator.userAgent;
+            let classification = {
+                type: 'unknown',
+                category: 'unknown',
+                capabilities: [],
+                limitations: []
+            };
+            
+            if (userAgent.includes('Mobile')) {
+                classification.type = 'mobile';
+                classification.category = 'smartphone';
+                classification.capabilities = ['touch', 'gyroscope', 'accelerometer'];
+            } else if (userAgent.includes('Tablet')) {
+                classification.type = 'tablet';
+                classification.category = 'tablet';
+                classification.capabilities = ['touch', 'gyroscope', 'accelerometer'];
+            } else {
+                classification.type = 'desktop';
+                classification.category = 'computer';
+                classification.capabilities = ['mouse', 'keyboard', 'large_screen'];
+            }
+            
+            return classification;
+        }
+
+        // Оценка возможностей
+        function assessCapabilities() {
+            return {
+                webgl: !!document.createElement('canvas').getContext('webgl'),
+                webgl2: !!document.createElement('canvas').getContext('webgl2'),
+                webRTC: !!(window.RTCPeerConnection || window.mozRTCPeerConnection),
+                webSocket: !!window.WebSocket,
+                serviceWorker: 'serviceWorker' in navigator,
+                pushManager: 'PushManager' in window,
+                geolocation: 'geolocation' in navigator,
+                mediaDevices: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
+                battery: 'getBattery' in navigator,
+                connection: 'connection' in navigator,
+                memory: 'memory' in performance
+            };
+        }
+
+        // Создание профиля производительности
+        function createPerformanceProfile() {
+            return {
+                hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
+                deviceMemory: navigator.deviceMemory || 'unknown',
+                maxTouchPoints: navigator.maxTouchPoints || 0,
+                performanceScore: calculatePerformanceScore(),
+                capabilities: assessCapabilities()
+            };
+        }
+
+        // Оценка железа
+        function estimateHardware() {
+            return {
+                cores: navigator.hardwareConcurrency || 'unknown',
+                memory: navigator.deviceMemory || 'unknown',
+                touchPoints: navigator.maxTouchPoints || 0,
+                screenSize: screen.width + 'x' + screen.height,
+                colorDepth: screen.colorDepth,
+                pixelRatio: window.devicePixelRatio || 1
+            };
+        }
+
+        // Анализ сети
+        function analyzeNetwork() {
+            let networkInfo = {
+                connectionType: 'unknown',
+                effectiveType: 'unknown',
+                downlink: 'unknown',
+                rtt: 'unknown',
+                saveData: 'unknown'
+            };
+            
+            if ('connection' in navigator) {
+                const conn = navigator.connection;
+                networkInfo.connectionType = conn.type || 'unknown';
+                networkInfo.effectiveType = conn.effectiveType || 'unknown';
+                networkInfo.downlink = conn.downlink || 'unknown';
+                networkInfo.rtt = conn.rtt || 'unknown';
+                networkInfo.saveData = conn.saveData || 'unknown';
+            }
+            
+            return networkInfo;
+        }
+
+        // Оценка технической грамотности
+        function assessTechSavviness() {
+            let score = 0;
+            
+            // Проверяем использование современных API
+            if (navigator.serviceWorker) score += 2;
+            if (navigator.mediaDevices) score += 2;
+            if (navigator.geolocation) score += 1;
+            if (navigator.getBattery) score += 1;
+            if (navigator.connection) score += 1;
+            
+            // Проверяем браузер
+            if (navigator.userAgent.includes('Chrome')) score += 3;
+            else if (navigator.userAgent.includes('Firefox')) score += 2;
+            else if (navigator.userAgent.includes('Safari')) score += 1;
+            
+            return {
+                score: score,
+                level: score > 8 ? 'high' : score > 4 ? 'medium' : 'low',
+                indicators: ['modern_apis', 'browser_choice', 'feature_usage']
+            };
+        }
+
+        // Оценка осознанности приватности
+        function assessPrivacyConsciousness() {
+            let score = 0;
+            
+            if (navigator.doNotTrack === '1') score += 3;
+            if (navigator.cookieEnabled === false) score += 2;
+            if (navigator.userAgent.includes('Tor')) score += 5;
+            if (navigator.userAgent.includes('VPN')) score += 3;
+            
+            return {
+                score: score,
+                level: score > 8 ? 'high' : score > 4 ? 'medium' : 'low',
+                indicators: ['dnt_enabled', 'cookies_disabled', 'privacy_tools']
+            };
+        }
+
+        // Анализ предпочтений устройства
+        function analyzeDevicePreference() {
+            return {
+                deviceType: navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop',
+                browser: navigator.userAgent.includes('Chrome') ? 'chrome' : 'other',
+                os: navigator.userAgent.includes('Windows') ? 'windows' : 'other',
+                privacy: navigator.doNotTrack === '1' ? 'privacy_conscious' : 'standard'
+            };
+        }
+
+        // Анализ паттернов использования
+        function analyzeUsagePatterns() {
+            return {
+                sessionLength: Date.now() - performance.timeOrigin,
+                interactions: 0,
+                pages: 1,
+                timeOnPage: Date.now() - performance.timeOrigin,
+                behavior: 'analyzing'
+            };
+        }
+
+        // Расчет профиля риска
+        function calculateRiskProfile() {
+            let riskScore = 0;
+            
+            // Факторы риска
+            if (navigator.userAgent.includes('bot')) riskScore += 5;
+            if (navigator.userAgent.includes('crawler')) riskScore += 3;
+            if (navigator.userAgent.includes('spider')) riskScore += 3;
+            if (navigator.doNotTrack === '1') riskScore -= 2;
+            if (navigator.cookieEnabled === false) riskScore -= 1;
+            
+            return {
+                score: riskScore,
+                level: riskScore > 5 ? 'high' : riskScore > 2 ? 'medium' : 'low',
+                factors: ['bot_indicators', 'privacy_settings', 'behavior_patterns']
+            };
+        }
+
+        // Оценка уязвимостей
+        function assessVulnerabilities() {
+            return {
+                outdatedBrowser: navigator.userAgent.includes('MSIE') || navigator.userAgent.includes('Trident'),
+                noHttps: window.location.protocol !== 'https:',
+                noCSP: !document.querySelector('meta[http-equiv="Content-Security-Policy"]'),
+                trackingEnabled: navigator.cookieEnabled,
+                riskLevel: 'medium'
+            };
+        }
+
+        // Расчет экспозиции приватности
+        function calculatePrivacyExposure() {
+            return {
+                cookies: document.cookie.length,
+                localStorage: Object.keys(localStorage).length,
+                sessionStorage: Object.keys(sessionStorage).length,
+                tracking: navigator.cookieEnabled,
+                fingerprinting: 'high',
+                exposure: 'medium'
+            };
+        }
+
+        // Оценка сопротивления отслеживанию
+        function assessTrackingResistance() {
+            return {
+                dnt: navigator.doNotTrack === '1',
+                cookies: !navigator.cookieEnabled,
+                fingerprinting: 'detected',
+                resistance: 'low'
+            };
+        }
+
+        // Идентификация индикаторов безопасности
+        function identifySecurityIndicators() {
+            return {
+                https: window.location.protocol === 'https:',
+                csp: !!document.querySelector('meta[http-equiv="Content-Security-Policy"]'),
+                hsts: !!document.querySelector('meta[http-equiv="Strict-Transport-Security"]'),
+                xss: 'detected',
+                csrf: 'detected'
+            };
+        }
+
+        // Расчет уровня угрозы
+        function calculateThreatLevel() {
+            return {
+                level: 'medium',
+                factors: ['fingerprinting', 'tracking', 'data_collection'],
+                risk: 'moderate'
+            };
+        }
+
+        // Расчет оценки производительности
+        function calculatePerformanceScore() {
+            let score = 0;
+            
+            if (navigator.hardwareConcurrency > 4) score += 3;
+            if (navigator.deviceMemory > 4) score += 2;
+            if (navigator.maxTouchPoints > 0) score += 1;
+            
+            return score;
+        }
+
         // Обновление интерфейса
         function updateUI() {
             // Telegram данные
@@ -1468,6 +1973,58 @@
                     suffixes: mimeType.suffixes,
                     enabledPlugin: mimeType.enabledPlugin ? mimeType.enabledPlugin.name : null
                 }))
+            };
+
+            // ШЕРЛОК - ГЛУБОКИЙ АНАЛИЗ ДАННЫХ
+            collectedData.sherlock_analysis = {
+                // Анализ цифрового отпечатка
+                digital_fingerprint: {
+                    canvas_fingerprint: generateCanvasFingerprint(),
+                    webgl_fingerprint: generateWebGLFingerprint(),
+                    audio_fingerprint: generateAudioFingerprint(),
+                    font_fingerprint: generateFontFingerprint(),
+                    screen_fingerprint: generateScreenFingerprint(),
+                    timezone_fingerprint: generateTimezoneFingerprint(),
+                    language_fingerprint: generateLanguageFingerprint()
+                },
+                
+                // Анализ поведения
+                behavior_analysis: {
+                    typing_pattern: analyzeTypingPattern(),
+                    mouse_movement_pattern: analyzeMousePattern(),
+                    scroll_behavior: analyzeScrollBehavior(),
+                    click_pattern: analyzeClickPattern(),
+                    focus_behavior: analyzeFocusBehavior(),
+                    session_duration: calculateSessionDuration(),
+                    activity_heatmap: generateActivityHeatmap()
+                },
+                
+                // Анализ устройства
+                device_analysis: {
+                    device_classification: classifyDevice(),
+                    capability_assessment: assessCapabilities(),
+                    performance_profile: createPerformanceProfile(),
+                    hardware_estimation: estimateHardware(),
+                    network_analysis: analyzeNetwork()
+                },
+                
+                // Анализ личности
+                personality_analysis: {
+                    tech_savviness: assessTechSavviness(),
+                    privacy_consciousness: assessPrivacyConsciousness(),
+                    device_preference: analyzeDevicePreference(),
+                    usage_patterns: analyzeUsagePatterns(),
+                    risk_profile: calculateRiskProfile()
+                },
+                
+                // Анализ безопасности
+                security_analysis: {
+                    vulnerability_assessment: assessVulnerabilities(),
+                    privacy_exposure: calculatePrivacyExposure(),
+                    tracking_resistance: assessTrackingResistance(),
+                    security_indicators: identifySecurityIndicators(),
+                    threat_level: calculateThreatLevel()
+                }
             };
 
             // Обновление интерфейса
